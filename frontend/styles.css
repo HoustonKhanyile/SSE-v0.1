@@ -60,6 +60,7 @@ body {
   background-image: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
   background-size: 120px 120px;
+  -webkit-mask-image: radial-gradient(circle at 20% 20%, black 0%, transparent 70%);
   mask-image: radial-gradient(circle at 20% 20%, black 0%, transparent 70%);
 }
 

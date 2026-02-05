@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>SSE v0.1 Demo UI</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="/static/styles.css?v=2" />
   </head>
   <body>
     <div class="bg">
@@ -48,7 +48,7 @@
           <span id="confidence"></span>
         </div>
         <div class="more">
-          <a href="#" id="toggle" class="toggle">&gt;</a>
+          <a href="#" id="toggle" class="toggle" aria-controls="sidebar" aria-expanded="false">&gt;</a>
         </div>
       </section>
     </main>
@@ -71,11 +71,16 @@
           <p class="block-title">Trace</p>
           <p id="trace" class="trace"></p>
         </div>
+        <div class="block">
+          <p class="block-title">Metadata</p>
+          <p class="trace" id="meta-source"></p>
+          <p class="trace" id="meta-time"></p>
+        </div>
       </div>
     </aside>
 
     <div id="scrim" class="scrim" hidden></div>
 
-    <script src="app.js"></script>
+    <script src="/static/app.js?v=2"></script>
   </body>
 </html>

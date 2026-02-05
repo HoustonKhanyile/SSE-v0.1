@@ -62,3 +62,16 @@ pytest
 ## Frontend (Static)
 
 Open `frontend/index.html` in a browser to use the single-page UI.
+
+## API Server (Local)
+
+```bash
+pip install -e .
+python -m sse.api
+```
+
+Then open:
+`http://127.0.0.1:8000/`
+
+The frontend calls:
+`http://127.0.0.1:8000/api/predict`

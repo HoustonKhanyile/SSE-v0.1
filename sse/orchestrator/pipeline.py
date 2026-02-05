@@ -5,7 +5,7 @@ from typing import Optional
 
 from sse.contracts import PredictionResult, validate_prediction_result
 from sse.ess import build_snapshot
-from sse.explainer import generate_explanation
+from sse.explainer import ExplanationTrace, generate_explanation
 from sse.mcm import synthesize_priors
 from sse.sqc import compute_outcomes
 from sse.ssm import parse_situation
@@ -26,7 +26,9 @@ def _infer_horizon(mode: str) -> str:
     return "hours"
 
 
-def run_sse(situation_text: str, config: Optional[RunConfig] = None) -> PredictionResult:
+def run_sse_with_trace(
+    situation_text: str, config: Optional[RunConfig] = None
+) -> tuple[PredictionResult, ExplanationTrace]:
     config = config or RunConfig()
 
     semantics = parse_situation(situation_text)
@@ -59,4 +61,9 @@ def run_sse(situation_text: str, config: Optional[RunConfig] = None) -> Predicti
         alternatives=alternatives,
     )
     validate_prediction_result(result)
+    return result, explanation_trace
+
+
+def run_sse(situation_text: str, config: Optional[RunConfig] = None) -> PredictionResult:
+    result, _trace = run_sse_with_trace(situation_text, config)
     return result

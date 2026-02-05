@@ -13,39 +13,25 @@ const scrim = document.getElementById("scrim");
 const factorsEl = document.getElementById("factors");
 const alternativesEl = document.getElementById("alternatives");
 const traceEl = document.getElementById("trace");
-
-const stub = {
-  mode: "B",
-  horizon: "days",
-  confidence: 0.68,
-  outcome:
-    "The employee quietly searches for another job while maintaining performance.",
-  explanation:
-    "This outcome is most likely given the constraints and priors in the situation.",
-  factors: [
-    "performance review process",
-    "job market mobility",
-    "career preservation",
-    "status sensitivity",
-  ],
-  alternatives: [
-    "The employee confronts management directly, escalating tension.",
-    "The employee accepts the decision and increases effort to earn future promotion.",
-  ],
-  trace:
-    "ESS constraints and MCM priors push toward a low-conflict response that preserves future options.",
-};
+const metaSourceEl = document.getElementById("meta-source");
+const metaTimeEl = document.getElementById("meta-time");
 
 function openSidebar() {
   sidebar.classList.add("open");
   sidebar.setAttribute("aria-hidden", "false");
+  sidebar.removeAttribute("inert");
+  toggle.setAttribute("aria-expanded", "true");
   scrim.hidden = false;
+  closeButton.focus();
 }
 
 function closeSidebar() {
   sidebar.classList.remove("open");
   sidebar.setAttribute("aria-hidden", "true");
+  sidebar.setAttribute("inert", "");
+  toggle.setAttribute("aria-expanded", "false");
   scrim.hidden = true;
+  toggle.focus();
 }
 
 function renderList(target, items) {
@@ -68,7 +54,7 @@ function inferMode(text) {
   return "A";
 }
 
-function runStub() {
+async function runStub() {
   const value = situationInput.value.trim();
   if (!value) {
     outcomeEl.textContent = "Add a situation to generate a PredictionResult.";
@@ -77,22 +63,64 @@ function runStub() {
     return;
   }
 
-  const mode = inferMode(value);
-  const modeLabel = `Mode ${mode}`;
-  const horizon = mode === "C" ? "weeks" : mode === "B" ? "days" : "hours";
-  const outcome = stub.outcome;
-  const explanation = `${outcome} ${stub.explanation}`;
+  let payload = null;
+  try {
+    const response = await fetch("http://127.0.0.1:8000/api/predict", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        situation: value,
+        depth: "default",
+        alternatives: true,
+      }),
+    });
+
+    if (response.ok) {
+      payload = await response.json();
+    }
+  } catch (error) {
+    payload = null;
+  }
+
+  if (!payload) {
+    const mode = inferMode(value);
+    const modeLabel = `Mode ${mode}`;
+    const horizon = mode === "C" ? "weeks" : mode === "B" ? "days" : "hours";
+    modeEl.textContent = modeLabel;
+    horizonEl.textContent = `Horizon: ${horizon}`;
+    confidenceEl.textContent = "Confidence: n/a";
+    outcomeEl.textContent = "API unavailable. Start the backend with `python -m sse.api`.";
+    explanationEl.textContent = "";
+    renderList(factorsEl, []);
+    renderList(alternativesEl, []);
+    traceEl.textContent = "";
+    metaSourceEl.textContent = "";
+    metaTimeEl.textContent = "";
+    output.classList.remove("hidden");
+    return;
+  }
+
+  const modeLabel = `Mode ${payload.mode}`;
+  const outcome = payload.predicted_outcome.label;
+  const explanation = payload.explanation;
+  const confidence = payload.predicted_outcome.confidence;
+  const alternatives = (payload.alternatives || []).map((alt) => alt.label);
+  const factors = payload.factors || [];
+  const trace = payload.trace || "";
+  const source = payload.source || "unknown";
+  const timestamp = payload.timestamp || "";
 
   modeEl.textContent = modeLabel;
-  horizonEl.textContent = `Horizon: ${horizon}`;
-  confidenceEl.textContent = `Confidence: ${stub.confidence}`;
+  horizonEl.textContent = `Horizon: ${payload.horizon}`;
+  confidenceEl.textContent = `Confidence: ${confidence}`;
   outcomeEl.textContent = outcome;
   explanationEl.textContent = explanation;
 
-  renderList(factorsEl, stub.factors);
-  renderList(alternativesEl, stub.alternatives);
-  traceEl.textContent = stub.trace;
-
+  renderList(factorsEl, factors);
+  renderList(alternativesEl, alternatives);
+  traceEl.textContent = trace;
+  metaSourceEl.textContent = `Source: ${source}`;
+  metaTimeEl.textContent = timestamp ? `Timestamp: ${timestamp}` : "";
   output.classList.remove("hidden");
 }
 
@@ -116,3 +144,5 @@ window.addEventListener("keydown", (event) => {
     closeSidebar();
   }
 });
+
+closeSidebar();
