@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sse"
+version = "0.1.0"
+description = "Social Simulation Engine minimal runnable prototype"
+readme = "readme_md_sse_minimal_runnable_prototype_v_0.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+dependencies = [
+  "fastapi>=0.110",
+  "uvicorn>=0.23",
+  "pydantic>=2.0",
+]
+
+[tool.setuptools]
+package-dir = {"" = "."}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["sse*"]

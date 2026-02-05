@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SSE v0.1 Demo UI</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg">
+      <div class="orb orb-a"></div>
+      <div class="orb orb-b"></div>
+      <div class="grid"></div>
+    </div>
+
+    <main class="app">
+      <header class="header">
+        <p class="kicker">Social Simulation Engine</p>
+        <h1>Situation-to-Outcome Prototype</h1>
+        <p class="subhead">
+          Type a situation. SSE returns a dominant outcome and a traceable explanation.
+        </p>
+      </header>
+
+      <section class="panel">
+        <label class="label" for="situation">Situation Text</label>
+        <textarea
+          id="situation"
+          class="input"
+          placeholder="A student considers cheating during an exam when the invigilator leaves..."
+          rows="4"
+        ></textarea>
+        <div class="actions">
+          <button id="run" class="btn">Run SSE</button>
+          <span id="hint" class="hint">Deterministic v0.1 stub.</span>
+        </div>
+      </section>
+
+      <section id="output" class="output hidden" aria-live="polite">
+        <div class="output-header">
+          <h2>PredictionResult</h2>
+          <span class="mode" id="mode">Mode B</span>
+        </div>
+        <p class="outcome" id="outcome"></p>
+        <p class="explanation" id="explanation"></p>
+        <div class="meta">
+          <span id="horizon"></span>
+          <span id="confidence"></span>
+        </div>
+        <div class="more">
+          <a href="#" id="toggle" class="toggle">&gt;</a>
+        </div>
+      </section>
+    </main>
+
+    <aside id="sidebar" class="sidebar" aria-hidden="true">
+      <div class="sidebar-header">
+        <h3>AlternativeOutcomeSet</h3>
+        <button id="close" class="close" aria-label="Close sidebar">Close</button>
+      </div>
+      <div class="sidebar-content">
+        <div class="block">
+          <p class="block-title">Primary Factors</p>
+          <ul id="factors" class="list"></ul>
+        </div>
+        <div class="block">
+          <p class="block-title">Alternatives</p>
+          <ul id="alternatives" class="list"></ul>
+        </div>
+        <div class="block">
+          <p class="block-title">Trace</p>
+          <p id="trace" class="trace"></p>
+        </div>
+      </div>
+    </aside>
+
+    <div id="scrim" class="scrim" hidden></div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
