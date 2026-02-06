@@ -48,7 +48,8 @@ def run_sse_with_trace(
 
     explanation = explanation_trace.summary
     if config.depth == "deep":
-        explanation += " Factors: " + "; ".join(explanation_trace.factors) + "."
+        factor_names = [factor.name for factor in explanation_trace.factors]
+        explanation += " Factors: " + "; ".join(factor_names) + "."
 
     horizon = _infer_horizon(semantics.mode)
     alternatives = outcomes[1:] if config.include_alternatives else []

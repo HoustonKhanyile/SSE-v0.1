@@ -1,3 +1,3 @@
-from .explainer import ExplanationTrace, generate_explanation
+from .explainer import ExplanationTrace, FactorInsight, generate_explanation
 
-__all__ = ["ExplanationTrace", "generate_explanation"]
+__all__ = ["ExplanationTrace", "FactorInsight", "generate_explanation"]

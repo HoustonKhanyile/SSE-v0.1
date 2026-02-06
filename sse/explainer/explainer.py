@@ -9,9 +9,16 @@ from sse.ssm import SituationSemantics
 
 
 @dataclass(frozen=True)
+class FactorInsight:
+    name: str
+    role: str
+    category: str
+
+
+@dataclass(frozen=True)
 class ExplanationTrace:
     summary: str
-    factors: List[str]
+    factors: List[FactorInsight]
 
 
 def generate_explanation(
@@ -21,10 +28,46 @@ def generate_explanation(
     outcome_label: str,
     depth: str,
 ) -> ExplanationTrace:
-    factors = []
-    factors.extend(ess.constraints)
-    factors.extend(ess.affordances)
-    factors.extend(priors.tendencies)
+    factors: List[FactorInsight] = []
+    factors.extend(
+        [
+            FactorInsight(
+                name=constraint,
+                role=(
+                    "This acts as a hard boundary that limits which actions are safe "
+                    "or institutionally acceptable."
+                ),
+                category="constraint",
+            )
+            for constraint in ess.constraints
+        ]
+    )
+    factors.extend(
+        [
+            FactorInsight(
+                name=affordance,
+                role=(
+                    "This creates a practical opening that makes the predicted behavior "
+                    "more available in the current environment."
+                ),
+                category="affordance",
+            )
+            for affordance in ess.affordances
+        ]
+    )
+    factors.extend(
+        [
+            FactorInsight(
+                name=tendency,
+                role=(
+                    "This prior biases decision-making and increases the likelihood of "
+                    "the dominant response pattern."
+                ),
+                category="prior",
+            )
+            for tendency in priors.tendencies
+        ]
+    )
 
     if depth == "deep":
         summary = (

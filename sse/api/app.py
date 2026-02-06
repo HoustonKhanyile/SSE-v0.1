@@ -40,7 +40,10 @@ def predict(request: PredictRequest) -> dict:
         RunConfig(depth=request.depth, include_alternatives=request.alternatives),
     )
     payload = result.to_dict()
-    payload["factors"] = trace.factors
+    payload["factors"] = [
+        {"name": factor.name, "role": factor.role, "category": factor.category}
+        for factor in trace.factors
+    ]
     payload["trace"] = trace.summary
     payload["source"] = "backend"
     payload["timestamp"] = datetime.now(timezone.utc).isoformat()

@@ -303,6 +303,45 @@ body {
   font-size: 14px;
 }
 
+.factor-item {
+  padding: 0;
+}
+
+.factor-trigger {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px;
+  text-align: left;
+}
+
+.factor-name {
+  font-weight: 600;
+}
+
+.factor-category {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 11px;
+  color: var(--accent-2);
+}
+
+.factor-panel {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 0 12px 12px;
+  padding-top: 10px;
+  color: var(--muted);
+  font-family: "Source Serif 4", "Times New Roman", serif;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
 .trace {
   color: var(--muted);
   font-family: "Source Serif 4", "Times New Roman", serif;

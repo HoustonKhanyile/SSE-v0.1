@@ -43,6 +43,47 @@ function renderList(target, items) {
   });
 }
 
+function renderFactors(target, factors) {
+  target.innerHTML = "";
+  factors.forEach((factor, index) => {
+    const li = document.createElement("li");
+    li.className = "factor-item";
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "factor-trigger";
+    button.setAttribute("aria-expanded", "false");
+    button.setAttribute("aria-controls", `factor-panel-${index}`);
+
+    const title = document.createElement("span");
+    title.className = "factor-name";
+    title.textContent = factor.name;
+
+    const badge = document.createElement("span");
+    badge.className = "factor-category";
+    badge.textContent = factor.category;
+
+    button.appendChild(title);
+    button.appendChild(badge);
+
+    const panel = document.createElement("div");
+    panel.id = `factor-panel-${index}`;
+    panel.className = "factor-panel";
+    panel.hidden = true;
+    panel.textContent = factor.role;
+
+    button.addEventListener("click", () => {
+      const expanded = button.getAttribute("aria-expanded") === "true";
+      button.setAttribute("aria-expanded", expanded ? "false" : "true");
+      panel.hidden = expanded;
+    });
+
+    li.appendChild(button);
+    li.appendChild(panel);
+    target.appendChild(li);
+  });
+}
+
 function inferMode(text) {
   const lower = text.toLowerCase();
   if (/(government|policy|tax|platform|commuters|businesses)/.test(lower)) {
@@ -91,7 +132,7 @@ async function runStub() {
     confidenceEl.textContent = "Confidence: n/a";
     outcomeEl.textContent = "API unavailable. Start the backend with `python -m sse.api`.";
     explanationEl.textContent = "";
-    renderList(factorsEl, []);
+    renderFactors(factorsEl, []);
     renderList(alternativesEl, []);
     traceEl.textContent = "";
     metaSourceEl.textContent = "";
@@ -116,7 +157,7 @@ async function runStub() {
   outcomeEl.textContent = outcome;
   explanationEl.textContent = explanation;
 
-  renderList(factorsEl, factors);
+  renderFactors(factorsEl, factors);
   renderList(alternativesEl, alternatives);
   traceEl.textContent = trace;
   metaSourceEl.textContent = `Source: ${source}`;
