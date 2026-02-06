@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>About SSE</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Source+Serif+4:wght@400;600&display=swap");
+
+      :root {
+        --bg: #0c0f1a;
+        --panel: rgba(18, 23, 38, 0.92);
+        --accent: #48d7ff;
+        --text: #f5f7ff;
+        --muted: #a6b0c8;
+        --border: rgba(255, 255, 255, 0.12);
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: "Space Grotesk", "Segoe UI", sans-serif;
+        color: var(--text);
+        background: radial-gradient(circle at 12% 10%, #1a2342 0%, var(--bg) 45%);
+      }
+
+      main {
+        max-width: 920px;
+        margin: 0 auto;
+        padding: 56px 20px 72px;
+        display: grid;
+        gap: 20px;
+      }
+
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 18px;
+      }
+
+      h1, h2 {
+        margin: 0 0 10px;
+      }
+
+      h1 {
+        font-size: clamp(28px, 5vw, 44px);
+      }
+
+      h2 {
+        color: var(--accent);
+        font-size: 18px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      p, li {
+        color: var(--muted);
+        font-family: "Source Serif 4", "Times New Roman", serif;
+        line-height: 1.5;
+        font-size: 17px;
+      }
+
+      ul, ol {
+        margin: 0;
+        padding-left: 20px;
+      }
+
+      .back {
+        display: inline-block;
+        color: var(--accent);
+        text-decoration: none;
+        margin-top: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="panel">
+        <h1>What SSE Is</h1>
+        <p>
+          SSE (Social Simulation Engine) is a deterministic simulation framework that predicts likely social
+          outcomes by modeling how people and groups behave under constraints and incentives.
+        </p>
+        <p>
+          It is designed as an architecture-first prototype: the current version validates end-to-end system
+          structure, contract integrity, and explainability.
+        </p>
+      </section>
+
+      <section class="panel">
+        <h2>How It Works</h2>
+        <ol>
+          <li>SSM parses situation text into semantics (actors, institutions, conflict, domain, mode).</li>
+          <li>ESS compiles contextual constraints and affordances.</li>
+          <li>MCM contributes psychological and sociological priors.</li>
+          <li>SQC scores candidate outcomes and selects the dominant one.</li>
+          <li>Explainer emits a trace that ties factors to the selected outcome.</li>
+        </ol>
+      </section>
+
+      <section class="panel">
+        <h2>What It Does Not Do</h2>
+        <ul>
+          <li>It does not claim metaphysical certainty or oracle-level prediction.</li>
+          <li>It does not model all hidden variables in real societies.</li>
+          <li>It is not trained as a high-fidelity cognition model in v0.1.</li>
+          <li>It does not provide legal, medical, or policy guarantees.</li>
+        </ul>
+      </section>
+
+      <section class="panel">
+        <h2>Why This Matters</h2>
+        <p>
+          SSE focuses on transparent reasoning over opaque prediction. Every output should be inspectable via
+          factors, alternatives, and explanation trace so users can evaluate the logic, not just the result.
+        </p>
+        <a class="back" href="/">&larr; Back to simulator</a>
+      </section>
+    </main>
+  </body>
+</html>

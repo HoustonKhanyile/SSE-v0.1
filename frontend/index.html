@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>SSE v0.1 Demo UI</title>
-    <link rel="stylesheet" href="/static/styles.css?v=3" />
+    <link rel="stylesheet" href="/static/styles.css?v=5" />
   </head>
   <body>
     <div class="bg">
@@ -32,8 +32,24 @@
         ></textarea>
         <div class="actions">
           <button id="run" class="btn">Run SSE</button>
+          <button id="semantics-toggle" class="btn btn-ghost" aria-expanded="false" aria-controls="semantics-panel">
+            Semantics
+          </button>
           <span id="hint" class="hint">Deterministic v0.1 backend.</span>
         </div>
+        <section id="semantics-panel" class="semantics-panel hidden" aria-live="polite">
+          <div class="semantics-header">
+            <h3>Situation Semantics</h3>
+            <button id="semantics-run" class="btn btn-small">Run SSE</button>
+          </div>
+          <div class="semantics-grid">
+            <p><strong>Mode:</strong> <span id="sem-mode">-</span></p>
+            <p><strong>Domain:</strong> <span id="sem-domain">-</span></p>
+            <p><strong>Conflict:</strong> <span id="sem-conflict">-</span></p>
+            <p><strong>Actors:</strong> <span id="sem-actors">-</span></p>
+            <p><strong>Institutions:</strong> <span id="sem-institutions">-</span></p>
+          </div>
+        </section>
       </section>
 
       <section id="output" class="output hidden" aria-live="polite">
@@ -81,6 +97,36 @@
 
     <div id="scrim" class="scrim" hidden></div>
 
-    <script src="/static/app.js?v=3"></script>
+    <div class="glossary-wrap">
+      <button class="glossary-btn" aria-label="Open simulator glossary">i</button>
+      <section class="glossary-panel" aria-label="Simulator glossary">
+        <h4>Glossary</h4>
+        <ul>
+          <li><strong>SSE:</strong> Social Simulation Engine pipeline.</li>
+          <li><strong>SSM:</strong> Situation Semantics Mapper for parsing intent and actors.</li>
+          <li><strong>ESS:</strong> Environment Snapshot System describing constraints and affordances.</li>
+          <li><strong>MCM:</strong> Prior model for psychological and sociological tendencies.</li>
+          <li><strong>SQC:</strong> Cognition and outcome scoring module.</li>
+          <li><strong>PredictionResult:</strong> Final output contract with outcome and explanation.</li>
+          <li><strong>Dominant Outcome:</strong> Highest-confidence realized outcome.</li>
+          <li><strong>AlternativeOutcomeSet:</strong> Viable non-dominant outcomes.</li>
+          <li><strong>Horizon:</strong> Expected time scale of the predicted effect.</li>
+          <li><strong>Mode A/B/C:</strong> Single-actor, multi-actor, or population-level inference.</li>
+          <li><strong>Constraint:</strong> Institutional or structural limit on behavior.</li>
+          <li><strong>Affordance:</strong> Contextual opportunity enabling specific action.</li>
+          <li><strong>Prior:</strong> Baseline tendency that biases action selection.</li>
+          <li><strong>Trace:</strong> Explanation path from factors to outcome.</li>
+        </ul>
+      </section>
+    </div>
+
+    <footer class="disclaimer">
+      All simulations simulate objective reality by simulating cognition-driven behavior under contextual
+      constraints.<br />
+      SSE is not an oracle that uses meta-physical dynamics to predict reality.
+      <a href="/static/about.html">Read full SSE scope.</a>
+    </footer>
+
+    <script src="/static/app.js?v=5"></script>
   </body>
 </html>

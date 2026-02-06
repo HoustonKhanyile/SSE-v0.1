@@ -1,5 +1,13 @@
 const runButton = document.getElementById("run");
+const semanticsToggleButton = document.getElementById("semantics-toggle");
+const semanticsRunButton = document.getElementById("semantics-run");
 const situationInput = document.getElementById("situation");
+const semanticsPanel = document.getElementById("semantics-panel");
+const semModeEl = document.getElementById("sem-mode");
+const semDomainEl = document.getElementById("sem-domain");
+const semConflictEl = document.getElementById("sem-conflict");
+const semActorsEl = document.getElementById("sem-actors");
+const semInstitutionsEl = document.getElementById("sem-institutions");
 const output = document.getElementById("output");
 const outcomeEl = document.getElementById("outcome");
 const explanationEl = document.getElementById("explanation");
@@ -95,7 +103,50 @@ function inferMode(text) {
   return "A";
 }
 
-async function runStub() {
+async function fetchSemantics() {
+  const value = situationInput.value.trim();
+  if (!value) {
+    semModeEl.textContent = "-";
+    semDomainEl.textContent = "-";
+    semConflictEl.textContent = "-";
+    semActorsEl.textContent = "-";
+    semInstitutionsEl.textContent = "-";
+    return;
+  }
+
+  let payload = null;
+  try {
+    const response = await fetch("http://127.0.0.1:8000/api/semantics", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ situation: value }),
+    });
+    if (response.ok) {
+      payload = await response.json();
+    }
+  } catch (error) {
+    payload = null;
+  }
+
+  if (!payload) {
+    semModeEl.textContent = inferMode(value);
+    semDomainEl.textContent = "unknown";
+    semConflictEl.textContent = "unknown";
+    semActorsEl.textContent = "unknown";
+    semInstitutionsEl.textContent = "unknown";
+    return;
+  }
+
+  semModeEl.textContent = payload.mode || "-";
+  semDomainEl.textContent = payload.domain || "-";
+  semConflictEl.textContent = String(payload.conflict);
+  semActorsEl.textContent = (payload.actors || []).length ? payload.actors.join(", ") : "none";
+  semInstitutionsEl.textContent = (payload.institutions || []).length
+    ? payload.institutions.join(", ")
+    : "none";
+}
+
+async function runSse() {
   const value = situationInput.value.trim();
   if (!value) {
     outcomeEl.textContent = "Add a situation to generate a PredictionResult.";
@@ -165,7 +216,20 @@ async function runStub() {
   output.classList.remove("hidden");
 }
 
-runButton.addEventListener("click", runStub);
+runButton.addEventListener("click", runSse);
+semanticsRunButton.addEventListener("click", runSse);
+
+semanticsToggleButton.addEventListener("click", async () => {
+  const isHidden = semanticsPanel.classList.contains("hidden");
+  if (isHidden) {
+    await fetchSemantics();
+    semanticsPanel.classList.remove("hidden");
+    semanticsToggleButton.setAttribute("aria-expanded", "true");
+  } else {
+    semanticsPanel.classList.add("hidden");
+    semanticsToggleButton.setAttribute("aria-expanded", "false");
+  }
+});
 
 toggle.addEventListener("click", (event) => {
   event.preventDefault();
