@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tracking Detail</title>
+    <link rel="stylesheet" href="/static/tracking.css?v=3" />
+  </head>
+  <body>
+    <main class="wrap">
+      <header class="head">
+        <h1>Situation Detail</h1>
+        <a href="/static/tracking.html" class="home">Back to List</a>
+      </header>
+
+      <section id="detail" class="card"></section>
+
+      <section class="card vote-card">
+        <h2>Accuracy Vote</h2>
+        <div class="vote-actions">
+          <button id="vote-accurate" class="btn">Accurate</button>
+          <button id="vote-inaccurate" class="btn ghost">Inaccurate</button>
+        </div>
+        <div id="inaccurate-panel" class="inaccurate hidden">
+          <label for="actual-outcome">What actually happened?</label>
+          <textarea id="actual-outcome" rows="4" placeholder="Describe the real-world outcome..."></textarea>
+          <button id="submit-inaccurate" class="btn">Submit Inaccurate Report</button>
+        </div>
+        <p id="vote-status" class="status"></p>
+      </section>
+    </main>
+    <script src="/static/tracking-detail.js?v=3"></script>
+  </body>
+</html>

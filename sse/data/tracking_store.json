@@ -1,0 +1,90 @@
+[
+  {
+    "id": "dummy-tracking-item-001",
+    "situation": "An employee expects a promotion decision by month-end after repeated high performance.",
+    "prediction": {
+      "mode": "B",
+      "horizon": "days",
+      "predicted_outcome": {
+        "id": "quiet_job_search",
+        "label": "The employee quietly searches for another job while maintaining performance.",
+        "confidence": 0.68,
+        "rationale": [
+          "career preservation",
+          "avoid open conflict"
+        ]
+      },
+      "explanation": "The employee quietly searches for another job while maintaining performance. This outcome is most likely given the constraints and priors in the situation."
+    },
+    "started_at": "2026-02-01T09:00:00+00:00",
+    "expected_at": "2026-02-28T17:00:00+00:00",
+    "actual_at": null,
+    "vote": null,
+    "actual_outcome": null,
+    "status": "tracking",
+    "created_at": "2026-02-07T20:15:00.346004+00:00",
+    "updated_at": "2026-02-07T20:15:00.346046+00:00"
+  },
+  {
+    "id": "a7118d1f-2011-4d49-a625-f97abf7b3a72",
+    "situation": "A student considers cheating",
+    "prediction": {
+      "predicted_outcome": {
+        "id": "no_cheat_internal_conflict",
+        "label": "The student does not cheat but experiences internal conflict.",
+        "confidence": 0.74,
+        "rationale": [
+          "risk aversion",
+          "norm compliance"
+        ]
+      },
+      "explanation": "The student does not cheat but experiences internal conflict. This outcome is most likely given the constraints and priors in the situation.",
+      "horizon": "hours",
+      "mode": "A",
+      "alternatives": [
+        {
+          "id": "cheat_short_term",
+          "label": "The student cheats, gains a short-term advantage, but risks consequences.",
+          "confidence": 0.28,
+          "rationale": [
+            "opportunity",
+            "short-term gain"
+          ]
+        }
+      ],
+      "factors": [
+        {
+          "name": "exam integrity policy",
+          "role": "This acts as a hard boundary that limits which actions are safe or institutionally acceptable.",
+          "category": "constraint"
+        },
+        {
+          "name": "temporary invigilator absence",
+          "role": "This creates a practical opening that makes the predicted behavior more available in the current environment.",
+          "category": "affordance"
+        },
+        {
+          "name": "rule compliance",
+          "role": "This prior biases decision-making and increases the likelihood of the dominant response pattern.",
+          "category": "prior"
+        },
+        {
+          "name": "anxiety under evaluation",
+          "role": "This prior biases decision-making and increases the likelihood of the dominant response pattern.",
+          "category": "prior"
+        }
+      ],
+      "trace": "The student does not cheat but experiences internal conflict. This outcome is most likely given the constraints and priors in the situation.",
+      "source": "backend",
+      "timestamp": "2026-02-07T20:27:18.225425+00:00"
+    },
+    "started_at": "2026-02-07T20:27:22.125084+00:00",
+    "expected_at": null,
+    "actual_at": null,
+    "vote": null,
+    "actual_outcome": null,
+    "status": "tracking",
+    "created_at": "2026-02-07T20:27:22.125101+00:00",
+    "updated_at": "2026-02-07T20:27:22.125106+00:00"
+  }
+]

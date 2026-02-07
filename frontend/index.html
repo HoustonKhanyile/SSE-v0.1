@@ -4,9 +4,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>SSE v0.1 Demo UI</title>
-    <link rel="stylesheet" href="/static/styles.css?v=7" />
+    <link rel="stylesheet" href="/static/styles.css?v=9" />
   </head>
   <body>
+    <a class="tracking-link" href="/static/tracking.html" aria-label="Open tracked situations">
+      <span class="tracking-icon" aria-hidden="true">T</span>
+    </a>
     <div class="bg">
       <div class="orb orb-a"></div>
       <div class="orb orb-b"></div>
@@ -60,6 +63,7 @@
         <div class="meta">
           <span id="horizon"></span>
           <span id="confidence"></span>
+          <button id="track-situation" class="btn btn-small btn-ghost">Track Situation</button>
         </div>
         <div class="more">
           <a href="#" id="toggle" class="toggle" aria-controls="sidebar" aria-expanded="false">&gt;</a>
@@ -125,6 +129,6 @@
       <a href="/static/about.html">Read full SSE scope.</a>
     </footer>
 
-    <script src="/static/app.js?v=7"></script>
+    <script src="/static/app.js?v=9"></script>
   </body>
 </html>

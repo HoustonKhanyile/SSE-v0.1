@@ -11,6 +11,13 @@ from pydantic import BaseModel
 
 from sse.orchestrator import RunConfig, run_sse_with_trace
 from sse.ssm import parse_situation
+from sse.tracking import (
+    create_tracking_item,
+    ensure_dummy_tracking_item,
+    get_tracking_item,
+    list_tracking_items,
+    vote_tracking_item,
+)
 
 app = FastAPI(title="SSE API", version="0.1.0")
 
@@ -19,6 +26,11 @@ _INDEX_FILE = _FRONTEND_DIR / "index.html"
 
 if _FRONTEND_DIR.exists():
     app.mount("/static", StaticFiles(directory=_FRONTEND_DIR), name="static")
+
+
+@app.on_event("startup")
+async def startup_seed_tracking() -> None:
+    ensure_dummy_tracking_item()
 
 
 @app.middleware("http")
@@ -36,6 +48,19 @@ class PredictRequest(BaseModel):
 
 class SemanticsRequest(BaseModel):
     situation: str
+
+
+class TrackingCreateRequest(BaseModel):
+    situation: str
+    prediction: dict
+    started_at: str | None = None
+    expected_at: str | None = None
+
+
+class TrackingVoteRequest(BaseModel):
+    vote: str
+    actual_outcome: str | None = None
+    actual_at: str | None = None
 
 
 @app.post("/api/predict")
@@ -68,6 +93,47 @@ def semantics(request: SemanticsRequest) -> dict:
         "source": "backend",
         "timestamp": datetime.now(timezone.utc).isoformat(),
     }
+
+
+@app.post("/api/tracking")
+def create_tracking(request: TrackingCreateRequest) -> dict:
+    return create_tracking_item(
+        situation=request.situation,
+        prediction=request.prediction,
+        started_at=request.started_at,
+        expected_at=request.expected_at,
+    )
+
+
+@app.get("/api/tracking")
+def list_tracking() -> list[dict]:
+    ensure_dummy_tracking_item()
+    return list_tracking_items()
+
+
+@app.get("/api/tracking/{item_id}")
+def get_tracking(item_id: str) -> dict:
+    item = get_tracking_item(item_id)
+    if item is None:
+        return {"error": "not_found"}
+    return item
+
+
+@app.post("/api/tracking/{item_id}/vote")
+def vote_tracking(item_id: str, request: TrackingVoteRequest) -> dict:
+    if request.vote not in {"accurate", "inaccurate"}:
+        return {"error": "invalid_vote"}
+    if request.vote == "inaccurate" and not (request.actual_outcome or "").strip():
+        return {"error": "actual_outcome_required"}
+    item = vote_tracking_item(
+        item_id=item_id,
+        vote=request.vote,
+        actual_outcome=request.actual_outcome,
+        actual_at=request.actual_at,
+    )
+    if item is None:
+        return {"error": "not_found"}
+    return item
 
 
 @app.get("/")

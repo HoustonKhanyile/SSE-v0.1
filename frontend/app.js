@@ -8,6 +8,7 @@ const semanticsRowsEl = document.getElementById("semantics-rows");
 const output = document.getElementById("output");
 const outcomeEl = document.getElementById("outcome");
 const explanationEl = document.getElementById("explanation");
+const trackSituationButton = document.getElementById("track-situation");
 const modeEl = document.getElementById("mode");
 const horizonEl = document.getElementById("horizon");
 const confidenceEl = document.getElementById("confidence");
@@ -21,6 +22,7 @@ const traceEl = document.getElementById("trace");
 const metaSourceEl = document.getElementById("meta-source");
 const metaTimeEl = document.getElementById("meta-time");
 let semanticsState = [];
+let lastPredictionPayload = null;
 
 function renderSemanticsRows() {
   semanticsRowsEl.innerHTML = "";
@@ -158,7 +160,7 @@ async function fetchSemantics() {
 
   let payload = null;
   try {
-    const response = await fetch("http://127.0.0.1:8000/api/semantics", {
+    const response = await fetch("/api/semantics", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ situation: value }),
@@ -211,7 +213,7 @@ async function runSse() {
 
   let payload = null;
   try {
-    const response = await fetch("http://127.0.0.1:8000/api/predict", {
+    const response = await fetch("/api/predict", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -242,6 +244,7 @@ async function runSse() {
     traceEl.textContent = "";
     metaSourceEl.textContent = "";
     metaTimeEl.textContent = "";
+    lastPredictionPayload = null;
     output.classList.remove("hidden");
     return;
   }
@@ -267,6 +270,7 @@ async function runSse() {
   traceEl.textContent = trace;
   metaSourceEl.textContent = `Source: ${source}`;
   metaTimeEl.textContent = timestamp ? `Timestamp: ${timestamp}` : "";
+  lastPredictionPayload = payload;
   output.classList.remove("hidden");
 }
 
@@ -287,6 +291,47 @@ semanticsToggleButton.addEventListener("click", async () => {
 semanticsAddButton.addEventListener("click", () => {
   semanticsState.push({ key: "user variable", value: "", removable: true });
   renderSemanticsRows();
+});
+trackSituationButton.addEventListener("click", async () => {
+  if (!lastPredictionPayload) {
+    outcomeEl.textContent = "Run SSE first before tracking this situation.";
+    output.classList.remove("hidden");
+    return;
+  }
+
+  const situation = situationInput.value.trim();
+  if (!situation) {
+    outcomeEl.textContent = "Enter a situation before creating tracking.";
+    output.classList.remove("hidden");
+    return;
+  }
+
+  let created = null;
+  let statusText = "";
+  try {
+    const response = await fetch("/api/tracking", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        situation,
+        prediction: lastPredictionPayload,
+      }),
+    });
+    if (response.ok) {
+      created = await response.json();
+    } else {
+      statusText = `HTTP ${response.status}`;
+    }
+  } catch (error) {
+    created = null;
+    statusText = "network error";
+  }
+
+  if (!created || created.error) {
+    metaSourceEl.textContent = `Tracking: failed to save (${statusText || "unknown error"})`;
+    return;
+  }
+  metaSourceEl.textContent = `Tracking: saved (${created.id})`;
 });
 
 toggle.addEventListener("click", (event) => {
