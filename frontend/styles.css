@@ -195,6 +195,12 @@ body {
   gap: 10px;
 }
 
+.semantics-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .semantics-header h3 {
   margin: 0;
   font-size: 15px;
@@ -203,15 +209,63 @@ body {
   color: var(--accent-2);
 }
 
+.icon-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(72, 215, 255, 0.45);
+  background: rgba(72, 215, 255, 0.08);
+  color: var(--accent-2);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+
 .semantics-grid {
   display: grid;
   gap: 6px;
 }
 
-.semantics-grid p {
-  margin: 0;
+.semantics-row {
+  display: grid;
+  grid-template-columns: minmax(110px, 180px) 1fr auto;
+  gap: 8px;
+}
+
+.semantics-key,
+.semantics-value {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   color: var(--muted);
+  border-radius: 10px;
+  padding: 8px 10px;
   font-family: "Source Serif 4", "Times New Roman", serif;
+}
+
+.semantics-key[readonly] {
+  background: rgba(255, 255, 255, 0.03);
+  color: rgba(166, 176, 200, 0.75);
+  border-color: rgba(255, 255, 255, 0.08);
+  cursor: default;
+}
+
+.semantics-key:focus,
+.semantics-value:focus {
+  outline: none;
+  border-color: rgba(72, 215, 255, 0.6);
+  box-shadow: 0 0 0 3px rgba(72, 215, 255, 0.15);
+}
+
+.semantics-delete {
+  width: 30px;
+  height: 30px;
+  align-self: center;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 107, 107, 0.14);
+  color: #ff9f9f;
+  cursor: pointer;
+  line-height: 1;
 }
 
 .output {

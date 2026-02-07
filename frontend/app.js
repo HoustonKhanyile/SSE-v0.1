@@ -1,13 +1,10 @@
 const runButton = document.getElementById("run");
 const semanticsToggleButton = document.getElementById("semantics-toggle");
 const semanticsRunButton = document.getElementById("semantics-run");
+const semanticsAddButton = document.getElementById("semantics-add");
 const situationInput = document.getElementById("situation");
 const semanticsPanel = document.getElementById("semantics-panel");
-const semModeEl = document.getElementById("sem-mode");
-const semDomainEl = document.getElementById("sem-domain");
-const semConflictEl = document.getElementById("sem-conflict");
-const semActorsEl = document.getElementById("sem-actors");
-const semInstitutionsEl = document.getElementById("sem-institutions");
+const semanticsRowsEl = document.getElementById("semantics-rows");
 const output = document.getElementById("output");
 const outcomeEl = document.getElementById("outcome");
 const explanationEl = document.getElementById("explanation");
@@ -23,6 +20,54 @@ const alternativesEl = document.getElementById("alternatives");
 const traceEl = document.getElementById("trace");
 const metaSourceEl = document.getElementById("meta-source");
 const metaTimeEl = document.getElementById("meta-time");
+let semanticsState = [];
+
+function renderSemanticsRows() {
+  semanticsRowsEl.innerHTML = "";
+  semanticsState.forEach((row, index) => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "semantics-row";
+
+    const keyInput = document.createElement("input");
+    keyInput.className = "semantics-key";
+    keyInput.type = "text";
+    keyInput.value = row.key;
+    keyInput.setAttribute("aria-label", `Semantic key ${index + 1}`);
+    if (!row.removable) {
+      keyInput.readOnly = true;
+      keyInput.setAttribute("aria-readonly", "true");
+      keyInput.setAttribute("title", "Built-in semantic names are read-only");
+    }
+    keyInput.addEventListener("input", (event) => {
+      semanticsState[index].key = event.target.value;
+    });
+
+    const valueInput = document.createElement("input");
+    valueInput.className = "semantics-value";
+    valueInput.type = "text";
+    valueInput.value = row.value;
+    valueInput.setAttribute("aria-label", `Semantic value ${index + 1}`);
+    valueInput.addEventListener("input", (event) => {
+      semanticsState[index].value = event.target.value;
+    });
+
+    wrapper.appendChild(keyInput);
+    wrapper.appendChild(valueInput);
+    if (row.removable) {
+      const deleteButton = document.createElement("button");
+      deleteButton.type = "button";
+      deleteButton.className = "semantics-delete";
+      deleteButton.textContent = "x";
+      deleteButton.setAttribute("aria-label", `Delete semantic row ${index + 1}`);
+      deleteButton.addEventListener("click", () => {
+        semanticsState.splice(index, 1);
+        renderSemanticsRows();
+      });
+      wrapper.appendChild(deleteButton);
+    }
+    semanticsRowsEl.appendChild(wrapper);
+  });
+}
 
 function openSidebar() {
   sidebar.classList.add("open");
@@ -106,11 +151,8 @@ function inferMode(text) {
 async function fetchSemantics() {
   const value = situationInput.value.trim();
   if (!value) {
-    semModeEl.textContent = "-";
-    semDomainEl.textContent = "-";
-    semConflictEl.textContent = "-";
-    semActorsEl.textContent = "-";
-    semInstitutionsEl.textContent = "-";
+    semanticsState = [];
+    renderSemanticsRows();
     return;
   }
 
@@ -129,21 +171,33 @@ async function fetchSemantics() {
   }
 
   if (!payload) {
-    semModeEl.textContent = inferMode(value);
-    semDomainEl.textContent = "unknown";
-    semConflictEl.textContent = "unknown";
-    semActorsEl.textContent = "unknown";
-    semInstitutionsEl.textContent = "unknown";
+    semanticsState = [
+      { key: "mode", value: inferMode(value), removable: false },
+      { key: "domain", value: "unknown", removable: false },
+      { key: "conflict", value: "unknown", removable: false },
+      { key: "actors", value: "unknown", removable: false },
+      { key: "institutions", value: "unknown", removable: false },
+    ];
+    renderSemanticsRows();
     return;
   }
 
-  semModeEl.textContent = payload.mode || "-";
-  semDomainEl.textContent = payload.domain || "-";
-  semConflictEl.textContent = String(payload.conflict);
-  semActorsEl.textContent = (payload.actors || []).length ? payload.actors.join(", ") : "none";
-  semInstitutionsEl.textContent = (payload.institutions || []).length
-    ? payload.institutions.join(", ")
-    : "none";
+  semanticsState = [
+    { key: "mode", value: payload.mode || "-", removable: false },
+    { key: "domain", value: payload.domain || "-", removable: false },
+    { key: "conflict", value: String(payload.conflict), removable: false },
+    {
+      key: "actors",
+      value: (payload.actors || []).length ? payload.actors.join(", ") : "none",
+      removable: false,
+    },
+    {
+      key: "institutions",
+      value: (payload.institutions || []).length ? payload.institutions.join(", ") : "none",
+      removable: false,
+    },
+  ];
+  renderSemanticsRows();
 }
 
 async function runSse() {
@@ -229,6 +283,10 @@ semanticsToggleButton.addEventListener("click", async () => {
     semanticsPanel.classList.add("hidden");
     semanticsToggleButton.setAttribute("aria-expanded", "false");
   }
+});
+semanticsAddButton.addEventListener("click", () => {
+  semanticsState.push({ key: "user variable", value: "", removable: true });
+  renderSemanticsRows();
 });
 
 toggle.addEventListener("click", (event) => {

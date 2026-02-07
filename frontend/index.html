@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>SSE v0.1 Demo UI</title>
-    <link rel="stylesheet" href="/static/styles.css?v=5" />
+    <link rel="stylesheet" href="/static/styles.css?v=7" />
   </head>
   <body>
     <div class="bg">
@@ -40,14 +40,12 @@
         <section id="semantics-panel" class="semantics-panel hidden" aria-live="polite">
           <div class="semantics-header">
             <h3>Situation Semantics</h3>
-            <button id="semantics-run" class="btn btn-small">Run SSE</button>
+            <div class="semantics-header-actions">
+              <button id="semantics-add" type="button" class="icon-btn" aria-label="Add user variable">+</button>
+              <button id="semantics-run" class="btn btn-small">Run SSE</button>
+            </div>
           </div>
-          <div class="semantics-grid">
-            <p><strong>Mode:</strong> <span id="sem-mode">-</span></p>
-            <p><strong>Domain:</strong> <span id="sem-domain">-</span></p>
-            <p><strong>Conflict:</strong> <span id="sem-conflict">-</span></p>
-            <p><strong>Actors:</strong> <span id="sem-actors">-</span></p>
-            <p><strong>Institutions:</strong> <span id="sem-institutions">-</span></p>
+          <div id="semantics-rows" class="semantics-grid">
           </div>
         </section>
       </section>
@@ -127,6 +125,6 @@
       <a href="/static/about.html">Read full SSE scope.</a>
     </footer>
 
-    <script src="/static/app.js?v=5"></script>
+    <script src="/static/app.js?v=7"></script>
   </body>
 </html>
