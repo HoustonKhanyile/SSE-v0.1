@@ -23,3 +23,12 @@ htmlcov/
 Thumbs.db
 .vscode/
 .idea/
+
+# Local Playwright / recording tooling
+node_modules/
+artifacts/
+playwright-report/
+test-results/
+scripts/record-demo.mjs
+package.json
+package-lock.json

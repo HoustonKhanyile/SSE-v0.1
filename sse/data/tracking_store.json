@@ -86,5 +86,501 @@
     "status": "tracking",
     "created_at": "2026-02-07T20:27:22.125101+00:00",
     "updated_at": "2026-02-07T20:27:22.125106+00:00"
+  },
+  {
+    "id": "716eecfe-408e-4cc7-8cca-ef944245a943",
+    "situation": "An employee who has consistently exceeded performance targets has been denied a promotion without a clear explanation and is deciding how to respond.",
+    "prediction": {
+      "predicted_outcome": {
+        "id": "quiet_job_search",
+        "label": "The employee quietly searches for another job while maintaining performance.",
+        "confidence": 0.7,
+        "rationale": [
+          "career preservation",
+          "avoid open conflict"
+        ]
+      },
+      "explanation": "The employee quietly searches for another job while maintaining performance. This outcome is most likely given the constraints and priors in the situation.",
+      "horizon": "days",
+      "mode": "B",
+      "alternatives": [
+        {
+          "id": "direct_confrontation",
+          "label": "The employee confronts management directly, escalating tension.",
+          "confidence": 0.3,
+          "rationale": [
+            "frustration",
+            "perceived unfairness"
+          ]
+        }
+      ],
+      "factors": [
+        {
+          "name": "performance review process",
+          "role": "This acts as a hard boundary that limits which actions are safe or institutionally acceptable.",
+          "category": "constraint"
+        },
+        {
+          "name": "job market mobility",
+          "role": "This creates a practical opening that makes the predicted behavior more available in the current environment.",
+          "category": "affordance"
+        },
+        {
+          "name": "career preservation",
+          "role": "This prior biases decision-making and increases the likelihood of the dominant response pattern.",
+          "category": "prior"
+        },
+        {
+          "name": "status sensitivity",
+          "role": "This prior biases decision-making and increases the likelihood of the dominant response pattern.",
+          "category": "prior"
+        }
+      ],
+      "trace": "The employee quietly searches for another job while maintaining performance. This outcome is most likely given the constraints and priors in the situation.",
+      "source": "backend",
+      "timestamp": "2026-02-09T09:19:04.081117+00:00"
+    },
+    "started_at": "2026-02-09T09:19:09.577899+00:00",
+    "expected_at": null,
+    "actual_at": "2026-02-09T09:19:15.103035+00:00",
+    "vote": "accurate",
+    "actual_outcome": null,
+    "status": "resolved",
+    "created_at": "2026-02-09T09:19:09.577948+00:00",
+    "updated_at": "2026-02-09T09:19:15.103060+00:00"
+  },
+  {
+    "id": "0af75598-5388-4bc2-99b6-d46de0655322",
+    "situation": "An employee who has consistently exceeded performance targets has been denied a promotion without a clear explanation and is deciding how to respond.",
+    "prediction": {
+      "predicted_outcome": {
+        "id": "quiet_job_search",
+        "label": "The employee quietly searches for another job while maintaining performance.",
+        "confidence": 0.7,
+        "rationale": [
+          "career preservation",
+          "avoid open conflict"
+        ]
+      },
+      "explanation": "The employee quietly searches for another job while maintaining performance. This outcome is most likely given the constraints and priors in the situation.",
+      "horizon": "days",
+      "mode": "B",
+      "alternatives": [
+        {
+          "id": "direct_confrontation",
+          "label": "The employee confronts management directly, escalating tension.",
+          "confidence": 0.3,
+          "rationale": [
+            "frustration",
+            "perceived unfairness"
+          ]
+        }
+      ],
+      "factors": [
+        {
+          "name": "performance review process",
+          "role": "This acts as a hard boundary that limits which actions are safe or institutionally acceptable.",
+          "category": "constraint"
+        },
+        {
+          "name": "job market mobility",
+          "role": "This creates a practical opening that makes the predicted behavior more available in the current environment.",
+          "category": "affordance"
+        },
+        {
+          "name": "career preservation",
+          "role": "This prior biases decision-making and increases the likelihood of the dominant response pattern.",
+          "category": "prior"
+        },
+        {
+          "name": "status sensitivity",
+          "role": "This prior biases decision-making and increases the likelihood of the dominant response pattern.",
+          "category": "prior"
+        }
+      ],
+      "trace": "The employee quietly searches for another job while maintaining performance. This outcome is most likely given the constraints and priors in the situation.",
+      "source": "backend",
+      "timestamp": "2026-02-09T09:20:23.326856+00:00"
+    },
+    "started_at": "2026-02-09T09:20:28.645296+00:00",
+    "expected_at": null,
+    "actual_at": "2026-02-09T09:20:34.035979+00:00",
+    "vote": "accurate",
+    "actual_outcome": null,
+    "status": "resolved",
+    "created_at": "2026-02-09T09:20:28.645328+00:00",
+    "updated_at": "2026-02-09T09:20:34.036005+00:00"
+  },
+  {
+    "id": "c5e8ea1b-82ef-4d92-89f4-6c97e455f6ce",
+    "situation": "An employee who has consistently exceeded performance targets has been denied a promotion without a clear explanation and is deciding how to respond.",
+    "prediction": {
+      "predicted_outcome": {
+        "id": "quiet_job_search",
+        "label": "The employee quietly searches for another job while maintaining performance.",
+        "confidence": 0.7,
+        "rationale": [
+          "career preservation",
+          "avoid open conflict"
+        ]
+      },
+      "explanation": "The employee quietly searches for another job while maintaining performance. This outcome is most likely given the constraints and priors in the situation.",
+      "horizon": "days",
+      "mode": "B",
+      "alternatives": [
+        {
+          "id": "direct_confrontation",
+          "label": "The employee confronts management directly, escalating tension.",
+          "confidence": 0.3,
+          "rationale": [
+            "frustration",
+            "perceived unfairness"
+          ]
+        }
+      ],
+      "factors": [
+        {
+          "name": "performance review process",
+          "role": "This acts as a hard boundary that limits which actions are safe or institutionally acceptable.",
+          "category": "constraint"
+        },
+        {
+          "name": "job market mobility",
+          "role": "This creates a practical opening that makes the predicted behavior more available in the current environment.",
+          "category": "affordance"
+        },
+        {
+          "name": "career preservation",
+          "role": "This prior biases decision-making and increases the likelihood of the dominant response pattern.",
+          "category": "prior"
+        },
+        {
+          "name": "status sensitivity",
+          "role": "This prior biases decision-making and increases the likelihood of the dominant response pattern.",
+          "category": "prior"
+        }
+      ],
+      "trace": "The employee quietly searches for another job while maintaining performance. This outcome is most likely given the constraints and priors in the situation.",
+      "source": "backend",
+      "timestamp": "2026-02-09T09:25:22.374611+00:00"
+    },
+    "started_at": "2026-02-09T09:25:27.779631+00:00",
+    "expected_at": null,
+    "actual_at": "2026-02-09T09:25:37.701264+00:00",
+    "vote": "accurate",
+    "actual_outcome": null,
+    "status": "resolved",
+    "created_at": "2026-02-09T09:25:27.779719+00:00",
+    "updated_at": "2026-02-09T09:25:37.701286+00:00"
+  },
+  {
+    "id": "05ae5d9c-1777-4652-a29f-da24bf228fb5",
+    "situation": "An employee who has consistently exceeded performance targets has been denied a promotion without a clear explanation and is deciding how to respond.",
+    "prediction": {
+      "predicted_outcome": {
+        "id": "quiet_job_search",
+        "label": "The employee quietly searches for another job while maintaining performance.",
+        "confidence": 0.7,
+        "rationale": [
+          "career preservation",
+          "avoid open conflict"
+        ]
+      },
+      "explanation": "The employee quietly searches for another job while maintaining performance. This outcome is most likely given the constraints and priors in the situation.",
+      "horizon": "days",
+      "mode": "B",
+      "alternatives": [
+        {
+          "id": "direct_confrontation",
+          "label": "The employee confronts management directly, escalating tension.",
+          "confidence": 0.3,
+          "rationale": [
+            "frustration",
+            "perceived unfairness"
+          ]
+        }
+      ],
+      "factors": [
+        {
+          "name": "performance review process",
+          "role": "This acts as a hard boundary that limits which actions are safe or institutionally acceptable.",
+          "category": "constraint"
+        },
+        {
+          "name": "job market mobility",
+          "role": "This creates a practical opening that makes the predicted behavior more available in the current environment.",
+          "category": "affordance"
+        },
+        {
+          "name": "career preservation",
+          "role": "This prior biases decision-making and increases the likelihood of the dominant response pattern.",
+          "category": "prior"
+        },
+        {
+          "name": "status sensitivity",
+          "role": "This prior biases decision-making and increases the likelihood of the dominant response pattern.",
+          "category": "prior"
+        }
+      ],
+      "trace": "The employee quietly searches for another job while maintaining performance. This outcome is most likely given the constraints and priors in the situation.",
+      "source": "backend",
+      "timestamp": "2026-02-09T09:32:35.703024+00:00"
+    },
+    "started_at": "2026-02-09T09:32:59.617086+00:00",
+    "expected_at": null,
+    "actual_at": "2026-02-09T09:33:12.695603+00:00",
+    "vote": "accurate",
+    "actual_outcome": null,
+    "status": "resolved",
+    "created_at": "2026-02-09T09:32:59.617108+00:00",
+    "updated_at": "2026-02-09T09:33:12.695634+00:00"
+  },
+  {
+    "id": "89e3dec6-d4d9-4878-9978-5501a3fbec5d",
+    "situation": "An employee who has consistently exceeded performance targets has been denied a promotion without a clear explanation and is deciding how to respond.",
+    "prediction": {
+      "predicted_outcome": {
+        "id": "quiet_job_search",
+        "label": "The employee quietly searches for another job while maintaining performance.",
+        "confidence": 0.7,
+        "rationale": [
+          "career preservation",
+          "avoid open conflict"
+        ]
+      },
+      "explanation": "The employee quietly searches for another job while maintaining performance. This outcome is most likely given the constraints and priors in the situation.",
+      "horizon": "days",
+      "mode": "B",
+      "alternatives": [
+        {
+          "id": "direct_confrontation",
+          "label": "The employee confronts management directly, escalating tension.",
+          "confidence": 0.3,
+          "rationale": [
+            "frustration",
+            "perceived unfairness"
+          ]
+        }
+      ],
+      "factors": [
+        {
+          "name": "performance review process",
+          "role": "This acts as a hard boundary that limits which actions are safe or institutionally acceptable.",
+          "category": "constraint"
+        },
+        {
+          "name": "job market mobility",
+          "role": "This creates a practical opening that makes the predicted behavior more available in the current environment.",
+          "category": "affordance"
+        },
+        {
+          "name": "career preservation",
+          "role": "This prior biases decision-making and increases the likelihood of the dominant response pattern.",
+          "category": "prior"
+        },
+        {
+          "name": "status sensitivity",
+          "role": "This prior biases decision-making and increases the likelihood of the dominant response pattern.",
+          "category": "prior"
+        }
+      ],
+      "trace": "The employee quietly searches for another job while maintaining performance. This outcome is most likely given the constraints and priors in the situation.",
+      "source": "backend",
+      "timestamp": "2026-02-09T09:44:18.653796+00:00"
+    },
+    "started_at": "2026-02-09T09:44:49.598354+00:00",
+    "expected_at": null,
+    "actual_at": "2026-02-09T09:45:06.967638+00:00",
+    "vote": "accurate",
+    "actual_outcome": null,
+    "status": "resolved",
+    "created_at": "2026-02-09T09:44:49.598382+00:00",
+    "updated_at": "2026-02-09T09:45:06.967660+00:00"
+  },
+  {
+    "id": "5f92241a-6f8a-47c1-96c7-5d9725f46489",
+    "situation": "A student notices that the invigilator has stepped out briefly during an exam and considers whether to cheat.",
+    "prediction": {
+      "predicted_outcome": {
+        "id": "no_cheat_internal_conflict",
+        "label": "The student does not cheat but experiences internal conflict.",
+        "confidence": 0.74,
+        "rationale": [
+          "risk aversion",
+          "norm compliance"
+        ]
+      },
+      "explanation": "The student does not cheat but experiences internal conflict. This outcome is most likely given the constraints and priors in the situation.",
+      "horizon": "hours",
+      "mode": "A",
+      "alternatives": [
+        {
+          "id": "cheat_short_term",
+          "label": "The student cheats, gains a short-term advantage, but risks consequences.",
+          "confidence": 0.28,
+          "rationale": [
+            "opportunity",
+            "short-term gain"
+          ]
+        }
+      ],
+      "factors": [
+        {
+          "name": "exam integrity policy",
+          "role": "This acts as a hard boundary that limits which actions are safe or institutionally acceptable.",
+          "category": "constraint"
+        },
+        {
+          "name": "temporary invigilator absence",
+          "role": "This creates a practical opening that makes the predicted behavior more available in the current environment.",
+          "category": "affordance"
+        },
+        {
+          "name": "rule compliance",
+          "role": "This prior biases decision-making and increases the likelihood of the dominant response pattern.",
+          "category": "prior"
+        },
+        {
+          "name": "anxiety under evaluation",
+          "role": "This prior biases decision-making and increases the likelihood of the dominant response pattern.",
+          "category": "prior"
+        }
+      ],
+      "trace": "The student does not cheat but experiences internal conflict. This outcome is most likely given the constraints and priors in the situation.",
+      "source": "backend",
+      "timestamp": "2026-02-09T10:50:43.336900+00:00"
+    },
+    "started_at": "2026-02-09T10:51:07.449198+00:00",
+    "expected_at": null,
+    "actual_at": "2026-02-09T10:51:20.603648+00:00",
+    "vote": "accurate",
+    "actual_outcome": null,
+    "status": "resolved",
+    "created_at": "2026-02-09T10:51:07.449226+00:00",
+    "updated_at": "2026-02-09T10:51:20.603676+00:00"
+  },
+  {
+    "id": "fc42e3b3-3ecb-4467-ab72-e97091e1c738",
+    "situation": "An employee who has consistently exceeded performance targets has been denied a promotion without a clear explanation and is deciding how to respond.",
+    "prediction": {
+      "predicted_outcome": {
+        "id": "quiet_job_search",
+        "label": "The employee quietly searches for another job while maintaining performance.",
+        "confidence": 0.7,
+        "rationale": [
+          "career preservation",
+          "avoid open conflict"
+        ]
+      },
+      "explanation": "The employee quietly searches for another job while maintaining performance. This outcome is most likely given the constraints and priors in the situation.",
+      "horizon": "days",
+      "mode": "B",
+      "alternatives": [
+        {
+          "id": "direct_confrontation",
+          "label": "The employee confronts management directly, escalating tension.",
+          "confidence": 0.3,
+          "rationale": [
+            "frustration",
+            "perceived unfairness"
+          ]
+        }
+      ],
+      "factors": [
+        {
+          "name": "performance review process",
+          "role": "This acts as a hard boundary that limits which actions are safe or institutionally acceptable.",
+          "category": "constraint"
+        },
+        {
+          "name": "job market mobility",
+          "role": "This creates a practical opening that makes the predicted behavior more available in the current environment.",
+          "category": "affordance"
+        },
+        {
+          "name": "career preservation",
+          "role": "This prior biases decision-making and increases the likelihood of the dominant response pattern.",
+          "category": "prior"
+        },
+        {
+          "name": "status sensitivity",
+          "role": "This prior biases decision-making and increases the likelihood of the dominant response pattern.",
+          "category": "prior"
+        }
+      ],
+      "trace": "The employee quietly searches for another job while maintaining performance. This outcome is most likely given the constraints and priors in the situation.",
+      "source": "backend",
+      "timestamp": "2026-02-09T10:57:28.164406+00:00"
+    },
+    "started_at": "2026-02-09T10:57:52.904245+00:00",
+    "expected_at": null,
+    "actual_at": "2026-02-09T10:58:06.166429+00:00",
+    "vote": "accurate",
+    "actual_outcome": null,
+    "status": "resolved",
+    "created_at": "2026-02-09T10:57:52.905274+00:00",
+    "updated_at": "2026-02-09T10:58:06.166467+00:00"
+  },
+  {
+    "id": "99355540-fdb3-4294-998c-03651284d71d",
+    "situation": "An employee who has consistently exceeded performance targets has been denied a promotion without a clear explanation and is deciding how to respond.",
+    "prediction": {
+      "predicted_outcome": {
+        "id": "quiet_job_search",
+        "label": "The employee quietly searches for another job while maintaining performance.",
+        "confidence": 0.7,
+        "rationale": [
+          "career preservation",
+          "avoid open conflict"
+        ]
+      },
+      "explanation": "The employee quietly searches for another job while maintaining performance. This outcome is most likely given the constraints and priors in the situation.",
+      "horizon": "days",
+      "mode": "B",
+      "alternatives": [
+        {
+          "id": "direct_confrontation",
+          "label": "The employee confronts management directly, escalating tension.",
+          "confidence": 0.3,
+          "rationale": [
+            "frustration",
+            "perceived unfairness"
+          ]
+        }
+      ],
+      "factors": [
+        {
+          "name": "performance review process",
+          "role": "This acts as a hard boundary that limits which actions are safe or institutionally acceptable.",
+          "category": "constraint"
+        },
+        {
+          "name": "job market mobility",
+          "role": "This creates a practical opening that makes the predicted behavior more available in the current environment.",
+          "category": "affordance"
+        },
+        {
+          "name": "career preservation",
+          "role": "This prior biases decision-making and increases the likelihood of the dominant response pattern.",
+          "category": "prior"
+        },
+        {
+          "name": "status sensitivity",
+          "role": "This prior biases decision-making and increases the likelihood of the dominant response pattern.",
+          "category": "prior"
+        }
+      ],
+      "trace": "The employee quietly searches for another job while maintaining performance. This outcome is most likely given the constraints and priors in the situation.",
+      "source": "backend",
+      "timestamp": "2026-02-09T11:00:46.048253+00:00"
+    },
+    "started_at": "2026-02-09T11:01:10.047382+00:00",
+    "expected_at": null,
+    "actual_at": "2026-02-09T11:01:23.157132+00:00",
+    "vote": "accurate",
+    "actual_outcome": null,
+    "status": "resolved",
+    "created_at": "2026-02-09T11:01:10.048110+00:00",
+    "updated_at": "2026-02-09T11:01:23.157166+00:00"
   }
 ]
