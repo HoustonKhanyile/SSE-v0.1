@@ -47,6 +47,25 @@ class PredictRequest(BaseModel):
     alternatives: bool = False
 
 
+class CompareRequest(BaseModel):
+    base_situation: str
+    variant_situation: str
+    depth: str = "default"
+    alternatives: bool = False
+
+
+class TimelineCheckpoint(BaseModel):
+    label: str
+    situation: str
+
+
+class TimelineRequest(BaseModel):
+    base_situation: str
+    checkpoints: list[TimelineCheckpoint]
+    depth: str = "default"
+    alternatives: bool = False
+
+
 class SemanticsRequest(BaseModel):
     situation: str
 
@@ -79,12 +98,15 @@ class ProfileUpdateRequest(BaseModel):
     attributes: dict[str, str] | None = None
 
 
-@app.post("/api/predict")
-def predict(request: PredictRequest) -> dict:
-    resolved_situation, profiles_used = resolve_profiles_in_text(request.situation)
+def _build_prediction_payload(
+    raw_situation: str,
+    depth: str = "default",
+    include_alternatives: bool = False,
+) -> dict:
+    resolved_situation, profiles_used = resolve_profiles_in_text(raw_situation)
     result, trace = run_sse_with_trace(
         resolved_situation,
-        RunConfig(depth=request.depth, include_alternatives=request.alternatives),
+        RunConfig(depth=depth, include_alternatives=include_alternatives),
     )
     payload = result.to_dict()
     payload["factors"] = [
@@ -97,6 +119,106 @@ def predict(request: PredictRequest) -> dict:
     payload["resolved_situation"] = resolved_situation
     payload["profiles_used"] = [{"tag": p["tag"], "name": p["name"]} for p in profiles_used]
     return payload
+
+
+@app.post("/api/predict")
+def predict(request: PredictRequest) -> dict:
+    return _build_prediction_payload(
+        raw_situation=request.situation,
+        depth=request.depth,
+        include_alternatives=request.alternatives,
+    )
+
+
+@app.post("/api/compare")
+def compare(request: CompareRequest) -> dict:
+    base_payload = _build_prediction_payload(
+        raw_situation=request.base_situation,
+        depth=request.depth,
+        include_alternatives=request.alternatives,
+    )
+    variant_payload = _build_prediction_payload(
+        raw_situation=request.variant_situation,
+        depth=request.depth,
+        include_alternatives=request.alternatives,
+    )
+
+    base_factors = {f["name"] for f in base_payload.get("factors", [])}
+    variant_factors = {f["name"] for f in variant_payload.get("factors", [])}
+    base_confidence = float(base_payload["predicted_outcome"]["confidence"])
+    variant_confidence = float(variant_payload["predicted_outcome"]["confidence"])
+
+    return {
+        "base": base_payload,
+        "variant": variant_payload,
+        "comparison": {
+            "confidence_delta": round(variant_confidence - base_confidence, 4),
+            "dominant_changed": (
+                base_payload["predicted_outcome"]["id"] != variant_payload["predicted_outcome"]["id"]
+            ),
+            "mode_changed": base_payload["mode"] != variant_payload["mode"],
+            "added_factors": sorted(list(variant_factors - base_factors)),
+            "removed_factors": sorted(list(base_factors - variant_factors)),
+            "shared_factors": sorted(list(base_factors & variant_factors)),
+        },
+    }
+
+
+@app.post("/api/timeline")
+def timeline(request: TimelineRequest) -> dict:
+    steps: list[dict] = []
+    inflections: list[dict] = []
+
+    ordered = [TimelineCheckpoint(label="T0", situation=request.base_situation)] + request.checkpoints
+    prev_payload: dict | None = None
+
+    for idx, checkpoint in enumerate(ordered):
+        payload = _build_prediction_payload(
+            raw_situation=checkpoint.situation,
+            depth=request.depth,
+            include_alternatives=request.alternatives,
+        )
+        step = {
+            "index": idx,
+            "label": checkpoint.label or f"T{idx}",
+            "situation": checkpoint.situation,
+            "prediction": payload,
+            "delta": None,
+        }
+
+        if prev_payload is not None:
+            prev_confidence = float(prev_payload["predicted_outcome"]["confidence"])
+            curr_confidence = float(payload["predicted_outcome"]["confidence"])
+            prev_factors = {f["name"] for f in prev_payload.get("factors", [])}
+            curr_factors = {f["name"] for f in payload.get("factors", [])}
+            outcome_changed = prev_payload["predicted_outcome"]["id"] != payload["predicted_outcome"]["id"]
+            mode_changed = prev_payload["mode"] != payload["mode"]
+
+            step["delta"] = {
+                "confidence_delta": round(curr_confidence - prev_confidence, 4),
+                "outcome_changed": outcome_changed,
+                "mode_changed": mode_changed,
+                "added_factors": sorted(list(curr_factors - prev_factors)),
+                "removed_factors": sorted(list(prev_factors - curr_factors)),
+            }
+
+            if outcome_changed or mode_changed:
+                inflections.append(
+                    {
+                        "at_step": step["label"],
+                        "reason": "outcome_changed" if outcome_changed else "mode_changed",
+                        "from_outcome": prev_payload["predicted_outcome"]["id"],
+                        "to_outcome": payload["predicted_outcome"]["id"],
+                        "from_mode": prev_payload["mode"],
+                        "to_mode": payload["mode"],
+                    }
+                )
+
+        steps.append(step)
+        prev_payload = payload
+
+    trend = [float(step["prediction"]["predicted_outcome"]["confidence"]) for step in steps]
+    return {"steps": steps, "confidence_trend": trend, "inflections": inflections}
 
 
 @app.post("/api/semantics")

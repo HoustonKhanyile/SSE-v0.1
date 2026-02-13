@@ -582,5 +582,212 @@
     "status": "resolved",
     "created_at": "2026-02-09T11:01:10.048110+00:00",
     "updated_at": "2026-02-09T11:01:23.157166+00:00"
+  },
+  {
+    "id": "20de951b-1495-469e-8b7b-a80187ab5576",
+    "situation": "A government announces a sudden increase in fuel taxes, affecting commuters and small businesses. Key segment: @city_commuters.",
+    "prediction": {
+      "predicted_outcome": {
+        "id": "dissatisfaction_protest",
+        "label": "Widespread dissatisfaction and short-term protest activity among affected groups.",
+        "confidence": 0.67,
+        "rationale": [
+          "collective grievance",
+          "cost shock"
+        ]
+      },
+      "explanation": "Widespread dissatisfaction and short-term protest activity among affected groups. This outcome is most likely given the constraints and priors in the situation.",
+      "horizon": "weeks",
+      "mode": "C",
+      "alternatives": [
+        {
+          "id": "quiet_acceptance",
+          "label": "Most people accept the change without organized protest.",
+          "confidence": 0.3,
+          "rationale": [
+            "adaptation",
+            "cost absorption"
+          ]
+        }
+      ],
+      "factors": [
+        {
+          "name": "tax enforcement",
+          "role": "This acts as a hard boundary that limits which actions are safe or institutionally acceptable.",
+          "category": "constraint"
+        },
+        {
+          "name": "public protest channels",
+          "role": "This creates a practical opening that makes the predicted behavior more available in the current environment.",
+          "category": "affordance"
+        },
+        {
+          "name": "collective grievance",
+          "role": "This prior biases decision-making and increases the likelihood of the dominant response pattern.",
+          "category": "prior"
+        },
+        {
+          "name": "cost sensitivity",
+          "role": "This prior biases decision-making and increases the likelihood of the dominant response pattern.",
+          "category": "prior"
+        }
+      ],
+      "trace": "Widespread dissatisfaction and short-term protest activity among affected groups. This outcome is most likely given the constraints and priors in the situation.",
+      "source": "backend",
+      "timestamp": "2026-02-13T21:26:50.847865+00:00",
+      "resolved_situation": "A government announces a sudden increase in fuel taxes, affecting commuters and small businesses. Key segment: City Commuters. Profile context: City Commuters is a group profile. Updated profile: commuters with moderate protest propensity. Attributes: city: New York; segment: daily commuters.",
+      "profiles_used": [
+        {
+          "tag": "city_commuters",
+          "name": "City Commuters"
+        }
+      ]
+    },
+    "started_at": "2026-02-13T21:27:53.834033+00:00",
+    "expected_at": null,
+    "actual_at": "2026-02-13T21:28:13.829975+00:00",
+    "vote": "accurate",
+    "actual_outcome": null,
+    "status": "resolved",
+    "created_at": "2026-02-13T21:27:53.834059+00:00",
+    "updated_at": "2026-02-13T21:28:13.830009+00:00"
+  },
+  {
+    "id": "3f9103b4-e4ca-429c-a794-fc40caacdf27",
+    "situation": "A government announces a sudden increase in fuel taxes, affecting commuters and small businesses. Key segment: @city_commuters.",
+    "prediction": {
+      "predicted_outcome": {
+        "id": "dissatisfaction_protest",
+        "label": "Widespread dissatisfaction and short-term protest activity among affected groups.",
+        "confidence": 0.67,
+        "rationale": [
+          "collective grievance",
+          "cost shock"
+        ]
+      },
+      "explanation": "Widespread dissatisfaction and short-term protest activity among affected groups. This outcome is most likely given the constraints and priors in the situation.",
+      "horizon": "weeks",
+      "mode": "C",
+      "alternatives": [
+        {
+          "id": "quiet_acceptance",
+          "label": "Most people accept the change without organized protest.",
+          "confidence": 0.3,
+          "rationale": [
+            "adaptation",
+            "cost absorption"
+          ]
+        }
+      ],
+      "factors": [
+        {
+          "name": "tax enforcement",
+          "role": "This acts as a hard boundary that limits which actions are safe or institutionally acceptable.",
+          "category": "constraint"
+        },
+        {
+          "name": "public protest channels",
+          "role": "This creates a practical opening that makes the predicted behavior more available in the current environment.",
+          "category": "affordance"
+        },
+        {
+          "name": "collective grievance",
+          "role": "This prior biases decision-making and increases the likelihood of the dominant response pattern.",
+          "category": "prior"
+        },
+        {
+          "name": "cost sensitivity",
+          "role": "This prior biases decision-making and increases the likelihood of the dominant response pattern.",
+          "category": "prior"
+        }
+      ],
+      "trace": "Widespread dissatisfaction and short-term protest activity among affected groups. This outcome is most likely given the constraints and priors in the situation.",
+      "source": "backend",
+      "timestamp": "2026-02-13T21:33:47.235785+00:00",
+      "resolved_situation": "A government announces a sudden increase in fuel taxes, affecting commuters and small businesses. Key segment: City Commuters. Profile context: City Commuters is a group profile. Updated profile: commuters with moderate protest propensity. Attributes: city: New York; segment: daily commuters.",
+      "profiles_used": [
+        {
+          "tag": "city_commuters",
+          "name": "City Commuters"
+        }
+      ]
+    },
+    "started_at": "2026-02-13T21:34:50.284937+00:00",
+    "expected_at": null,
+    "actual_at": "2026-02-13T21:35:10.508241+00:00",
+    "vote": "accurate",
+    "actual_outcome": null,
+    "status": "resolved",
+    "created_at": "2026-02-13T21:34:50.284997+00:00",
+    "updated_at": "2026-02-13T21:35:10.508265+00:00"
+  },
+  {
+    "id": "c1f83a06-cef2-4c9f-816c-6adbcc3468a6",
+    "situation": "A government announces a sudden increase in fuel taxes, affecting commuters and small businesses. Key segment: @city_commuters.",
+    "prediction": {
+      "predicted_outcome": {
+        "id": "dissatisfaction_protest",
+        "label": "Widespread dissatisfaction and short-term protest activity among affected groups.",
+        "confidence": 0.67,
+        "rationale": [
+          "collective grievance",
+          "cost shock"
+        ]
+      },
+      "explanation": "Widespread dissatisfaction and short-term protest activity among affected groups. This outcome is most likely given the constraints and priors in the situation.",
+      "horizon": "weeks",
+      "mode": "C",
+      "alternatives": [
+        {
+          "id": "quiet_acceptance",
+          "label": "Most people accept the change without organized protest.",
+          "confidence": 0.3,
+          "rationale": [
+            "adaptation",
+            "cost absorption"
+          ]
+        }
+      ],
+      "factors": [
+        {
+          "name": "tax enforcement",
+          "role": "This acts as a hard boundary that limits which actions are safe or institutionally acceptable.",
+          "category": "constraint"
+        },
+        {
+          "name": "public protest channels",
+          "role": "This creates a practical opening that makes the predicted behavior more available in the current environment.",
+          "category": "affordance"
+        },
+        {
+          "name": "collective grievance",
+          "role": "This prior biases decision-making and increases the likelihood of the dominant response pattern.",
+          "category": "prior"
+        },
+        {
+          "name": "cost sensitivity",
+          "role": "This prior biases decision-making and increases the likelihood of the dominant response pattern.",
+          "category": "prior"
+        }
+      ],
+      "trace": "Widespread dissatisfaction and short-term protest activity among affected groups. This outcome is most likely given the constraints and priors in the situation.",
+      "source": "backend",
+      "timestamp": "2026-02-13T21:40:58.212441+00:00",
+      "resolved_situation": "A government announces a sudden increase in fuel taxes, affecting commuters and small businesses. Key segment: City Commuters. Profile context: City Commuters is a group profile. Updated profile: commuters with moderate protest propensity. Attributes: city: New York; segment: daily commuters.",
+      "profiles_used": [
+        {
+          "tag": "city_commuters",
+          "name": "City Commuters"
+        }
+      ]
+    },
+    "started_at": "2026-02-13T21:42:10.657390+00:00",
+    "expected_at": null,
+    "actual_at": "2026-02-13T21:42:30.710405+00:00",
+    "vote": "accurate",
+    "actual_outcome": null,
+    "status": "resolved",
+    "created_at": "2026-02-13T21:42:10.657419+00:00",
+    "updated_at": "2026-02-13T21:42:30.710429+00:00"
   }
 ]

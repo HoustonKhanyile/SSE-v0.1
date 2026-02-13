@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>SSE v0.1 Demo UI</title>
-    <link rel="stylesheet" href="/static/styles.css?v=10" />
+    <link rel="stylesheet" href="/static/styles.css?v=13" />
   </head>
   <body>
     <div class="top-links">
@@ -41,11 +41,41 @@
         <div id="profile-mentions" class="profile-mentions"></div>
         <div class="actions">
           <button id="run" class="btn">Run SSE</button>
+          <button id="compare-toggle" class="btn btn-ghost" aria-expanded="false" aria-controls="compare-panel">
+            Compare Mode
+          </button>
+          <button id="timeline-toggle" class="btn btn-ghost" aria-expanded="false" aria-controls="timeline-panel">
+            Timeline Replay
+          </button>
           <button id="semantics-toggle" class="btn btn-ghost" aria-expanded="false" aria-controls="semantics-panel">
             Semantics
           </button>
           <span id="hint" class="hint">Use profile tags in text, for example: @city_commuters</span>
         </div>
+        <section id="compare-panel" class="compare-panel hidden" aria-live="polite">
+          <label class="label" for="variant-situation">Variant Situation</label>
+          <textarea
+            id="variant-situation"
+            class="input"
+            placeholder="Change one variable for counterfactual comparison..."
+            rows="3"
+          ></textarea>
+          <div class="actions">
+            <button id="run-compare" class="btn">Run Compare</button>
+          </div>
+        </section>
+        <section id="timeline-panel" class="compare-panel hidden" aria-live="polite">
+          <div class="semantics-header">
+            <h3>Timeline Checkpoints</h3>
+            <div class="semantics-header-actions">
+              <button id="timeline-add" type="button" class="icon-btn" aria-label="Add timeline checkpoint">+</button>
+            </div>
+          </div>
+          <div id="timeline-rows" class="semantics-grid"></div>
+          <div class="actions">
+            <button id="run-timeline" class="btn">Run Timeline</button>
+          </div>
+        </section>
         <section id="semantics-panel" class="semantics-panel hidden" aria-live="polite">
           <div class="semantics-header">
             <h3>Situation Semantics</h3>
@@ -73,6 +103,45 @@
         </div>
         <div class="more">
           <a href="#" id="toggle" class="toggle" aria-controls="sidebar" aria-expanded="false">&gt;</a>
+        </div>
+      </section>
+
+      <section id="compare-output" class="output hidden" aria-live="polite">
+        <div class="output-header">
+          <h2>Counterfactual Compare</h2>
+          <span class="mode" id="compare-delta">Delta 0.00</span>
+        </div>
+        <div class="compare-grid">
+          <article class="compare-card">
+            <h3>Base</h3>
+            <p id="compare-base-outcome" class="explanation"></p>
+            <p id="compare-base-meta" class="trace"></p>
+          </article>
+          <article class="compare-card">
+            <h3>Variant</h3>
+            <p id="compare-variant-outcome" class="explanation"></p>
+            <p id="compare-variant-meta" class="trace"></p>
+          </article>
+        </div>
+        <div class="compare-diffs">
+          <p class="block-title">Added Factors</p>
+          <p id="compare-added" class="trace"></p>
+          <p class="block-title">Removed Factors</p>
+          <p id="compare-removed" class="trace"></p>
+          <p class="block-title">Shared Factors</p>
+          <p id="compare-shared" class="trace"></p>
+        </div>
+      </section>
+
+      <section id="timeline-output" class="output hidden" aria-live="polite">
+        <div class="output-header">
+          <h2>Timeline Replay</h2>
+          <span class="mode" id="timeline-trend">Trend</span>
+        </div>
+        <div id="timeline-steps-list" class="compare-diffs"></div>
+        <div class="compare-diffs">
+          <p class="block-title">Inflection Points</p>
+          <p id="timeline-inflections" class="trace"></p>
         </div>
       </section>
     </main>
@@ -124,6 +193,22 @@
           <li><strong>Affordance:</strong> Contextual opportunity enabling specific action.</li>
           <li><strong>Prior:</strong> Baseline tendency that biases action selection.</li>
           <li><strong>Trace:</strong> Explanation path from factors to outcome.</li>
+          <li><strong>Actor Profile:</strong> Saved individual/group/population context reused across queries.</li>
+          <li><strong>Profile Tag:</strong> `@tag` reference that injects profile context into inference.</li>
+          <li><strong>Create Profile:</strong> Page for creating and listing reusable actor profiles.</li>
+          <li><strong>Profile Detail:</strong> Page for viewing and updating one profile.</li>
+          <li><strong>Counterfactual Compare:</strong> Side-by-side base vs variant scenario analysis.</li>
+          <li><strong>Base Situation:</strong> Reference case used as comparison anchor.</li>
+          <li><strong>Variant Situation:</strong> Modified case used to measure outcome differences.</li>
+          <li><strong>Confidence Delta:</strong> Confidence change from base to variant prediction.</li>
+          <li><strong>Factor Diff:</strong> Added/removed/shared factors between scenarios.</li>
+          <li><strong>Timeline Replay:</strong> Sequential checkpoint simulation over evolving situations.</li>
+          <li><strong>Checkpoint:</strong> A labeled timeline step (`T1`, `T2`, ...) with updated situation text.</li>
+          <li><strong>Confidence Trend:</strong> Confidence values tracked across timeline checkpoints.</li>
+          <li><strong>Inflection Point:</strong> Step where dominant outcome or mode changes.</li>
+          <li><strong>Tracking:</strong> Saved prediction monitored until real-world outcome is known.</li>
+          <li><strong>Accuracy Vote:</strong> Post-event user judgment: accurate or inaccurate.</li>
+          <li><strong>Actual Outcome Note:</strong> User-entered description of what really happened.</li>
         </ul>
       </section>
     </div>
@@ -135,6 +220,6 @@
       <a href="/static/about.html">Read full SSE scope.</a>
     </footer>
 
-    <script src="/static/app.js?v=10"></script>
+    <script src="/static/app.js?v=13"></script>
   </body>
 </html>
