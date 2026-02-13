@@ -5,6 +5,7 @@ const semanticsAddButton = document.getElementById("semantics-add");
 const situationInput = document.getElementById("situation");
 const semanticsPanel = document.getElementById("semantics-panel");
 const semanticsRowsEl = document.getElementById("semantics-rows");
+const profileMentionsEl = document.getElementById("profile-mentions");
 const output = document.getElementById("output");
 const outcomeEl = document.getElementById("outcome");
 const explanationEl = document.getElementById("explanation");
@@ -23,6 +24,27 @@ const metaSourceEl = document.getElementById("meta-source");
 const metaTimeEl = document.getElementById("meta-time");
 let semanticsState = [];
 let lastPredictionPayload = null;
+const MENTION_RE = /@([A-Za-z0-9_-]+)/g;
+
+function renderProfileMentionLinks() {
+  const text = situationInput.value || "";
+  const tags = Array.from(text.matchAll(MENTION_RE)).map((m) => m[1]);
+  const uniqueTags = [...new Set(tags)];
+
+  profileMentionsEl.innerHTML = "";
+  if (!uniqueTags.length) {
+    return;
+  }
+
+  uniqueTags.forEach((tag) => {
+    const link = document.createElement("a");
+    link.className = "mention-link";
+    link.href = `/static/profile.html?tag=${encodeURIComponent(tag)}`;
+    link.textContent = `@${tag}`;
+    link.title = `Open profile @${tag}`;
+    profileMentionsEl.appendChild(link);
+  });
+}
 
 function renderSemanticsRows() {
   semanticsRowsEl.innerHTML = "";
@@ -276,6 +298,7 @@ async function runSse() {
 
 runButton.addEventListener("click", runSse);
 semanticsRunButton.addEventListener("click", runSse);
+situationInput.addEventListener("input", renderProfileMentionLinks);
 
 semanticsToggleButton.addEventListener("click", async () => {
   const isHidden = semanticsPanel.classList.contains("hidden");
@@ -354,3 +377,4 @@ window.addEventListener("keydown", (event) => {
 });
 
 closeSidebar();
+renderProfileMentionLinks();

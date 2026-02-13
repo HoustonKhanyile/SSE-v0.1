@@ -1,0 +1,116 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Source+Serif+4:wght@400;600&display=swap");
+
+:root {
+  --bg: #0c0f1a;
+  --panel: rgba(18, 23, 38, 0.92);
+  --border: rgba(255, 255, 255, 0.12);
+  --text: #f5f7ff;
+  --muted: #a6b0c8;
+  --accent: #48d7ff;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  color: var(--text);
+  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+  background: radial-gradient(circle at 10% 10%, #1a2747 0%, var(--bg) 45%);
+}
+
+.wrap {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 48px 20px 80px;
+  display: grid;
+  gap: 14px;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.home {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px;
+}
+
+h1, h2 {
+  margin: 0;
+}
+
+h2 {
+  margin-bottom: 10px;
+  color: var(--accent);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.form {
+  display: grid;
+  gap: 8px;
+}
+
+label {
+  color: var(--muted);
+  font-family: "Source Serif 4", "Times New Roman", serif;
+  display: grid;
+  gap: 4px;
+}
+
+input, select, textarea {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  padding: 10px;
+  font-family: "Source Serif 4", "Times New Roman", serif;
+}
+
+.btn {
+  border: none;
+  border-radius: 999px;
+  padding: 10px 16px;
+  background: linear-gradient(120deg, #ffb347, #ff7a4d);
+  color: #1b1207;
+  font-weight: 700;
+  width: fit-content;
+  cursor: pointer;
+}
+
+.hint, .status {
+  color: var(--muted);
+}
+
+.profiles {
+  display: grid;
+  gap: 8px;
+}
+
+.profile {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px;
+  display: grid;
+  gap: 4px;
+}
+
+.profile-link {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+code {
+  color: var(--accent);
+}

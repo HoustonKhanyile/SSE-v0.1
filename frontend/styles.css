@@ -25,15 +25,23 @@ body {
   overflow-x: hidden;
 }
 
-.tracking-link {
+.top-links {
   position: fixed;
   top: 18px;
   right: 18px;
   z-index: 12;
-  text-decoration: none;
+  display: flex;
+  gap: 8px;
 }
 
-.tracking-icon {
+.tracking-link,
+.profile-link {
+  text-decoration: none;
+  display: inline-flex;
+}
+
+.tracking-icon,
+.profile-icon {
   width: 38px;
   height: 38px;
   border-radius: 50%;
@@ -44,6 +52,11 @@ body {
   background: rgba(15, 21, 38, 0.9);
   color: var(--accent-2);
   font-weight: 700;
+}
+
+.profile-icon {
+  border-color: rgba(255, 179, 71, 0.5);
+  color: var(--accent);
 }
 
 .bg {
@@ -154,6 +167,25 @@ body {
   outline: none;
   border-color: rgba(255, 179, 71, 0.6);
   box-shadow: 0 0 0 4px rgba(255, 179, 71, 0.15);
+}
+
+.profile-mentions {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.mention-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(72, 215, 255, 0.35);
+  background: rgba(72, 215, 255, 0.08);
+  color: var(--accent-2);
+  text-decoration: none;
+  font-size: 12px;
 }
 
 .actions {
@@ -603,7 +635,7 @@ body {
     bottom: 48px;
   }
 
-  .tracking-link {
+  .top-links {
     top: 10px;
     right: 10px;
   }

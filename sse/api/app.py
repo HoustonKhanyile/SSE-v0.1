@@ -10,6 +10,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from sse.orchestrator import RunConfig, run_sse_with_trace
+from sse.profiles import create_profile, get_profile, list_profiles, resolve_profiles_in_text, update_profile
 from sse.ssm import parse_situation
 from sse.tracking import (
     create_tracking_item,
@@ -63,10 +64,26 @@ class TrackingVoteRequest(BaseModel):
     actual_at: str | None = None
 
 
+class ProfileCreateRequest(BaseModel):
+    name: str
+    profile_type: str
+    description: str = ""
+    attributes: dict[str, str] | None = None
+    tag: str | None = None
+
+
+class ProfileUpdateRequest(BaseModel):
+    name: str | None = None
+    profile_type: str | None = None
+    description: str | None = None
+    attributes: dict[str, str] | None = None
+
+
 @app.post("/api/predict")
 def predict(request: PredictRequest) -> dict:
+    resolved_situation, profiles_used = resolve_profiles_in_text(request.situation)
     result, trace = run_sse_with_trace(
-        request.situation,
+        resolved_situation,
         RunConfig(depth=request.depth, include_alternatives=request.alternatives),
     )
     payload = result.to_dict()
@@ -77,22 +94,71 @@ def predict(request: PredictRequest) -> dict:
     payload["trace"] = trace.summary
     payload["source"] = "backend"
     payload["timestamp"] = datetime.now(timezone.utc).isoformat()
+    payload["resolved_situation"] = resolved_situation
+    payload["profiles_used"] = [{"tag": p["tag"], "name": p["name"]} for p in profiles_used]
     return payload
 
 
 @app.post("/api/semantics")
 def semantics(request: SemanticsRequest) -> dict:
-    parsed = parse_situation(request.situation)
+    resolved_situation, profiles_used = resolve_profiles_in_text(request.situation)
+    parsed = parse_situation(resolved_situation)
     return {
-        "raw_text": parsed.raw_text,
+        "raw_text": request.situation,
+        "resolved_situation": parsed.raw_text,
         "mode": parsed.mode,
         "domain": parsed.domain,
         "conflict": parsed.conflict,
         "actors": parsed.actors,
         "institutions": parsed.institutions,
+        "profiles_used": [{"tag": p["tag"], "name": p["name"]} for p in profiles_used],
         "source": "backend",
         "timestamp": datetime.now(timezone.utc).isoformat(),
     }
+
+
+@app.post("/api/profiles")
+def create_profile_endpoint(request: ProfileCreateRequest) -> dict:
+    if request.profile_type not in {"individual", "group", "population"}:
+        return {"error": "invalid_profile_type"}
+    if not request.name.strip():
+        return {"error": "name_required"}
+    return create_profile(
+        name=request.name,
+        profile_type=request.profile_type,
+        description=request.description,
+        attributes=request.attributes,
+        tag=request.tag,
+    )
+
+
+@app.get("/api/profiles")
+def list_profiles_endpoint() -> list[dict]:
+    return list_profiles()
+
+
+@app.get("/api/profiles/{tag}")
+def get_profile_endpoint(tag: str) -> dict:
+    item = get_profile(tag)
+    if item is None:
+        return {"error": "not_found"}
+    return item
+
+
+@app.post("/api/profiles/{tag}/update")
+def update_profile_endpoint(tag: str, request: ProfileUpdateRequest) -> dict:
+    if request.profile_type is not None and request.profile_type not in {"individual", "group", "population"}:
+        return {"error": "invalid_profile_type"}
+    item = update_profile(
+        tag=tag,
+        name=request.name,
+        profile_type=request.profile_type,
+        description=request.description,
+        attributes=request.attributes,
+    )
+    if item is None:
+        return {"error": "not_found"}
+    return item
 
 
 @app.post("/api/tracking")

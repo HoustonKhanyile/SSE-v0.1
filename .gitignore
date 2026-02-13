@@ -32,3 +32,6 @@ test-results/
 scripts/record-demo.mjs
 package.json
 package-lock.json
+
+# Local runtime data
+sse/data/profiles_store.json

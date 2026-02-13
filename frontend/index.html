@@ -4,12 +4,17 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>SSE v0.1 Demo UI</title>
-    <link rel="stylesheet" href="/static/styles.css?v=9" />
+    <link rel="stylesheet" href="/static/styles.css?v=10" />
   </head>
   <body>
-    <a class="tracking-link" href="/static/tracking.html" aria-label="Open tracked situations">
-      <span class="tracking-icon" aria-hidden="true">T</span>
-    </a>
+    <div class="top-links">
+      <a class="profile-link" href="/static/create-profile.html" aria-label="Open create profile page">
+        <span class="profile-icon" aria-hidden="true">P</span>
+      </a>
+      <a class="tracking-link" href="/static/tracking.html" aria-label="Open tracked situations">
+        <span class="tracking-icon" aria-hidden="true">T</span>
+      </a>
+    </div>
     <div class="bg">
       <div class="orb orb-a"></div>
       <div class="orb orb-b"></div>
@@ -33,12 +38,13 @@
           placeholder="A student considers cheating during an exam when the invigilator leaves..."
           rows="4"
         ></textarea>
+        <div id="profile-mentions" class="profile-mentions"></div>
         <div class="actions">
           <button id="run" class="btn">Run SSE</button>
           <button id="semantics-toggle" class="btn btn-ghost" aria-expanded="false" aria-controls="semantics-panel">
             Semantics
           </button>
-          <span id="hint" class="hint">Deterministic v0.1 backend.</span>
+          <span id="hint" class="hint">Use profile tags in text, for example: @city_commuters</span>
         </div>
         <section id="semantics-panel" class="semantics-panel hidden" aria-live="polite">
           <div class="semantics-header">
@@ -129,6 +135,6 @@
       <a href="/static/about.html">Read full SSE scope.</a>
     </footer>
 
-    <script src="/static/app.js?v=9"></script>
+    <script src="/static/app.js?v=10"></script>
   </body>
 </html>
