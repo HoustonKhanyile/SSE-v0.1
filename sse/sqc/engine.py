@@ -1,12 +1,13 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 from sse.contracts import Outcome
 from sse.ess import EssSnapshot
 from sse.mcm import McmPriors
 from sse.ssm import SituationSemantics
+from .srl import StrategicResult, run_strategic_reasoning
 
 
 @dataclass(frozen=True)
@@ -141,11 +142,49 @@ def compute_outcomes(
     priors: McmPriors,
     example_id: Optional[str] = None,
 ) -> List[Outcome]:
+    outcomes, _strategic = compute_outcomes_with_strategy(
+        semantics=semantics,
+        ess=ess,
+        priors=priors,
+        example_id=example_id,
+        strategic_depth_override=None,
+    )
+    return outcomes
+
+
+def compute_outcomes_with_strategy(
+    semantics: SituationSemantics,
+    ess: EssSnapshot,
+    priors: McmPriors,
+    example_id: Optional[str] = None,
+    strategic_depth_override: Optional[int] = None,
+) -> Tuple[List[Outcome], StrategicResult]:
     if example_id and example_id in _EXAMPLE_OUTCOMES:
         primary = _EXAMPLE_OUTCOMES[example_id]
     else:
         primary = _default_outcome(semantics, priors)
 
     alternatives = _default_alternatives(semantics)
+    strategic = run_strategic_reasoning(
+        semantics=semantics,
+        ess=ess,
+        priors=priors,
+        strategic_depth_override=strategic_depth_override,
+    )
 
-    return [primary] + alternatives
+    adjusted_confidence = max(0.05, min(0.95, round(primary.confidence + strategic.score_adjustment, 4)))
+    strategic_rationale = f"strategic:{strategic.chosen_action}"
+    if strategic.cascade_state:
+        strategic_rationale += ";cascade=true"
+    if strategic_rationale not in primary.rationale:
+        rationale = list(primary.rationale) + [strategic_rationale]
+    else:
+        rationale = list(primary.rationale)
+
+    adjusted_primary = Outcome(
+        id=primary.id,
+        label=primary.label,
+        confidence=adjusted_confidence,
+        rationale=rationale,
+    )
+    return [adjusted_primary] + alternatives, strategic

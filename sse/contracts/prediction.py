@@ -27,6 +27,10 @@ class PredictionResult:
     horizon: str
     mode: str
     alternatives: List[Outcome] = field(default_factory=list)
+    belief_shift_summary: str = ""
+    signal_evaluation_summary: str = ""
+    coalition_likelihood: float = 0.0
+    recursion_depth_used: int = 0
 
     def to_dict(self) -> Dict[str, Any]:
         data = {
@@ -34,6 +38,10 @@ class PredictionResult:
             "explanation": self.explanation,
             "horizon": self.horizon,
             "mode": self.mode,
+            "belief_shift_summary": self.belief_shift_summary,
+            "signal_evaluation_summary": self.signal_evaluation_summary,
+            "coalition_likelihood": self.coalition_likelihood,
+            "recursion_depth_used": self.recursion_depth_used,
         }
         if self.alternatives:
             data["alternatives"] = [o.to_dict() for o in self.alternatives]
@@ -49,3 +57,7 @@ def validate_prediction_result(result: PredictionResult) -> None:
         raise ValueError("PredictionResult.mode must be A, B, or C")
     if not result.horizon:
         raise ValueError("PredictionResult.horizon is required")
+    if not (0.0 <= result.coalition_likelihood <= 1.0):
+        raise ValueError("PredictionResult.coalition_likelihood must be in [0, 1]")
+    if result.recursion_depth_used < 0:
+        raise ValueError("PredictionResult.recursion_depth_used must be >= 0")

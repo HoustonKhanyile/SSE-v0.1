@@ -6,6 +6,9 @@ This repository implements the **Minimal Runnable Prototype (MRP v0.1)** as desc
 If you want the full spec, open:
 `readme_md_sse_minimal_runnable_prototype_v_0.md`
 
+For post-v0.1 feature additions, see:
+`SSE_updates.md`
+
 ## Project Breakdown
 
 ```

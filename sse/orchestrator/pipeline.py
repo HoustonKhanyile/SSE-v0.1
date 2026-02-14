@@ -7,7 +7,7 @@ from sse.contracts import PredictionResult, validate_prediction_result
 from sse.ess import build_snapshot
 from sse.explainer import ExplanationTrace, generate_explanation
 from sse.mcm import synthesize_priors
-from sse.sqc import compute_outcomes
+from sse.sqc import compute_outcomes_with_strategy
 from sse.ssm import parse_situation
 
 
@@ -16,6 +16,7 @@ class RunConfig:
     depth: str = "default"
     include_alternatives: bool = False
     example_id: Optional[str] = None
+    strategic_depth: Optional[int] = None
 
 
 def _infer_horizon(mode: str) -> str:
@@ -35,7 +36,13 @@ def run_sse_with_trace(
     ess = build_snapshot(semantics)
     priors = synthesize_priors(semantics)
 
-    outcomes = compute_outcomes(semantics, ess, priors, example_id=config.example_id)
+    outcomes, strategic = compute_outcomes_with_strategy(
+        semantics,
+        ess,
+        priors,
+        example_id=config.example_id,
+        strategic_depth_override=config.strategic_depth,
+    )
     primary = outcomes[0]
 
     explanation_trace = generate_explanation(
@@ -44,6 +51,9 @@ def run_sse_with_trace(
         priors=priors,
         outcome_label=primary.label,
         depth=config.depth,
+        recursion_depth_used=strategic.recursion_depth_used,
+        strategic_action=strategic.chosen_action,
+        institution_response=strategic.institution_response,
     )
 
     explanation = explanation_trace.summary
@@ -60,6 +70,10 @@ def run_sse_with_trace(
         horizon=horizon,
         mode=semantics.mode,
         alternatives=alternatives,
+        belief_shift_summary=strategic.belief_shift_summary,
+        signal_evaluation_summary=strategic.signal_evaluation_summary,
+        coalition_likelihood=strategic.coalition_likelihood,
+        recursion_depth_used=strategic.recursion_depth_used,
     )
     validate_prediction_result(result)
     return result, explanation_trace

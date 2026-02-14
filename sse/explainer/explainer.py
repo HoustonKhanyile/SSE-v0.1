@@ -27,6 +27,9 @@ def generate_explanation(
     priors: McmPriors,
     outcome_label: str,
     depth: str,
+    recursion_depth_used: int = 0,
+    strategic_action: str = "",
+    institution_response: str = "",
 ) -> ExplanationTrace:
     factors: List[FactorInsight] = []
     factors.extend(
@@ -78,5 +81,22 @@ def generate_explanation(
         summary = "This outcome is most likely given the constraints and priors in the situation."
 
     summary = f"{outcome_label} {summary}"
+    summary += f" Strategic recursion depth D={recursion_depth_used} was used for opponent modeling."
+    if strategic_action:
+        factors.append(
+            FactorInsight(
+                name=f"strategic action: {strategic_action}",
+                role="This strategic action maximized deterministic multi-agent payoff under bounded recursion.",
+                category="strategic",
+            )
+        )
+    if institution_response:
+        factors.append(
+            FactorInsight(
+                name=f"institution response: {institution_response}",
+                role="Institutional response altered second-order incentives and final outcome confidence.",
+                category="strategic",
+            )
+        )
 
     return ExplanationTrace(summary=summary, factors=factors)

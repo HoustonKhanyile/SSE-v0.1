@@ -45,6 +45,7 @@ class PredictRequest(BaseModel):
     situation: str
     depth: str = "default"
     alternatives: bool = False
+    strategic_depth: int | None = None
 
 
 class CompareRequest(BaseModel):
@@ -52,6 +53,7 @@ class CompareRequest(BaseModel):
     variant_situation: str
     depth: str = "default"
     alternatives: bool = False
+    strategic_depth: int | None = None
 
 
 class TimelineCheckpoint(BaseModel):
@@ -64,6 +66,7 @@ class TimelineRequest(BaseModel):
     checkpoints: list[TimelineCheckpoint]
     depth: str = "default"
     alternatives: bool = False
+    strategic_depth: int | None = None
 
 
 class SemanticsRequest(BaseModel):
@@ -102,11 +105,16 @@ def _build_prediction_payload(
     raw_situation: str,
     depth: str = "default",
     include_alternatives: bool = False,
+    strategic_depth: int | None = None,
 ) -> dict:
     resolved_situation, profiles_used = resolve_profiles_in_text(raw_situation)
     result, trace = run_sse_with_trace(
         resolved_situation,
-        RunConfig(depth=depth, include_alternatives=include_alternatives),
+        RunConfig(
+            depth=depth,
+            include_alternatives=include_alternatives,
+            strategic_depth=strategic_depth,
+        ),
     )
     payload = result.to_dict()
     payload["factors"] = [
@@ -127,6 +135,7 @@ def predict(request: PredictRequest) -> dict:
         raw_situation=request.situation,
         depth=request.depth,
         include_alternatives=request.alternatives,
+        strategic_depth=request.strategic_depth,
     )
 
 
@@ -136,11 +145,13 @@ def compare(request: CompareRequest) -> dict:
         raw_situation=request.base_situation,
         depth=request.depth,
         include_alternatives=request.alternatives,
+        strategic_depth=request.strategic_depth,
     )
     variant_payload = _build_prediction_payload(
         raw_situation=request.variant_situation,
         depth=request.depth,
         include_alternatives=request.alternatives,
+        strategic_depth=request.strategic_depth,
     )
 
     base_factors = {f["name"] for f in base_payload.get("factors", [])}
@@ -177,6 +188,7 @@ def timeline(request: TimelineRequest) -> dict:
             raw_situation=checkpoint.situation,
             depth=request.depth,
             include_alternatives=request.alternatives,
+            strategic_depth=request.strategic_depth,
         )
         step = {
             "index": idx,
