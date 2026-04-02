@@ -35,3 +35,8 @@ package-lock.json
 
 # Local runtime data
 sse/data/profiles_store.json
+
+# Local landing-page work (not for this repo)
+SSE landing page.md
+SSE logo.png
+sse-landing/

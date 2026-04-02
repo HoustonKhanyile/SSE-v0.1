@@ -3,223 +3,380 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>SSE v0.1 Demo UI</title>
-    <link rel="stylesheet" href="/static/styles.css?v=13" />
+    <title>SSE Daily Forecast Utility</title>
+    <link rel="stylesheet" href="/static/styles.css?v=17" />
   </head>
   <body>
-    <div class="top-links">
-      <a class="profile-link" href="/static/create-profile.html" aria-label="Open create profile page">
-        <span class="profile-icon" aria-hidden="true">P</span>
-      </a>
-      <a class="tracking-link" href="/static/tracking.html" aria-label="Open tracked situations">
-        <span class="tracking-icon" aria-hidden="true">T</span>
-      </a>
-    </div>
     <div class="bg">
-      <div class="orb orb-a"></div>
-      <div class="orb orb-b"></div>
-      <div class="grid"></div>
+      <div class="flare flare-a"></div>
+      <div class="flare flare-b"></div>
+      <div class="mesh"></div>
     </div>
 
-    <main class="app">
-      <header class="header">
-        <p class="kicker">Social Simulation Engine</p>
-        <h1>Situation-to-Outcome Prototype</h1>
-        <p class="subhead">
-          Type a situation. SSE returns a dominant outcome and a traceable explanation.
+    <button id="query-menu-btn" class="rail-btn rail-left" type="button" aria-label="Open saved forecasts" aria-expanded="false">History</button>
+    <button id="reputation-btn" class="rail-btn rail-right" type="button" aria-label="Open judgment profile" aria-expanded="false">Profile</button>
+
+    <main class="shell">
+      <section class="hero">
+        <p class="eyebrow">Social Simulation Engine</p>
+        <h1>Before making the move, check SSE.</h1>
+        <p class="hero-copy">
+          SSE is a human forecast utility for consequential situations. Describe what is happening, test the move, and get a concise forecast before you act.
         </p>
-      </header>
-
-      <section class="panel">
-        <label class="label" for="situation">Situation Text</label>
-        <textarea
-          id="situation"
-          class="input"
-          placeholder="A student considers cheating during an exam when the invigilator leaves..."
-          rows="4"
-        ></textarea>
-        <div id="profile-mentions" class="profile-mentions"></div>
-        <div class="actions">
-          <button id="run" class="btn">Run SSE</button>
-          <button id="compare-toggle" class="btn btn-ghost" aria-expanded="false" aria-controls="compare-panel">
-            Compare Mode
-          </button>
-          <button id="timeline-toggle" class="btn btn-ghost" aria-expanded="false" aria-controls="timeline-panel">
-            Timeline Replay
-          </button>
-          <button id="semantics-toggle" class="btn btn-ghost" aria-expanded="false" aria-controls="semantics-panel">
-            Semantics
-          </button>
-          <span id="hint" class="hint">Use profile tags in text, for example: @city_commuters</span>
+        <div class="hero-points">
+          <span>Reads situations, not just words</span>
+          <span>Advisory, not absolute</span>
+          <span>Designed for real use before important action</span>
         </div>
-        <section id="compare-panel" class="compare-panel hidden" aria-live="polite">
-          <label class="label" for="variant-situation">Variant Situation</label>
-          <textarea
-            id="variant-situation"
-            class="input"
-            placeholder="Change one variable for counterfactual comparison..."
-            rows="3"
-          ></textarea>
-          <div class="actions">
-            <button id="run-compare" class="btn">Run Compare</button>
+      </section>
+
+      <section class="panel onboarding">
+        <div class="panel-head">
+          <div>
+            <p class="section-kicker">Onboarding</p>
+            <h2>Start with a real situation</h2>
           </div>
-        </section>
-        <section id="timeline-panel" class="compare-panel hidden" aria-live="polite">
-          <div class="semantics-header">
-            <h3>Timeline Checkpoints</h3>
-            <div class="semantics-header-actions">
-              <button id="timeline-add" type="button" class="icon-btn" aria-label="Add timeline checkpoint">+</button>
+          <p class="panel-note">The fastest way to understand SSE is to use it on something you may actually do.</p>
+        </div>
+        <div class="example-chips">
+          <button class="chip" type="button" data-example="I need to send a difficult message to my manager about workload.">Difficult message</button>
+          <button class="chip" type="button" data-example="I want to ask for something important without creating defensiveness.">Important ask</button>
+          <button class="chip" type="button" data-example="I think this conversation could go badly if I push too hard.">Possible escalation</button>
+          <button class="chip" type="button" data-example="I want to know whether to push or wait before I bring this up.">Push or wait</button>
+        </div>
+      </section>
+
+      <section class="panel composer">
+        <div class="panel-head">
+          <div>
+            <p class="section-kicker">Forecast Workspace</p>
+            <h2>Read the situation</h2>
+          </div>
+          <div class="workspace-head-actions">
+            <div class="mini-menu" id="workspace-mode-menu">
+              <button class="mini-menu-btn active" type="button" data-workspace-mode="forecast">Forecast</button>
+              <button class="mini-menu-btn" type="button" data-workspace-mode="general">General</button>
+            </div>
+            <p id="mode-description" class="panel-note">Fast forecast for a described scenario.</p>
+          </div>
+        </div>
+
+        <div id="forecast-workspace">
+          <div class="feature-tabs" id="feature-tabs">
+            <button class="feature-tab active" type="button" data-feature="situation_check">Situation Check</button>
+            <button class="feature-tab" type="button" data-feature="move_evaluator">Move Evaluator</button>
+            <button class="feature-tab" type="button" data-feature="timing_checker">Timing Checker</button>
+            <button class="feature-tab" type="button" data-feature="framing_optimizer">Framing Optimizer</button>
+          </div>
+
+          <label class="field">
+            <span>Situation</span>
+            <textarea id="situation" rows="5" placeholder="Describe the real situation you are trying to read."></textarea>
+          </label>
+
+          <div class="field-grid">
+            <label class="field">
+              <span>Role tags</span>
+              <input id="role-tags" type="text" placeholder="manager, partner, friend, client, team" />
+            </label>
+            <label class="field">
+              <span>Urgency</span>
+              <select id="urgency">
+                <option value="normal" selected>Normal</option>
+                <option value="medium">High attention</option>
+                <option value="high">High-stakes</option>
+              </select>
+            </label>
+          </div>
+
+          <div id="move-fields" class="field-group hidden">
+            <label class="field">
+              <span>Intended move or draft message</span>
+              <textarea id="intended-move" rows="4" placeholder="What are you planning to say or do?"></textarea>
+            </label>
+          </div>
+
+          <div id="timing-fields" class="field-group hidden">
+            <label class="field">
+              <span>Intended timing</span>
+              <input id="intended-timing" type="text" placeholder="now, tomorrow morning, after the meeting, next week" />
+            </label>
+          </div>
+
+          <div id="framing-fields" class="field-group hidden">
+            <label class="field">
+              <span>Desired outcome</span>
+              <input id="desired-outcome" type="text" placeholder="What result are you hoping to create?" />
+            </label>
+          </div>
+
+          <div class="composer-actions">
+            <button id="run" class="primary-action" type="button">Check SSE</button>
+            <p class="field-hint">Use SSE before consequential action. Return after you act to reflect on the outcome.</p>
+          </div>
+        </div>
+
+        <div id="general-workspace" class="hidden">
+          <label class="field">
+            <span>Situation Text</span>
+            <textarea id="general-situation" rows="5" placeholder="A student considers cheating during an exam when the invigilator leaves..."></textarea>
+          </label>
+          <div class="field-grid">
+            <label class="field">
+              <span>Query Mode</span>
+              <select id="general-query-mode">
+                <option value="general" selected>General</option>
+                <option value="phenomenon">Phenomenon</option>
+              </select>
+            </label>
+            <div class="field field-static">
+              <span>Hint</span>
+              <p id="general-hint" class="field-hint">General mode: optional profile tags, for example @city_commuters.</p>
             </div>
           </div>
-          <div id="timeline-rows" class="semantics-grid"></div>
-          <div class="actions">
-            <button id="run-timeline" class="btn">Run Timeline</button>
+          <div class="composer-actions">
+            <button id="general-run" class="primary-action" type="button">Run SSE</button>
+            <button id="general-compare-toggle" class="ghost-action" type="button">Compare Mode</button>
+            <button id="general-timeline-toggle" class="ghost-action" type="button">Timeline Replay</button>
+            <button id="general-semantics-toggle" class="ghost-action" type="button">Semantics</button>
           </div>
-        </section>
-        <section id="semantics-panel" class="semantics-panel hidden" aria-live="polite">
-          <div class="semantics-header">
-            <h3>Situation Semantics</h3>
-            <div class="semantics-header-actions">
-              <button id="semantics-add" type="button" class="icon-btn" aria-label="Add user variable">+</button>
-              <button id="semantics-run" class="btn btn-small">Run SSE</button>
+          <div class="workspace-links">
+            <a class="workspace-link" href="/static/create-profile.html">Create Profile</a>
+            <a class="workspace-link" href="/static/tracking.html">Tracked Situations</a>
+          </div>
+
+          <section id="general-compare-panel" class="sub-panel hidden">
+            <label class="field">
+              <span>Variant Situation</span>
+              <textarea id="general-variant-situation" rows="3" placeholder="Change one variable for counterfactual comparison..."></textarea>
+            </label>
+            <button id="general-run-compare" class="primary-action secondary" type="button">Run Compare</button>
+          </section>
+
+          <section id="general-timeline-panel" class="sub-panel hidden">
+            <div class="sub-panel-head">
+              <h3>Timeline Checkpoints</h3>
+              <button id="general-timeline-add" class="ghost-action" type="button">Add</button>
             </div>
+            <div id="general-timeline-rows" class="timeline-rows"></div>
+            <button id="general-run-timeline" class="primary-action secondary" type="button">Run Timeline</button>
+          </section>
+
+          <section id="general-semantics-panel" class="sub-panel hidden">
+            <div class="sub-panel-head">
+              <h3>Situation Semantics</h3>
+            </div>
+            <div id="general-semantics-rows" class="semantics-rows"></div>
+          </section>
+        </div>
+      </section>
+
+      <section id="output" class="panel forecast hidden" aria-live="polite">
+        <div class="forecast-topline">
+          <div>
+            <p class="section-kicker">Forecast</p>
+            <h2 id="summary-title">Situation summary</h2>
           </div>
-          <div id="semantics-rows" class="semantics-grid">
+          <div class="confidence-note" id="confidence-note"></div>
+        </div>
+
+        <div id="warning-banner" class="warning hidden">
+          <strong id="warning-label"></strong>
+          <p id="warning-text"></p>
+        </div>
+
+        <div class="metric-grid" id="metric-grid"></div>
+
+        <div class="posture-card">
+          <div>
+            <p class="label">Recommended posture</p>
+            <h3 id="recommended-posture"></h3>
           </div>
-        </section>
-      </section>
+          <p id="likely-outcome" class="posture-outcome"></p>
+        </div>
 
-      <section id="output" class="output hidden" aria-live="polite">
-        <div class="output-header">
-          <h2>PredictionResult</h2>
-          <span class="mode" id="mode">Mode B</span>
-        </div>
-        <p class="outcome" id="outcome"></p>
-        <p class="explanation" id="explanation"></p>
-        <div class="meta">
-          <span id="horizon"></span>
-          <span id="confidence"></span>
-          <button id="track-situation" class="btn btn-small btn-ghost">Track Situation</button>
-        </div>
-        <div class="more">
-          <a href="#" id="toggle" class="toggle" aria-controls="sidebar" aria-expanded="false">&gt;</a>
-        </div>
-      </section>
-
-      <section id="compare-output" class="output hidden" aria-live="polite">
-        <div class="output-header">
-          <h2>Counterfactual Compare</h2>
-          <span class="mode" id="compare-delta">Delta 0.00</span>
-        </div>
-        <div class="compare-grid">
-          <article class="compare-card">
-            <h3>Base</h3>
-            <p id="compare-base-outcome" class="explanation"></p>
-            <p id="compare-base-meta" class="trace"></p>
+        <div class="forecast-body">
+          <article class="insight-block">
+            <p class="label">Why this forecast</p>
+            <p id="reasoning-summary"></p>
           </article>
-          <article class="compare-card">
-            <h3>Variant</h3>
-            <p id="compare-variant-outcome" class="explanation"></p>
-            <p id="compare-variant-meta" class="trace"></p>
+          <article class="insight-block">
+            <p class="label">Next step</p>
+            <p id="next-step"></p>
           </article>
         </div>
-        <div class="compare-diffs">
-          <p class="block-title">Added Factors</p>
-          <p id="compare-added" class="trace"></p>
-          <p class="block-title">Removed Factors</p>
-          <p id="compare-removed" class="trace"></p>
-          <p class="block-title">Shared Factors</p>
-          <p id="compare-shared" class="trace"></p>
+
+        <div id="feature-output" class="feature-output hidden">
+          <p class="label" id="feature-output-label"></p>
+          <div id="feature-output-body" class="feature-output-body"></div>
+        </div>
+
+        <details class="details">
+          <summary>Show deeper reasoning</summary>
+          <div class="details-grid">
+            <article>
+              <p class="label">Engine explanation</p>
+              <p id="explanation"></p>
+            </article>
+            <article>
+              <p class="label">Primary factors</p>
+              <ul id="factors" class="stack-list"></ul>
+            </article>
+            <article>
+              <p class="label">Alternative directions</p>
+              <ul id="alternatives" class="stack-list"></ul>
+            </article>
+            <article>
+              <p class="label">Metadata</p>
+              <p id="meta"></p>
+            </article>
+          </div>
+        </details>
+      </section>
+
+      <section id="reflection-panel" class="panel reflection hidden">
+        <div class="panel-head">
+          <div>
+            <p class="section-kicker">Outcome Reflection</p>
+            <h2>Compare the forecast to what happened</h2>
+          </div>
+        </div>
+        <div class="field-grid">
+          <label class="field">
+            <span>Action taken</span>
+            <textarea id="action-taken" rows="3" placeholder="What did you actually do?"></textarea>
+          </label>
+          <label class="field">
+            <span>Outcome summary</span>
+            <textarea id="outcome-summary" rows="3" placeholder="What happened in real life?"></textarea>
+          </label>
+        </div>
+        <div class="reflection-actions">
+          <div class="accuracy-toggle">
+            <button class="accuracy-btn active" type="button" data-accuracy="accurate">Forecast felt accurate</button>
+            <button class="accuracy-btn" type="button" data-accuracy="inaccurate">Forecast missed</button>
+          </div>
+          <button id="save-reflection" class="primary-action secondary" type="button">Save reflection</button>
+        </div>
+        <div id="reflection-output" class="reflection-output hidden"></div>
+      </section>
+
+      <section id="general-output" class="panel hidden">
+        <div class="forecast-topline">
+          <div>
+            <p class="section-kicker">General Output</p>
+            <h2 id="general-output-title">PredictionResult</h2>
+          </div>
+          <div class="confidence-note" id="general-mode-label">Mode</div>
+        </div>
+        <p id="general-outcome" class="posture-outcome"></p>
+        <p id="general-explanation" class="panel-note"></p>
+        <div class="metric-grid compact">
+          <article class="metric-card"><p>Horizon</p><strong id="general-horizon"></strong></article>
+          <article class="metric-card"><p>Confidence</p><strong id="general-confidence"></strong></article>
+        </div>
+        <div class="forecast-body">
+          <article class="insight-block">
+            <p class="label">Primary factors</p>
+            <ul id="general-factors" class="stack-list"></ul>
+          </article>
+          <article class="insight-block">
+            <p class="label">Alternatives</p>
+            <ul id="general-alternatives" class="stack-list"></ul>
+          </article>
+        </div>
+        <article id="general-breakdown" class="insight-block hidden">
+          <p class="label">Phenomenon breakdown</p>
+          <div id="general-breakdown-body" class="feature-output-body"></div>
+        </article>
+        <article class="insight-block">
+          <p class="label">Trace</p>
+          <p id="general-trace"></p>
+        </article>
+        <div class="composer-actions">
+          <button id="general-track-situation" class="primary-action secondary" type="button">Track Situation</button>
+          <a class="workspace-link" href="/static/tracking.html">Open Tracked Situations</a>
         </div>
       </section>
 
-      <section id="timeline-output" class="output hidden" aria-live="polite">
-        <div class="output-header">
-          <h2>Timeline Replay</h2>
-          <span class="mode" id="timeline-trend">Trend</span>
+      <section id="general-compare-output" class="panel hidden">
+        <div class="forecast-topline">
+          <div>
+            <p class="section-kicker">General Compare</p>
+            <h2>Counterfactual Compare</h2>
+          </div>
+          <div id="general-compare-delta" class="confidence-note">Delta n/a</div>
         </div>
-        <div id="timeline-steps-list" class="compare-diffs"></div>
-        <div class="compare-diffs">
-          <p class="block-title">Inflection Points</p>
-          <p id="timeline-inflections" class="trace"></p>
+        <div class="forecast-body">
+          <article class="insight-block">
+            <p class="label">Base</p>
+            <p id="general-compare-base"></p>
+          </article>
+          <article class="insight-block">
+            <p class="label">Variant</p>
+            <p id="general-compare-variant"></p>
+          </article>
         </div>
+        <article class="insight-block">
+          <p class="label">Factor diff</p>
+          <p id="general-compare-factors"></p>
+        </article>
+      </section>
+
+      <section id="general-timeline-output" class="panel hidden">
+        <div class="forecast-topline">
+          <div>
+            <p class="section-kicker">General Timeline</p>
+            <h2>Timeline Replay</h2>
+          </div>
+          <div id="general-timeline-trend" class="confidence-note">Trend n/a</div>
+        </div>
+        <div id="general-timeline-steps" class="timeline-steps"></div>
+        <article class="insight-block">
+          <p class="label">Inflection points</p>
+          <p id="general-timeline-inflections"></p>
+        </article>
       </section>
     </main>
 
-    <aside id="sidebar" class="sidebar" aria-hidden="true">
-      <div class="sidebar-header">
-        <h3>AlternativeOutcomeSet</h3>
-        <button id="close" class="close" aria-label="Close sidebar">Close</button>
+    <aside id="query-sidebar" class="drawer" aria-hidden="true">
+      <div class="drawer-head">
+        <h3>Forecast History</h3>
+        <button id="query-close" class="ghost-action" type="button">Close</button>
       </div>
-      <div class="sidebar-content">
-        <div class="block">
-          <p class="block-title">Primary Factors</p>
-          <ul id="factors" class="list"></ul>
-        </div>
-        <div class="block">
-          <p class="block-title">Alternatives</p>
-          <ul id="alternatives" class="list"></ul>
-        </div>
-        <div class="block">
-          <p class="block-title">Trace</p>
-          <p id="trace" class="trace"></p>
-        </div>
-        <div class="block">
-          <p class="block-title">Metadata</p>
-          <p class="trace" id="meta-source"></p>
-          <p class="trace" id="meta-time"></p>
-        </div>
+      <div class="drawer-body">
+        <label class="field compact">
+          <span>Search</span>
+          <input id="query-search" type="text" placeholder="Search saved forecasts" />
+        </label>
+        <ul id="query-history-list" class="drawer-list"></ul>
+        <p id="query-history-empty" class="empty-state">No saved forecasts yet.</p>
       </div>
     </aside>
 
-    <div id="scrim" class="scrim" hidden></div>
+    <aside id="reputation-sidebar" class="drawer drawer-right" aria-hidden="true">
+      <div class="drawer-head">
+        <h3>Judgment Profile</h3>
+        <button id="reputation-close" class="ghost-action" type="button">Close</button>
+      </div>
+      <div class="drawer-body">
+        <p id="reputation-summary" class="panel-note"></p>
+        <div class="reputation-stats">
+          <article>
+            <span>Reflections</span>
+            <strong id="rep-count">0</strong>
+          </article>
+          <article>
+            <span>Accuracy rate</span>
+            <strong id="rep-accuracy">0%</strong>
+          </article>
+        </div>
+        <div id="reputation-dimensions" class="metric-grid compact"></div>
+      </div>
+    </aside>
 
-    <div class="glossary-wrap">
-      <button class="glossary-btn" aria-label="Open simulator glossary">i</button>
-      <section class="glossary-panel" aria-label="Simulator glossary">
-        <h4>Glossary</h4>
-        <ul>
-          <li><strong>SSE:</strong> Social Simulation Engine pipeline.</li>
-          <li><strong>SSM:</strong> Situation Semantics Mapper for parsing intent and actors.</li>
-          <li><strong>ESS:</strong> Environment Snapshot System describing constraints and affordances.</li>
-          <li><strong>MCM:</strong> Prior model for psychological and sociological tendencies.</li>
-          <li><strong>SQC:</strong> Cognition and outcome scoring module.</li>
-          <li><strong>PredictionResult:</strong> Final output contract with outcome and explanation.</li>
-          <li><strong>Dominant Outcome:</strong> Highest-confidence realized outcome.</li>
-          <li><strong>AlternativeOutcomeSet:</strong> Viable non-dominant outcomes.</li>
-          <li><strong>Horizon:</strong> Expected time scale of the predicted effect.</li>
-          <li><strong>Mode A/B/C:</strong> Single-actor, multi-actor, or population-level inference.</li>
-          <li><strong>Constraint:</strong> Institutional or structural limit on behavior.</li>
-          <li><strong>Affordance:</strong> Contextual opportunity enabling specific action.</li>
-          <li><strong>Prior:</strong> Baseline tendency that biases action selection.</li>
-          <li><strong>Trace:</strong> Explanation path from factors to outcome.</li>
-          <li><strong>Actor Profile:</strong> Saved individual/group/population context reused across queries.</li>
-          <li><strong>Profile Tag:</strong> `@tag` reference that injects profile context into inference.</li>
-          <li><strong>Create Profile:</strong> Page for creating and listing reusable actor profiles.</li>
-          <li><strong>Profile Detail:</strong> Page for viewing and updating one profile.</li>
-          <li><strong>Counterfactual Compare:</strong> Side-by-side base vs variant scenario analysis.</li>
-          <li><strong>Base Situation:</strong> Reference case used as comparison anchor.</li>
-          <li><strong>Variant Situation:</strong> Modified case used to measure outcome differences.</li>
-          <li><strong>Confidence Delta:</strong> Confidence change from base to variant prediction.</li>
-          <li><strong>Factor Diff:</strong> Added/removed/shared factors between scenarios.</li>
-          <li><strong>Timeline Replay:</strong> Sequential checkpoint simulation over evolving situations.</li>
-          <li><strong>Checkpoint:</strong> A labeled timeline step (`T1`, `T2`, ...) with updated situation text.</li>
-          <li><strong>Confidence Trend:</strong> Confidence values tracked across timeline checkpoints.</li>
-          <li><strong>Inflection Point:</strong> Step where dominant outcome or mode changes.</li>
-          <li><strong>Tracking:</strong> Saved prediction monitored until real-world outcome is known.</li>
-          <li><strong>Accuracy Vote:</strong> Post-event user judgment: accurate or inaccurate.</li>
-          <li><strong>Actual Outcome Note:</strong> User-entered description of what really happened.</li>
-        </ul>
-      </section>
-    </div>
+    <div id="scrim" class="scrim hidden"></div>
 
-    <footer class="disclaimer">
-      All simulations simulate objective reality by simulating cognition-driven behavior under contextual
-      constraints.<br />
-      SSE is not an oracle that uses meta-physical dynamics to predict reality.
-      <a href="/static/about.html">Read full SSE scope.</a>
-    </footer>
-
-    <script src="/static/app.js?v=13"></script>
+    <script src="/static/app.js?v=17"></script>
   </body>
 </html>

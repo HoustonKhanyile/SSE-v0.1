@@ -1,599 +1,673 @@
-const runButton = document.getElementById("run");
-const compareToggleButton = document.getElementById("compare-toggle");
-const runCompareButton = document.getElementById("run-compare");
-const timelineToggleButton = document.getElementById("timeline-toggle");
-const runTimelineButton = document.getElementById("run-timeline");
-const timelineAddButton = document.getElementById("timeline-add");
-const semanticsToggleButton = document.getElementById("semantics-toggle");
-const semanticsRunButton = document.getElementById("semantics-run");
-const semanticsAddButton = document.getElementById("semantics-add");
-const situationInput = document.getElementById("situation");
-const semanticsPanel = document.getElementById("semantics-panel");
-const semanticsRowsEl = document.getElementById("semantics-rows");
-const profileMentionsEl = document.getElementById("profile-mentions");
-const output = document.getElementById("output");
-const comparePanel = document.getElementById("compare-panel");
-const timelinePanel = document.getElementById("timeline-panel");
-const variantSituationInput = document.getElementById("variant-situation");
-const timelineRowsEl = document.getElementById("timeline-rows");
-const compareOutput = document.getElementById("compare-output");
-const timelineOutput = document.getElementById("timeline-output");
-const compareDeltaEl = document.getElementById("compare-delta");
-const compareBaseOutcomeEl = document.getElementById("compare-base-outcome");
-const compareBaseMetaEl = document.getElementById("compare-base-meta");
-const compareVariantOutcomeEl = document.getElementById("compare-variant-outcome");
-const compareVariantMetaEl = document.getElementById("compare-variant-meta");
-const compareAddedEl = document.getElementById("compare-added");
-const compareRemovedEl = document.getElementById("compare-removed");
-const compareSharedEl = document.getElementById("compare-shared");
-const timelineTrendEl = document.getElementById("timeline-trend");
-const timelineStepsListEl = document.getElementById("timeline-steps-list");
-const timelineInflectionsEl = document.getElementById("timeline-inflections");
-const outcomeEl = document.getElementById("outcome");
-const explanationEl = document.getElementById("explanation");
-const trackSituationButton = document.getElementById("track-situation");
-const modeEl = document.getElementById("mode");
-const horizonEl = document.getElementById("horizon");
-const confidenceEl = document.getElementById("confidence");
-const toggle = document.getElementById("toggle");
-const sidebar = document.getElementById("sidebar");
-const closeButton = document.getElementById("close");
-const scrim = document.getElementById("scrim");
-const factorsEl = document.getElementById("factors");
-const alternativesEl = document.getElementById("alternatives");
-const traceEl = document.getElementById("trace");
-const metaSourceEl = document.getElementById("meta-source");
-const metaTimeEl = document.getElementById("meta-time");
-let semanticsState = [];
-let lastPredictionPayload = null;
+const featureTabs = [...document.querySelectorAll(".feature-tab")];
+const exampleChips = [...document.querySelectorAll(".chip")];
+const accuracyButtons = [...document.querySelectorAll(".accuracy-btn")];
+const workspaceModeButtons = [...document.querySelectorAll(".mini-menu-btn")];
+
+const elements = {
+  situation: document.getElementById("situation"),
+  roleTags: document.getElementById("role-tags"),
+  urgency: document.getElementById("urgency"),
+  intendedMove: document.getElementById("intended-move"),
+  intendedTiming: document.getElementById("intended-timing"),
+  desiredOutcome: document.getElementById("desired-outcome"),
+  forecastWorkspace: document.getElementById("forecast-workspace"),
+  generalWorkspace: document.getElementById("general-workspace"),
+  moveFields: document.getElementById("move-fields"),
+  timingFields: document.getElementById("timing-fields"),
+  framingFields: document.getElementById("framing-fields"),
+  modeDescription: document.getElementById("mode-description"),
+  run: document.getElementById("run"),
+  output: document.getElementById("output"),
+  summaryTitle: document.getElementById("summary-title"),
+  confidenceNote: document.getElementById("confidence-note"),
+  metricGrid: document.getElementById("metric-grid"),
+  recommendedPosture: document.getElementById("recommended-posture"),
+  likelyOutcome: document.getElementById("likely-outcome"),
+  reasoningSummary: document.getElementById("reasoning-summary"),
+  nextStep: document.getElementById("next-step"),
+  warningBanner: document.getElementById("warning-banner"),
+  warningLabel: document.getElementById("warning-label"),
+  warningText: document.getElementById("warning-text"),
+  featureOutput: document.getElementById("feature-output"),
+  featureOutputLabel: document.getElementById("feature-output-label"),
+  featureOutputBody: document.getElementById("feature-output-body"),
+  explanation: document.getElementById("explanation"),
+  factors: document.getElementById("factors"),
+  alternatives: document.getElementById("alternatives"),
+  meta: document.getElementById("meta"),
+  reflectionPanel: document.getElementById("reflection-panel"),
+  actionTaken: document.getElementById("action-taken"),
+  outcomeSummary: document.getElementById("outcome-summary"),
+  saveReflection: document.getElementById("save-reflection"),
+  reflectionOutput: document.getElementById("reflection-output"),
+  queryMenuButton: document.getElementById("query-menu-btn"),
+  querySidebar: document.getElementById("query-sidebar"),
+  queryClose: document.getElementById("query-close"),
+  querySearch: document.getElementById("query-search"),
+  queryHistoryList: document.getElementById("query-history-list"),
+  queryHistoryEmpty: document.getElementById("query-history-empty"),
+  reputationButton: document.getElementById("reputation-btn"),
+  reputationSidebar: document.getElementById("reputation-sidebar"),
+  reputationClose: document.getElementById("reputation-close"),
+  reputationSummary: document.getElementById("reputation-summary"),
+  repCount: document.getElementById("rep-count"),
+  repAccuracy: document.getElementById("rep-accuracy"),
+  reputationDimensions: document.getElementById("reputation-dimensions"),
+  scrim: document.getElementById("scrim"),
+  generalSituation: document.getElementById("general-situation"),
+  generalQueryMode: document.getElementById("general-query-mode"),
+  generalHint: document.getElementById("general-hint"),
+  generalRun: document.getElementById("general-run"),
+  generalCompareToggle: document.getElementById("general-compare-toggle"),
+  generalTimelineToggle: document.getElementById("general-timeline-toggle"),
+  generalSemanticsToggle: document.getElementById("general-semantics-toggle"),
+  generalTrackSituation: document.getElementById("general-track-situation"),
+  generalComparePanel: document.getElementById("general-compare-panel"),
+  generalTimelinePanel: document.getElementById("general-timeline-panel"),
+  generalSemanticsPanel: document.getElementById("general-semantics-panel"),
+  generalVariantSituation: document.getElementById("general-variant-situation"),
+  generalRunCompare: document.getElementById("general-run-compare"),
+  generalTimelineAdd: document.getElementById("general-timeline-add"),
+  generalRunTimeline: document.getElementById("general-run-timeline"),
+  generalTimelineRows: document.getElementById("general-timeline-rows"),
+  generalSemanticsRows: document.getElementById("general-semantics-rows"),
+  generalOutput: document.getElementById("general-output"),
+  generalOutputTitle: document.getElementById("general-output-title"),
+  generalModeLabel: document.getElementById("general-mode-label"),
+  generalOutcome: document.getElementById("general-outcome"),
+  generalExplanation: document.getElementById("general-explanation"),
+  generalHorizon: document.getElementById("general-horizon"),
+  generalConfidence: document.getElementById("general-confidence"),
+  generalFactors: document.getElementById("general-factors"),
+  generalAlternatives: document.getElementById("general-alternatives"),
+  generalTrace: document.getElementById("general-trace"),
+  generalBreakdown: document.getElementById("general-breakdown"),
+  generalBreakdownBody: document.getElementById("general-breakdown-body"),
+  generalCompareOutput: document.getElementById("general-compare-output"),
+  generalCompareDelta: document.getElementById("general-compare-delta"),
+  generalCompareBase: document.getElementById("general-compare-base"),
+  generalCompareVariant: document.getElementById("general-compare-variant"),
+  generalCompareFactors: document.getElementById("general-compare-factors"),
+  generalTimelineOutput: document.getElementById("general-timeline-output"),
+  generalTimelineTrend: document.getElementById("general-timeline-trend"),
+  generalTimelineSteps: document.getElementById("general-timeline-steps"),
+  generalTimelineInflections: document.getElementById("general-timeline-inflections"),
+};
+
+const featureConfig = {
+  situation_check: {
+    description: "Fast forecast for a described scenario.",
+    button: "Check SSE",
+  },
+  move_evaluator: {
+    description: "Test a proposed move or message before you send it.",
+    button: "Evaluate Move",
+  },
+  timing_checker: {
+    description: "Assess whether you should act now, wait, or prepare further.",
+    button: "Check Timing",
+  },
+  framing_optimizer: {
+    description: "Find the framing, tone, and posture most likely to land well.",
+    button: "Optimize Framing",
+  },
+};
+
+let currentFeature = "situation_check";
+let currentAccuracy = "accurate";
+let lastSavedQueryId = "";
+let lastPrediction = null;
+let workspaceMode = "forecast";
 let timelineState = [{ label: "T1", situation: "" }];
-const MENTION_RE = /@([A-Za-z0-9_-]+)/g;
+let lastGeneralPrediction = null;
+
+function setFeature(feature) {
+  currentFeature = feature;
+  featureTabs.forEach((button) => {
+    button.classList.toggle("active", button.dataset.feature === feature);
+  });
+  elements.modeDescription.textContent = featureConfig[feature].description;
+  elements.run.textContent = featureConfig[feature].button;
+  elements.moveFields.classList.toggle("hidden", !["move_evaluator", "framing_optimizer"].includes(feature));
+  elements.timingFields.classList.toggle("hidden", feature === "situation_check" || feature === "move_evaluator");
+  elements.framingFields.classList.toggle("hidden", feature !== "framing_optimizer");
+}
+
+function setWorkspaceMode(mode) {
+  workspaceMode = mode;
+  workspaceModeButtons.forEach((button) => {
+    button.classList.toggle("active", button.dataset.workspaceMode === mode);
+  });
+  const forecastView = mode === "forecast";
+  elements.forecastWorkspace.classList.toggle("hidden", !forecastView);
+  elements.generalWorkspace.classList.toggle("hidden", forecastView);
+  elements.output.classList.toggle("hidden", !forecastView || elements.output.classList.contains("hidden"));
+  elements.reflectionPanel.classList.toggle("hidden", !forecastView || !lastPrediction);
+  elements.generalOutput.classList.toggle("hidden", forecastView || elements.generalOutput.classList.contains("hidden"));
+  elements.generalCompareOutput.classList.toggle("hidden", forecastView || elements.generalCompareOutput.classList.contains("hidden"));
+  elements.generalTimelineOutput.classList.toggle("hidden", forecastView || elements.generalTimelineOutput.classList.contains("hidden"));
+  elements.modeDescription.textContent = forecastView
+    ? featureConfig[currentFeature].description
+    : "Original simulator-style SSE controls with general, phenomenon, compare, timeline, and semantics tools.";
+}
+
+function selectedRoleTags() {
+  return (elements.roleTags.value || "")
+    .split(",")
+    .map((value) => value.trim())
+    .filter(Boolean);
+}
+
+function renderMetricCard(label, value, tone = "") {
+  const card = document.createElement("article");
+  card.className = `metric-card ${tone}`.trim();
+  card.innerHTML = `<p>${label}</p><strong>${value}</strong>`;
+  return card;
+}
+
+function renderList(target, items, formatter) {
+  target.innerHTML = "";
+  if (!items.length) {
+    const li = document.createElement("li");
+    li.textContent = "No additional items.";
+    target.appendChild(li);
+    return;
+  }
+  items.forEach((item) => {
+    const li = document.createElement("li");
+    li.textContent = formatter(item);
+    target.appendChild(li);
+  });
+}
+
+function openDrawer(which) {
+  const isHistory = which === "history";
+  elements.querySidebar.classList.toggle("open", isHistory);
+  elements.reputationSidebar.classList.toggle("open", !isHistory);
+  elements.scrim.classList.remove("hidden");
+}
+
+function closeDrawers() {
+  elements.querySidebar.classList.remove("open");
+  elements.reputationSidebar.classList.remove("open");
+  elements.scrim.classList.add("hidden");
+}
+
+function renderFeatureSpecific(dailyUse) {
+  let label = "";
+  let items = [];
+  if (currentFeature === "move_evaluator") {
+    label = "Move evaluator";
+    items = [
+      `Likely reception: ${dailyUse.move_evaluator.likely_reception}`,
+      `Posture rating: ${dailyUse.move_evaluator.posture_rating}`,
+      `Recommended modification: ${dailyUse.move_evaluator.recommended_modifications}`,
+    ];
+  } else if (currentFeature === "timing_checker") {
+    label = "Timing checker";
+    items = [
+      `Timing quality: ${dailyUse.timing_checker.timing_quality}`,
+      `Time-sensitivity note: ${dailyUse.timing_checker.time_sensitivity_note}`,
+      `Recommended timing posture: ${dailyUse.timing_checker.recommended_timing_posture}`,
+    ];
+  } else if (currentFeature === "framing_optimizer") {
+    label = "Framing optimizer";
+    items = [
+      `Suggested framing angle: ${dailyUse.framing_optimizer.suggested_framing_angle}`,
+      `Tone recommendation: ${dailyUse.framing_optimizer.tone_recommendation}`,
+      `Posture refinement: ${dailyUse.framing_optimizer.posture_refinement}`,
+      `Language guidance: ${dailyUse.framing_optimizer.revised_language_guidance}`,
+    ];
+  }
+
+  if (!items.length) {
+    elements.featureOutput.classList.add("hidden");
+    return;
+  }
+
+  elements.featureOutputLabel.textContent = label;
+  elements.featureOutputBody.innerHTML = items.map((item) => `<p>${item}</p>`).join("");
+  elements.featureOutput.classList.remove("hidden");
+}
+
+function renderForecast(payload) {
+  const dailyUse = payload.daily_use;
+  const metrics = dailyUse.forecast_metrics;
+  elements.summaryTitle.textContent = dailyUse.situation_summary;
+  elements.confidenceNote.textContent = dailyUse.confidence_note;
+  elements.metricGrid.innerHTML = "";
+  elements.metricGrid.appendChild(
+    renderMetricCard("Stability", metrics.situation_stability.label),
+  );
+  elements.metricGrid.appendChild(
+    renderMetricCard("Escalation Risk", `${metrics.escalation_risk.score}% (${metrics.escalation_risk.label})`, metrics.escalation_risk.label === "High" ? "danger" : ""),
+  );
+  elements.metricGrid.appendChild(
+    renderMetricCard("Receptiveness", `${metrics.receptiveness_score.score}% (${metrics.receptiveness_score.label})`),
+  );
+  elements.metricGrid.appendChild(
+    renderMetricCard("Trust Fragility", metrics.trust_fragility.label, metrics.trust_fragility.label === "High" ? "danger" : ""),
+  );
+  elements.metricGrid.appendChild(
+    renderMetricCard("Pressure Index", `${metrics.pressure_index.score} (${metrics.pressure_index.label})`, metrics.pressure_index.label === "Heavy" ? "danger" : ""),
+  );
+  elements.metricGrid.appendChild(
+    renderMetricCard("Timing Quality", metrics.timing_quality),
+  );
+
+  elements.recommendedPosture.textContent = dailyUse.recommended_posture.join(" + ");
+  elements.likelyOutcome.textContent = dailyUse.likely_outcome_direction;
+  elements.reasoningSummary.textContent = dailyUse.reasoning_summary;
+  elements.nextStep.textContent = dailyUse.next_step_suggestion;
+  if (dailyUse.warning) {
+    elements.warningLabel.textContent = dailyUse.warning.label;
+    elements.warningText.textContent = `${dailyUse.warning.explanation} Safer alternative: ${dailyUse.warning.safer_alternative_posture}.`;
+    elements.warningBanner.classList.remove("hidden");
+  } else {
+    elements.warningBanner.classList.add("hidden");
+  }
+
+  renderFeatureSpecific(dailyUse);
+  elements.explanation.textContent = payload.explanation || "No explanation available.";
+  renderList(elements.factors, payload.factors || [], (factor) => `${factor.name}: ${factor.role}`);
+  renderList(elements.alternatives, payload.alternatives || [], (alt) => `${alt.label} (${alt.confidence})`);
+  elements.meta.textContent = `Mode ${payload.mode} | Horizon ${payload.horizon} | Source ${payload.source} | ${payload.timestamp || ""}`;
+  elements.output.classList.remove("hidden");
+  elements.reflectionPanel.classList.remove("hidden");
+}
+
+function renderGeneralSemantics(payload) {
+  const rows = [
+    `Mode: ${payload.mode || "-"}`,
+    `Domain: ${payload.domain || "-"}`,
+    `Conflict: ${payload.conflict}`,
+    `Actors: ${(payload.actors || []).join(", ") || "none"}`,
+    `Institutions: ${(payload.institutions || []).join(", ") || "none"}`,
+  ];
+  if (payload.query_mode === "phenomenon") {
+    rows.push(`Phenomenon tag: ${payload.phenomenon_tag || "missing"}`);
+    if (payload.phenomenon?.summary) {
+      rows.push(`Phenomenon summary: ${payload.phenomenon.summary}`);
+    }
+  }
+  elements.generalSemanticsRows.innerHTML = rows.map((row) => `<article class="metric-card compact-row"><strong>${row}</strong></article>`).join("");
+  elements.generalSemanticsPanel.classList.remove("hidden");
+}
+
+function renderGeneralPrediction(payload) {
+  lastGeneralPrediction = payload;
+  const isPhenomenon = payload.query_mode === "phenomenon";
+  elements.generalOutputTitle.textContent = isPhenomenon ? "Breakdown" : "PredictionResult";
+  elements.generalModeLabel.textContent = `Mode ${payload.mode} | ${isPhenomenon ? "Phenomenon" : "General"}`;
+  elements.generalOutcome.textContent = payload.predicted_outcome?.label || "No outcome";
+  elements.generalExplanation.textContent = payload.explanation || "";
+  elements.generalHorizon.textContent = payload.horizon || "n/a";
+  elements.generalConfidence.textContent = String(payload.predicted_outcome?.confidence ?? "n/a");
+  renderList(elements.generalFactors, payload.factors || [], (factor) => `${factor.name}: ${factor.role}`);
+  renderList(elements.generalAlternatives, payload.alternatives || [], (alt) => `${alt.label} (${alt.confidence})`);
+  elements.generalTrace.textContent = payload.trace || "";
+  if (isPhenomenon && payload.phenomenon) {
+    elements.generalBreakdownBody.innerHTML = `
+      <p>Module: @${payload.phenomenon.module}</p>
+      <p>Question: ${payload.phenomenon.query}</p>
+      <p>Summary: ${payload.phenomenon.summary}</p>
+      <p>Hypotheses: ${(payload.phenomenon.hypotheses || []).join(" | ") || "none"}</p>
+    `;
+    elements.generalBreakdown.classList.remove("hidden");
+  } else {
+    elements.generalBreakdown.classList.add("hidden");
+    elements.generalBreakdownBody.innerHTML = "";
+  }
+  elements.generalOutput.classList.remove("hidden");
+}
+
+async function trackGeneralSituation() {
+  if (!lastGeneralPrediction) {
+    return;
+  }
+  const situation = elements.generalSituation.value.trim();
+  if (!situation) {
+    return;
+  }
+  const response = await fetch("/api/tracking", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      situation,
+      prediction: lastGeneralPrediction,
+    }),
+  });
+  if (!response.ok) {
+    return;
+  }
+  const created = await response.json();
+  elements.generalTrace.textContent = `${lastGeneralPrediction.trace || ""} Tracking: saved (${created.id}).`;
+}
 
 function renderTimelineRows() {
-  timelineRowsEl.innerHTML = "";
+  elements.generalTimelineRows.innerHTML = "";
   timelineState.forEach((row, index) => {
     const wrapper = document.createElement("div");
     wrapper.className = "timeline-row";
-
-    const labelInput = document.createElement("input");
-    labelInput.className = "timeline-label";
-    labelInput.type = "text";
-    labelInput.value = row.label;
-    labelInput.readOnly = true;
-    labelInput.setAttribute("aria-readonly", "true");
-    labelInput.setAttribute("aria-label", `Checkpoint label ${index + 1}`);
-
-    const situationInputEl = document.createElement("input");
-    situationInputEl.className = "timeline-situation";
-    situationInputEl.type = "text";
-    situationInputEl.value = row.situation;
-    situationInputEl.placeholder = "Describe checkpoint situation update...";
-    situationInputEl.setAttribute("aria-label", `Checkpoint situation ${index + 1}`);
-    situationInputEl.addEventListener("input", (event) => {
+    wrapper.innerHTML = `
+      <input class="timeline-label" type="text" value="${row.label}" readonly aria-readonly="true" />
+      <input class="timeline-situation" type="text" value="${row.situation}" placeholder="Describe checkpoint situation update..." />
+    `;
+    wrapper.querySelector(".timeline-situation").addEventListener("input", (event) => {
       timelineState[index].situation = event.target.value;
     });
-
-    wrapper.appendChild(labelInput);
-    wrapper.appendChild(situationInputEl);
-    timelineRowsEl.appendChild(wrapper);
+    elements.generalTimelineRows.appendChild(wrapper);
   });
 }
 
-function renderProfileMentionLinks() {
-  const text = situationInput.value || "";
-  const tags = Array.from(text.matchAll(MENTION_RE)).map((m) => m[1]);
-  const uniqueTags = [...new Set(tags)];
-
-  profileMentionsEl.innerHTML = "";
-  if (!uniqueTags.length) {
-    return;
-  }
-
-  uniqueTags.forEach((tag) => {
-    const link = document.createElement("a");
-    link.className = "mention-link";
-    link.href = `/static/profile.html?tag=${encodeURIComponent(tag)}`;
-    link.textContent = `@${tag}`;
-    link.title = `Open profile @${tag}`;
-    profileMentionsEl.appendChild(link);
+async function saveQuery(payload) {
+  const response = await fetch("/api/queries", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      situation: elements.situation.value.trim(),
+      query_mode: payload.query_mode || "general",
+      prediction: payload,
+    }),
   });
+  if (!response.ok) {
+    return;
+  }
+  const saved = await response.json();
+  lastSavedQueryId = saved.id || "";
 }
 
-function renderSemanticsRows() {
-  semanticsRowsEl.innerHTML = "";
-  semanticsState.forEach((row, index) => {
-    const wrapper = document.createElement("div");
-    wrapper.className = "semantics-row";
+async function runForecast() {
+  const situation = elements.situation.value.trim();
+  if (!situation) {
+    return;
+  }
 
-    const keyInput = document.createElement("input");
-    keyInput.className = "semantics-key";
-    keyInput.type = "text";
-    keyInput.value = row.key;
-    keyInput.setAttribute("aria-label", `Semantic key ${index + 1}`);
-    if (!row.removable) {
-      keyInput.readOnly = true;
-      keyInput.setAttribute("aria-readonly", "true");
-      keyInput.setAttribute("title", "Built-in semantic names are read-only");
-    }
-    keyInput.addEventListener("input", (event) => {
-      semanticsState[index].key = event.target.value;
-    });
-
-    const valueInput = document.createElement("input");
-    valueInput.className = "semantics-value";
-    valueInput.type = "text";
-    valueInput.value = row.value;
-    valueInput.setAttribute("aria-label", `Semantic value ${index + 1}`);
-    valueInput.addEventListener("input", (event) => {
-      semanticsState[index].value = event.target.value;
-    });
-
-    wrapper.appendChild(keyInput);
-    wrapper.appendChild(valueInput);
-    if (row.removable) {
-      const deleteButton = document.createElement("button");
-      deleteButton.type = "button";
-      deleteButton.className = "semantics-delete";
-      deleteButton.textContent = "x";
-      deleteButton.setAttribute("aria-label", `Delete semantic row ${index + 1}`);
-      deleteButton.addEventListener("click", () => {
-        semanticsState.splice(index, 1);
-        renderSemanticsRows();
-      });
-      wrapper.appendChild(deleteButton);
-    }
-    semanticsRowsEl.appendChild(wrapper);
+  const response = await fetch("/api/predict", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      situation,
+      query_mode: "general",
+      alternatives: true,
+      feature_type: currentFeature,
+      intended_move: elements.intendedMove ? elements.intendedMove.value.trim() : "",
+      intended_timing: elements.intendedTiming ? elements.intendedTiming.value.trim() : "",
+      desired_outcome: elements.desiredOutcome ? elements.desiredOutcome.value.trim() : "",
+      role_tags: selectedRoleTags(),
+      urgency: elements.urgency.value,
+    }),
   });
+
+  if (!response.ok) {
+    return;
+  }
+  const payload = await response.json();
+  lastPrediction = payload;
+  renderForecast(payload);
+  await saveQuery(payload);
+  await loadHistory();
+  await loadReputation();
 }
 
-function openSidebar() {
-  sidebar.classList.add("open");
-  sidebar.setAttribute("aria-hidden", "false");
-  sidebar.removeAttribute("inert");
-  toggle.setAttribute("aria-expanded", "true");
-  scrim.hidden = false;
-  closeButton.focus();
+function getGeneralQueryMode() {
+  return elements.generalQueryMode.value || "general";
 }
 
-function closeSidebar() {
-  sidebar.classList.remove("open");
-  sidebar.setAttribute("aria-hidden", "true");
-  sidebar.setAttribute("inert", "");
-  toggle.setAttribute("aria-expanded", "false");
-  scrim.hidden = true;
-  toggle.focus();
+function getPhenomenonTag(text) {
+  const match = (text || "").match(/@([A-Za-z0-9_-]+)/);
+  return match ? match[1].toLowerCase() : "";
 }
 
-function renderList(target, items) {
-  target.innerHTML = "";
-  items.forEach((item) => {
-    const li = document.createElement("li");
-    li.textContent = item;
-    target.appendChild(li);
+function updateGeneralHint() {
+  elements.generalHint.textContent = getGeneralQueryMode() === "phenomenon"
+    ? "Phenomenon mode: use @language, @trend, or @behavior, then ask why or how the pattern exists."
+    : "General mode: optional profile tags, for example @city_commuters.";
+}
+
+async function runGeneralPrediction() {
+  const situation = elements.generalSituation.value.trim();
+  if (!situation) {
+    return;
+  }
+  const response = await fetch("/api/predict", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      situation,
+      query_mode: getGeneralQueryMode(),
+      depth: "default",
+      alternatives: true,
+    }),
   });
+  if (!response.ok) {
+    return;
+  }
+  renderGeneralPrediction(await response.json());
 }
 
-function renderFactors(target, factors) {
-  target.innerHTML = "";
-  factors.forEach((factor, index) => {
-    const li = document.createElement("li");
-    li.className = "factor-item";
-
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "factor-trigger";
-    button.setAttribute("aria-expanded", "false");
-    button.setAttribute("aria-controls", `factor-panel-${index}`);
-
-    const title = document.createElement("span");
-    title.className = "factor-name";
-    title.textContent = factor.name;
-
-    const badge = document.createElement("span");
-    badge.className = "factor-category";
-    badge.textContent = factor.category;
-
-    button.appendChild(title);
-    button.appendChild(badge);
-
-    const panel = document.createElement("div");
-    panel.id = `factor-panel-${index}`;
-    panel.className = "factor-panel";
-    panel.hidden = true;
-    panel.textContent = factor.role;
-
-    button.addEventListener("click", () => {
-      const expanded = button.getAttribute("aria-expanded") === "true";
-      button.setAttribute("aria-expanded", expanded ? "false" : "true");
-      panel.hidden = expanded;
-    });
-
-    li.appendChild(button);
-    li.appendChild(panel);
-    target.appendChild(li);
+async function runGeneralCompare() {
+  const response = await fetch("/api/compare", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      base_situation: elements.generalSituation.value.trim(),
+      variant_situation: elements.generalVariantSituation.value.trim(),
+      query_mode: getGeneralQueryMode(),
+      depth: "default",
+      alternatives: true,
+    }),
   });
+  if (!response.ok) {
+    return;
+  }
+  const payload = await response.json();
+  elements.generalCompareDelta.textContent = `Delta ${payload.comparison.confidence_delta}`;
+  elements.generalCompareBase.textContent = `${payload.base.predicted_outcome.label} | Mode ${payload.base.mode} | Horizon ${payload.base.horizon}`;
+  elements.generalCompareVariant.textContent = `${payload.variant.predicted_outcome.label} | Mode ${payload.variant.mode} | Horizon ${payload.variant.horizon}`;
+  elements.generalCompareFactors.textContent = `Added: ${payload.comparison.added_factors.join(", ") || "none"} | Removed: ${payload.comparison.removed_factors.join(", ") || "none"} | Shared: ${payload.comparison.shared_factors.join(", ") || "none"}`;
+  elements.generalCompareOutput.classList.remove("hidden");
 }
 
-function inferMode(text) {
-  const lower = text.toLowerCase();
-  if (/(government|policy|tax|platform|commuters|businesses)/.test(lower)) {
-    return "C";
-  }
-  if (/(manager|employee|hr|promotion|team|coworker)/.test(lower)) {
-    return "B";
-  }
-  return "A";
-}
-
-async function fetchSemantics() {
-  const value = situationInput.value.trim();
-  if (!value) {
-    semanticsState = [];
-    renderSemanticsRows();
-    return;
-  }
-
-  let payload = null;
-  try {
-    const response = await fetch("/api/semantics", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ situation: value }),
-    });
-    if (response.ok) {
-      payload = await response.json();
-    }
-  } catch (error) {
-    payload = null;
-  }
-
-  if (!payload) {
-    semanticsState = [
-      { key: "mode", value: inferMode(value), removable: false },
-      { key: "domain", value: "unknown", removable: false },
-      { key: "conflict", value: "unknown", removable: false },
-      { key: "actors", value: "unknown", removable: false },
-      { key: "institutions", value: "unknown", removable: false },
-    ];
-    renderSemanticsRows();
-    return;
-  }
-
-  semanticsState = [
-    { key: "mode", value: payload.mode || "-", removable: false },
-    { key: "domain", value: payload.domain || "-", removable: false },
-    { key: "conflict", value: String(payload.conflict), removable: false },
-    {
-      key: "actors",
-      value: (payload.actors || []).length ? payload.actors.join(", ") : "none",
-      removable: false,
-    },
-    {
-      key: "institutions",
-      value: (payload.institutions || []).length ? payload.institutions.join(", ") : "none",
-      removable: false,
-    },
-  ];
-  renderSemanticsRows();
-}
-
-async function runSse() {
-  const value = situationInput.value.trim();
-  if (!value) {
-    outcomeEl.textContent = "Add a situation to generate a PredictionResult.";
-    explanationEl.textContent = "";
-    output.classList.remove("hidden");
-    return;
-  }
-
-  let payload = null;
-  try {
-    const response = await fetch("/api/predict", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        situation: value,
-        depth: "default",
-        alternatives: true,
-      }),
-    });
-
-    if (response.ok) {
-      payload = await response.json();
-    }
-  } catch (error) {
-    payload = null;
-  }
-
-  if (!payload) {
-    const mode = inferMode(value);
-    const modeLabel = `Mode ${mode}`;
-    const horizon = mode === "C" ? "weeks" : mode === "B" ? "days" : "hours";
-    modeEl.textContent = modeLabel;
-    horizonEl.textContent = `Horizon: ${horizon}`;
-    confidenceEl.textContent = "Confidence: n/a";
-    outcomeEl.textContent = "API unavailable. Start the backend with `python -m sse.api`.";
-    explanationEl.textContent = "";
-    renderFactors(factorsEl, []);
-    renderList(alternativesEl, []);
-    traceEl.textContent = "";
-    metaSourceEl.textContent = "";
-    metaTimeEl.textContent = "";
-    lastPredictionPayload = null;
-    output.classList.remove("hidden");
-    return;
-  }
-
-  const modeLabel = `Mode ${payload.mode}`;
-  const outcome = payload.predicted_outcome.label;
-  const explanation = payload.explanation;
-  const confidence = payload.predicted_outcome.confidence;
-  const alternatives = (payload.alternatives || []).map((alt) => alt.label);
-  const factors = payload.factors || [];
-  const trace = payload.trace || "";
-  const source = payload.source || "unknown";
-  const timestamp = payload.timestamp || "";
-
-  modeEl.textContent = modeLabel;
-  horizonEl.textContent = `Horizon: ${payload.horizon}`;
-  confidenceEl.textContent = `Confidence: ${confidence}`;
-  outcomeEl.textContent = outcome;
-  explanationEl.textContent = explanation;
-
-  renderFactors(factorsEl, factors);
-  renderList(alternativesEl, alternatives);
-  traceEl.textContent = trace;
-  metaSourceEl.textContent = `Source: ${source}`;
-  metaTimeEl.textContent = timestamp ? `Timestamp: ${timestamp}` : "";
-  lastPredictionPayload = payload;
-  output.classList.remove("hidden");
-}
-
-async function runCompare() {
-  const baseSituation = situationInput.value.trim();
-  const variantSituation = variantSituationInput.value.trim();
-
-  if (!baseSituation || !variantSituation) {
-    compareDeltaEl.textContent = "Delta n/a";
-    compareBaseOutcomeEl.textContent = "Provide both base and variant situations.";
-    compareBaseMetaEl.textContent = "";
-    compareVariantOutcomeEl.textContent = "";
-    compareVariantMetaEl.textContent = "";
-    compareAddedEl.textContent = "";
-    compareRemovedEl.textContent = "";
-    compareSharedEl.textContent = "";
-    compareOutput.classList.remove("hidden");
-    return;
-  }
-
-  let payload = null;
-  try {
-    const response = await fetch("/api/compare", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        base_situation: baseSituation,
-        variant_situation: variantSituation,
-        depth: "default",
-        alternatives: true,
-      }),
-    });
-    if (response.ok) {
-      payload = await response.json();
-    }
-  } catch (error) {
-    payload = null;
-  }
-
-  if (!payload || !payload.base || !payload.variant || !payload.comparison) {
-    compareDeltaEl.textContent = "Delta n/a";
-    compareBaseOutcomeEl.textContent = "Compare unavailable. Check API status.";
-    compareBaseMetaEl.textContent = "";
-    compareVariantOutcomeEl.textContent = "";
-    compareVariantMetaEl.textContent = "";
-    compareAddedEl.textContent = "";
-    compareRemovedEl.textContent = "";
-    compareSharedEl.textContent = "";
-    compareOutput.classList.remove("hidden");
-    return;
-  }
-
-  const base = payload.base;
-  const variant = payload.variant;
-  const cmp = payload.comparison;
-
-  compareDeltaEl.textContent = `Delta ${cmp.confidence_delta}`;
-  compareBaseOutcomeEl.textContent = base.predicted_outcome.label;
-  compareBaseMetaEl.textContent = `Mode ${base.mode} | Horizon ${base.horizon} | Confidence ${base.predicted_outcome.confidence}`;
-  compareVariantOutcomeEl.textContent = variant.predicted_outcome.label;
-  compareVariantMetaEl.textContent = `Mode ${variant.mode} | Horizon ${variant.horizon} | Confidence ${variant.predicted_outcome.confidence}`;
-  compareAddedEl.textContent = cmp.added_factors.length ? cmp.added_factors.join("; ") : "none";
-  compareRemovedEl.textContent = cmp.removed_factors.length ? cmp.removed_factors.join("; ") : "none";
-  compareSharedEl.textContent = cmp.shared_factors.length ? cmp.shared_factors.join("; ") : "none";
-  compareOutput.classList.remove("hidden");
-}
-
-async function runTimeline() {
-  const baseSituation = situationInput.value.trim();
+async function runGeneralTimeline() {
   const checkpoints = timelineState
     .map((row) => ({ label: row.label, situation: (row.situation || "").trim() }))
-    .filter((row) => row.situation.length > 0);
-
-  if (!baseSituation || !checkpoints.length) {
-    timelineTrendEl.textContent = "Trend n/a";
-    timelineStepsListEl.innerHTML = "<p class='trace'>Provide base situation and at least one checkpoint.</p>";
-    timelineInflectionsEl.textContent = "";
-    timelineOutput.classList.remove("hidden");
-    return;
-  }
-
-  let payload = null;
-  try {
-    const response = await fetch("/api/timeline", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        base_situation: baseSituation,
-        checkpoints,
-        depth: "default",
-        alternatives: true,
-      }),
-    });
-    if (response.ok) {
-      payload = await response.json();
-    }
-  } catch (error) {
-    payload = null;
-  }
-
-  if (!payload || !payload.steps) {
-    timelineTrendEl.textContent = "Trend n/a";
-    timelineStepsListEl.innerHTML = "<p class='trace'>Timeline unavailable. Check API status.</p>";
-    timelineInflectionsEl.textContent = "";
-    timelineOutput.classList.remove("hidden");
-    return;
-  }
-
-  timelineTrendEl.textContent = `Trend ${payload.confidence_trend.join(" -> ")}`;
-  timelineStepsListEl.innerHTML = "";
-  payload.steps.forEach((step) => {
-    const card = document.createElement("article");
-    card.className = "compare-card";
-    const pred = step.prediction;
-    const delta = step.delta;
-    const deltaText = delta
-      ? `Delta ${delta.confidence_delta}; outcome_changed=${delta.outcome_changed}; mode_changed=${delta.mode_changed}`
-      : "Baseline step";
-
-    card.innerHTML = `
-      <h3>${step.label}</h3>
-      <p class="trace">${step.situation}</p>
-      <p class="explanation">${pred.predicted_outcome.label}</p>
-      <p class="trace">Mode ${pred.mode} | Horizon ${pred.horizon} | Confidence ${pred.predicted_outcome.confidence}</p>
-      <p class="trace">${deltaText}</p>
-    `;
-    timelineStepsListEl.appendChild(card);
+    .filter((row) => row.situation);
+  const response = await fetch("/api/timeline", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      base_situation: elements.generalSituation.value.trim(),
+      checkpoints,
+      query_mode: getGeneralQueryMode(),
+      depth: "default",
+      alternatives: true,
+    }),
   });
-
-  if (payload.inflections && payload.inflections.length) {
-    timelineInflectionsEl.textContent = payload.inflections
-      .map((inf) => `${inf.at_step}: ${inf.reason} (${inf.from_outcome} -> ${inf.to_outcome})`)
-      .join(" ; ");
-  } else {
-    timelineInflectionsEl.textContent = "No inflection points detected.";
+  if (!response.ok) {
+    return;
   }
-
-  timelineOutput.classList.remove("hidden");
+  const payload = await response.json();
+  elements.generalTimelineTrend.textContent = `Trend ${payload.confidence_trend.join(" -> ")}`;
+  elements.generalTimelineSteps.innerHTML = payload.steps
+    .map((step) => {
+      const delta = step.delta
+        ? `Delta ${step.delta.confidence_delta}; outcome_changed=${step.delta.outcome_changed}; mode_changed=${step.delta.mode_changed}`
+        : "Baseline step";
+      return `
+        <article class="insight-block">
+          <p class="label">${step.label}</p>
+          <p>${step.situation}</p>
+          <p>${step.prediction.predicted_outcome.label}</p>
+          <p>Mode ${step.prediction.mode} | Horizon ${step.prediction.horizon} | Confidence ${step.prediction.predicted_outcome.confidence}</p>
+          <p>${delta}</p>
+        </article>
+      `;
+    })
+    .join("");
+  elements.generalTimelineInflections.textContent = payload.inflections.length
+    ? payload.inflections.map((item) => `${item.at_step}: ${item.reason} (${item.from_outcome} -> ${item.to_outcome})`).join(" ; ")
+    : "No inflection points detected.";
+  elements.generalTimelineOutput.classList.remove("hidden");
 }
 
-runButton.addEventListener("click", runSse);
-runCompareButton.addEventListener("click", runCompare);
-runTimelineButton.addEventListener("click", runTimeline);
-semanticsRunButton.addEventListener("click", runSse);
-situationInput.addEventListener("input", renderProfileMentionLinks);
-compareToggleButton.addEventListener("click", () => {
-  const isHidden = comparePanel.classList.contains("hidden");
-  if (isHidden) {
-    comparePanel.classList.remove("hidden");
-    compareToggleButton.setAttribute("aria-expanded", "true");
-  } else {
-    comparePanel.classList.add("hidden");
-    compareToggleButton.setAttribute("aria-expanded", "false");
+async function loadGeneralSemantics() {
+  const response = await fetch("/api/semantics", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      situation: elements.generalSituation.value.trim(),
+      query_mode: getGeneralQueryMode(),
+    }),
+  });
+  if (!response.ok) {
+    return;
   }
-});
-timelineToggleButton.addEventListener("click", () => {
-  const isHidden = timelinePanel.classList.contains("hidden");
-  if (isHidden) {
-    renderTimelineRows();
-    timelinePanel.classList.remove("hidden");
-    timelineToggleButton.setAttribute("aria-expanded", "true");
-  } else {
-    timelinePanel.classList.add("hidden");
-    timelineToggleButton.setAttribute("aria-expanded", "false");
+  renderGeneralSemantics(await response.json());
+}
+
+function renderHistory(items) {
+  elements.queryHistoryList.innerHTML = "";
+  elements.queryHistoryEmpty.classList.toggle("hidden", items.length > 0);
+  items.forEach((item) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "history-item";
+    const dailyUse = item.prediction?.daily_use;
+    const posture = dailyUse?.recommended_posture?.join(" + ") || "No posture";
+    const outcome = dailyUse?.likely_outcome_direction || item.prediction?.predicted_outcome?.label || "No forecast";
+    button.innerHTML = `
+      <strong>${dailyUse?.situation_summary || item.situation}</strong>
+      <span>${posture}</span>
+      <small>${outcome}</small>
+    `;
+    button.addEventListener("click", () => {
+      window.location.href = `/static/query.html?id=${encodeURIComponent(item.id)}`;
+    });
+    const li = document.createElement("li");
+    li.appendChild(button);
+    elements.queryHistoryList.appendChild(li);
+  });
+}
+
+async function loadHistory() {
+  const query = (elements.querySearch.value || "").trim();
+  const suffix = query ? `?q=${encodeURIComponent(query)}` : "";
+  const response = await fetch(`/api/queries${suffix}`);
+  if (!response.ok) {
+    renderHistory([]);
+    return;
   }
+  renderHistory(await response.json());
+}
+
+async function loadReputation() {
+  const response = await fetch("/api/reputation");
+  if (!response.ok) {
+    return;
+  }
+  const payload = await response.json();
+  elements.reputationSummary.textContent = payload.public_summary;
+  elements.repCount.textContent = String(payload.cases_reflected);
+  elements.repAccuracy.textContent = `${payload.accuracy_rate}%`;
+  elements.reputationDimensions.innerHTML = "";
+  Object.entries(payload.dimensions || {}).forEach(([key, value]) => {
+    const label = key.replaceAll("_", " ");
+    elements.reputationDimensions.appendChild(renderMetricCard(label, `${value}`));
+  });
+}
+
+async function saveReflection() {
+  if (!lastSavedQueryId || !lastPrediction) {
+    return;
+  }
+  const response = await fetch(`/api/queries/${encodeURIComponent(lastSavedQueryId)}/reflect`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      action_taken: elements.actionTaken.value.trim(),
+      outcome_summary: elements.outcomeSummary.value.trim(),
+      forecast_accuracy: currentAccuracy,
+    }),
+  });
+  if (!response.ok) {
+    return;
+  }
+  const payload = await response.json();
+  const reflection = payload.reflection;
+  elements.reflectionOutput.innerHTML = `
+    <p><strong>Reflective comparison:</strong> ${reflection.reflective_comparison}</p>
+    <p><strong>Trust recap:</strong> ${reflection.trust_building_recap}</p>
+    <p><strong>Learning insight:</strong> ${reflection.learning_insight}</p>
+  `;
+  elements.reflectionOutput.classList.remove("hidden");
+  await loadHistory();
+  await loadReputation();
+}
+
+featureTabs.forEach((button) => {
+  button.addEventListener("click", () => setFeature(button.dataset.feature));
 });
-timelineAddButton.addEventListener("click", () => {
-  const nextLabel = `T${timelineState.length + 1}`;
-  timelineState.push({ label: nextLabel, situation: "" });
+
+workspaceModeButtons.forEach((button) => {
+  button.addEventListener("click", () => setWorkspaceMode(button.dataset.workspaceMode));
+});
+
+exampleChips.forEach((button) => {
+  button.addEventListener("click", () => {
+    elements.situation.value = button.dataset.example || "";
+  });
+});
+
+accuracyButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    currentAccuracy = button.dataset.accuracy;
+    accuracyButtons.forEach((candidate) => candidate.classList.toggle("active", candidate === button));
+  });
+});
+
+elements.run.addEventListener("click", runForecast);
+elements.saveReflection.addEventListener("click", saveReflection);
+elements.queryMenuButton.addEventListener("click", async () => {
+  await loadHistory();
+  openDrawer("history");
+});
+elements.reputationButton.addEventListener("click", async () => {
+  await loadReputation();
+  openDrawer("reputation");
+});
+elements.queryClose.addEventListener("click", closeDrawers);
+elements.reputationClose.addEventListener("click", closeDrawers);
+elements.scrim.addEventListener("click", closeDrawers);
+elements.querySearch.addEventListener("input", loadHistory);
+elements.generalQueryMode.addEventListener("change", updateGeneralHint);
+elements.generalRun.addEventListener("click", runGeneralPrediction);
+elements.generalTrackSituation.addEventListener("click", trackGeneralSituation);
+elements.generalRunCompare.addEventListener("click", runGeneralCompare);
+elements.generalRunTimeline.addEventListener("click", runGeneralTimeline);
+elements.generalTimelineAdd.addEventListener("click", () => {
+  timelineState.push({ label: `T${timelineState.length + 1}`, situation: "" });
   renderTimelineRows();
 });
-
-semanticsToggleButton.addEventListener("click", async () => {
-  const isHidden = semanticsPanel.classList.contains("hidden");
-  if (isHidden) {
-    await fetchSemantics();
-    semanticsPanel.classList.remove("hidden");
-    semanticsToggleButton.setAttribute("aria-expanded", "true");
+elements.generalCompareToggle.addEventListener("click", () => {
+  elements.generalComparePanel.classList.toggle("hidden");
+});
+elements.generalTimelineToggle.addEventListener("click", () => {
+  elements.generalTimelinePanel.classList.toggle("hidden");
+  renderTimelineRows();
+});
+elements.generalSemanticsToggle.addEventListener("click", async () => {
+  const willOpen = elements.generalSemanticsPanel.classList.contains("hidden");
+  if (willOpen) {
+    await loadGeneralSemantics();
   } else {
-    semanticsPanel.classList.add("hidden");
-    semanticsToggleButton.setAttribute("aria-expanded", "false");
-  }
-});
-semanticsAddButton.addEventListener("click", () => {
-  semanticsState.push({ key: "user variable", value: "", removable: true });
-  renderSemanticsRows();
-});
-trackSituationButton.addEventListener("click", async () => {
-  if (!lastPredictionPayload) {
-    outcomeEl.textContent = "Run SSE first before tracking this situation.";
-    output.classList.remove("hidden");
-    return;
-  }
-
-  const situation = situationInput.value.trim();
-  if (!situation) {
-    outcomeEl.textContent = "Enter a situation before creating tracking.";
-    output.classList.remove("hidden");
-    return;
-  }
-
-  let created = null;
-  let statusText = "";
-  try {
-    const response = await fetch("/api/tracking", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        situation,
-        prediction: lastPredictionPayload,
-      }),
-    });
-    if (response.ok) {
-      created = await response.json();
-    } else {
-      statusText = `HTTP ${response.status}`;
-    }
-  } catch (error) {
-    created = null;
-    statusText = "network error";
-  }
-
-  if (!created || created.error) {
-    metaSourceEl.textContent = `Tracking: failed to save (${statusText || "unknown error"})`;
-    return;
-  }
-  metaSourceEl.textContent = `Tracking: saved (${created.id})`;
-});
-
-toggle.addEventListener("click", (event) => {
-  event.preventDefault();
-  if (sidebar.classList.contains("open")) {
-    closeSidebar();
-  } else {
-    openSidebar();
+    elements.generalSemanticsPanel.classList.add("hidden");
   }
 });
 
-closeButton.addEventListener("click", closeSidebar);
-
-scrim.addEventListener("click", closeSidebar);
-
-window.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") {
-    closeSidebar();
-  }
-});
-
-closeSidebar();
-renderProfileMentionLinks();
+setFeature(currentFeature);
+setWorkspaceMode(workspaceMode);
+updateGeneralHint();
 renderTimelineRows();
+loadHistory();
+loadReputation();

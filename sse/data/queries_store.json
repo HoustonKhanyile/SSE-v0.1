@@ -1,0 +1,789 @@
+[
+  {
+    "id": "54487673-ad70-4df3-b0e8-08213f2d3119",
+    "situation": "a student considers cheating",
+    "query_mode": "general",
+    "prediction": {
+      "predicted_outcome": {
+        "id": "no_cheat_internal_conflict",
+        "label": "The student does not cheat but experiences internal conflict.",
+        "confidence": 0.7836,
+        "rationale": [
+          "risk aversion",
+          "norm compliance",
+          "strategic:public_commitment"
+        ]
+      },
+      "explanation": "The student does not cheat but experiences internal conflict. This outcome is most likely given the constraints and priors in the situation. Strategic recursion depth D=0 was used for opponent modeling.",
+      "horizon": "hours",
+      "mode": "A",
+      "belief_shift_summary": "Average inferred intent shift across modeled agents: +0.319.",
+      "signal_evaluation_summary": "Selected commitment signal with cost=0.62, consistency=0.80, credibility_delta=0.242.",
+      "coalition_likelihood": 0.397,
+      "recursion_depth_used": 0,
+      "alternatives": [
+        {
+          "id": "cheat_short_term",
+          "label": "The student cheats, gains a short-term advantage, but risks consequences.",
+          "confidence": 0.28,
+          "rationale": [
+            "opportunity",
+            "short-term gain"
+          ]
+        }
+      ],
+      "factors": [
+        {
+          "name": "exam integrity policy",
+          "role": "This acts as a hard boundary that limits which actions are safe or institutionally acceptable.",
+          "category": "constraint"
+        },
+        {
+          "name": "temporary invigilator absence",
+          "role": "This creates a practical opening that makes the predicted behavior more available in the current environment.",
+          "category": "affordance"
+        },
+        {
+          "name": "rule compliance",
+          "role": "This prior biases decision-making and increases the likelihood of the dominant response pattern.",
+          "category": "prior"
+        },
+        {
+          "name": "anxiety under evaluation",
+          "role": "This prior biases decision-making and increases the likelihood of the dominant response pattern.",
+          "category": "prior"
+        },
+        {
+          "name": "strategic action: public_commitment",
+          "role": "This strategic action maximized deterministic multi-agent payoff under bounded recursion.",
+          "category": "strategic"
+        },
+        {
+          "name": "institution response: public_framing",
+          "role": "Institutional response altered second-order incentives and final outcome confidence.",
+          "category": "strategic"
+        }
+      ],
+      "trace": "The student does not cheat but experiences internal conflict. This outcome is most likely given the constraints and priors in the situation. Strategic recursion depth D=0 was used for opponent modeling.",
+      "source": "backend",
+      "timestamp": "2026-02-17T13:25:05.961302+00:00",
+      "resolved_situation": "a student considers cheating",
+      "sse_input_situation": "a student considers cheating",
+      "profiles_used": [],
+      "query_mode": "general",
+      "phenomenon_tag": "",
+      "pipeline": [
+        "SSM",
+        "ESS",
+        "MCM",
+        "SQC",
+        "Explainer"
+      ]
+    },
+    "created_at": "2026-02-17T13:25:05.980761+00:00",
+    "updated_at": "2026-02-17T13:25:05.980761+00:00"
+  },
+  {
+    "id": "dd531bd5-70d0-4124-b1a2-8a09d5f0a37e",
+    "situation": "@language: how did the term \"aura farming\" come to be?",
+    "query_mode": "phenomenon",
+    "prediction": {
+      "predicted_outcome": {
+        "id": "creator_migration_criticism",
+        "label": "Gradual creator migration and increased public criticism of the platform.",
+        "confidence": 0.7603,
+        "rationale": [
+          "platform skepticism",
+          "audience maintenance",
+          "strategic:public_commitment"
+        ]
+      },
+      "explanation": "Gradual creator migration and increased public criticism of the platform. This outcome is most likely given the constraints and priors in the situation. Strategic recursion depth D=2 was used for opponent modeling.",
+      "horizon": "weeks",
+      "mode": "C",
+      "belief_shift_summary": "Average inferred intent shift across modeled agents: +0.319.",
+      "signal_evaluation_summary": "Selected commitment signal with cost=0.62, consistency=0.80, credibility_delta=0.242.",
+      "coalition_likelihood": 0.4346,
+      "recursion_depth_used": 2,
+      "alternatives": [
+        {
+          "id": "platform_adaptation",
+          "label": "Creators adapt content strategy to the new algorithm.",
+          "confidence": 0.32,
+          "rationale": [
+            "audience retention",
+            "platform dependence"
+          ]
+        }
+      ],
+      "factors": [
+        {
+          "name": "platform ranking rules",
+          "role": "This acts as a hard boundary that limits which actions are safe or institutionally acceptable.",
+          "category": "constraint"
+        },
+        {
+          "name": "creator migration",
+          "role": "This creates a practical opening that makes the predicted behavior more available in the current environment.",
+          "category": "affordance"
+        },
+        {
+          "name": "audience maintenance",
+          "role": "This prior biases decision-making and increases the likelihood of the dominant response pattern.",
+          "category": "prior"
+        },
+        {
+          "name": "platform skepticism",
+          "role": "This prior biases decision-making and increases the likelihood of the dominant response pattern.",
+          "category": "prior"
+        },
+        {
+          "name": "strategic action: public_commitment",
+          "role": "This strategic action maximized deterministic multi-agent payoff under bounded recursion.",
+          "category": "strategic"
+        },
+        {
+          "name": "institution response: public_framing",
+          "role": "Institutional response altered second-order incentives and final outcome confidence.",
+          "category": "strategic"
+        }
+      ],
+      "trace": "Gradual creator migration and increased public criticism of the platform. This outcome is most likely given the constraints and priors in the situation. Strategic recursion depth D=2 was used for opponent modeling.",
+      "source": "backend",
+      "timestamp": "2026-02-17T13:26:51.334133+00:00",
+      "resolved_situation": "@language: how did the term \"aura farming\" come to be?",
+      "sse_input_situation": "@language: how did the term \"aura farming\" come to be? Phenomenon focus=language. Interpretation summary: Language phenomena are explained through lexical innovation, social identity signaling, and platform-mediated diffusion. Hypotheses: Novel terms usually begin as in-group signals, then spread once they become identity markers.; Language change accelerates when short, vivid phrases fit platform constraints and meme formats.; Earliest use likely came from a niche creator community before mainstream pickup.. Observed evidence: No external evidence retrieved.",
+      "profiles_used": [],
+      "query_mode": "phenomenon",
+      "phenomenon_tag": "language",
+      "pipeline": [
+        "SSM",
+        "ESS",
+        "MCM",
+        "SQC",
+        "Explainer"
+      ],
+      "phenomenon": {
+        "module": "language",
+        "query": "how did the term \"aura farming\" come to be?",
+        "summary": "Language phenomena are explained through lexical innovation, social identity signaling, and platform-mediated diffusion.",
+        "hypotheses": [
+          "Novel terms usually begin as in-group signals, then spread once they become identity markers.",
+          "Language change accelerates when short, vivid phrases fit platform constraints and meme formats.",
+          "Earliest use likely came from a niche creator community before mainstream pickup."
+        ],
+        "evidence": []
+      }
+    },
+    "created_at": "2026-02-17T13:26:51.348810+00:00",
+    "updated_at": "2026-02-17T13:26:51.348810+00:00"
+  },
+  {
+    "id": "82e8ea29-63d9-42ec-9917-466ff9038125",
+    "situation": "I am deciding whether to confront a teammate about missed work.",
+    "query_mode": "general",
+    "prediction": {
+      "predicted_outcome": {
+        "id": "cautious_compliance",
+        "label": "The actor proceeds cautiously while staying within norms.",
+        "confidence": 0.6146,
+        "rationale": [
+          "risk aversion",
+          "norm alignment",
+          "strategic:public_commitment"
+        ]
+      },
+      "explanation": "The actor proceeds cautiously while staying within norms. This outcome is most likely given the constraints and priors in the situation. Strategic recursion depth D=1 was used for opponent modeling.",
+      "horizon": "days",
+      "mode": "B",
+      "belief_shift_summary": "Average inferred intent shift across modeled agents: +0.319.",
+      "signal_evaluation_summary": "Selected commitment signal with cost=0.62, consistency=0.80, credibility_delta=0.242.",
+      "coalition_likelihood": 0.3522,
+      "recursion_depth_used": 1,
+      "factors": [
+        {
+          "name": "social norms",
+          "role": "This acts as a hard boundary that limits which actions are safe or institutionally acceptable.",
+          "category": "constraint"
+        },
+        {
+          "name": "individual discretion",
+          "role": "This creates a practical opening that makes the predicted behavior more available in the current environment.",
+          "category": "affordance"
+        },
+        {
+          "name": "self preservation",
+          "role": "This prior biases decision-making and increases the likelihood of the dominant response pattern.",
+          "category": "prior"
+        },
+        {
+          "name": "norm alignment",
+          "role": "This prior biases decision-making and increases the likelihood of the dominant response pattern.",
+          "category": "prior"
+        },
+        {
+          "name": "strategic action: public_commitment",
+          "role": "This strategic action maximized deterministic multi-agent payoff under bounded recursion.",
+          "category": "strategic"
+        },
+        {
+          "name": "institution response: public_framing",
+          "role": "Institutional response altered second-order incentives and final outcome confidence.",
+          "category": "strategic"
+        }
+      ],
+      "trace": "The actor proceeds cautiously while staying within norms. This outcome is most likely given the constraints and priors in the situation. Strategic recursion depth D=1 was used for opponent modeling.",
+      "source": "backend",
+      "timestamp": "2026-04-01T20:08:33.160919+00:00",
+      "resolved_situation": "I am deciding whether to confront a teammate about missed work. Forecast focus: timing checker.",
+      "sse_input_situation": "I am deciding whether to confront a teammate about missed work. Forecast focus: timing checker.",
+      "profiles_used": [],
+      "query_mode": "general",
+      "phenomenon_tag": "",
+      "pipeline": [
+        "SSM",
+        "ESS",
+        "MCM",
+        "SQC",
+        "Explainer"
+      ],
+      "guardrail": {
+        "status": "clear",
+        "mode": "enforce",
+        "category": "unknown",
+        "reason": "No operational harmful-use pattern detected.",
+        "safe_reframe": "Reframe toward safety, prevention, or non-operational policy analysis."
+      },
+      "daily_use": {
+        "feature_type": "timing_checker",
+        "situation_summary": "I am deciding whether to confront a teammate about missed work.",
+        "forecast_metrics": {
+          "situation_stability": {
+            "score": 60,
+            "label": "Medium"
+          },
+          "escalation_risk": {
+            "score": 69,
+            "label": "Moderate"
+          },
+          "receptiveness_score": {
+            "score": 31,
+            "label": "Closed"
+          },
+          "trust_fragility": {
+            "score": 67,
+            "label": "Medium"
+          },
+          "pressure_index": {
+            "score": 71,
+            "label": "Heavy"
+          },
+          "timing_quality": "Mixed"
+        },
+        "recommended_posture": [
+          "Wait",
+          "Clarify"
+        ],
+        "likely_outcome_direction": "Likely limited movement without better framing.",
+        "reasoning_summary": "The actor proceeds cautiously while staying within norms. This outcome is most likely given the constraints and priors in the situation. Strategic...",
+        "next_step_suggestion": "Delay the move briefly and gather one more signal before acting.",
+        "warning": {
+          "label": "Escalation warning",
+          "explanation": "Conditions suggest heightened resistance or trust damage if you push too hard now.",
+          "safer_alternative_posture": "Clarify"
+        },
+        "move_evaluator": {
+          "likely_reception": "Closed",
+          "posture_rating": "Needs revision",
+          "recommended_modifications": "Delay the move briefly and gather one more signal before acting."
+        },
+        "timing_checker": {
+          "timing_quality": "Mixed",
+          "time_sensitivity_note": "Conditions appear volatile, so timing matters more than usual.",
+          "recommended_timing_posture": "Wait"
+        },
+        "framing_optimizer": {
+          "suggested_framing_angle": "Use direct but calm language anchored in concrete next steps.",
+          "tone_recommendation": "Calm, specific, and non-accusatory.",
+          "posture_refinement": "Wait + Clarify",
+          "revised_language_guidance": "Lead with the situation, name the shared interest, then make one clear ask."
+        },
+        "confidence_note": "Confidence is calibrated and directional, not deterministic."
+      },
+      "input_context": {
+        "feature_type": "timing_checker",
+        "intended_move": "",
+        "intended_timing": "",
+        "desired_outcome": "",
+        "role_tags": [],
+        "urgency": "normal"
+      }
+    },
+    "reflection": {
+      "reflective_comparison": "Forecast: Likely limited movement without better framing. Actual: The teammate was more receptive once the pressure dropped..",
+      "trust_building_recap": "This builds trust if the forecast helped you slow down and choose a better posture.",
+      "learning_insight": "The forecast appears directionally correct. Keep using the `Wait` posture in similar conditions.",
+      "action_taken": "I delayed the conversation until after the deadline meeting.",
+      "forecast_accuracy": "accurate",
+      "outcome_summary": "The teammate was more receptive once the pressure dropped."
+    },
+    "created_at": "2026-04-01T20:08:33.161067+00:00",
+    "updated_at": "2026-04-01T20:08:33.191319+00:00"
+  },
+  {
+    "id": "8db12b88-179f-4445-9ecf-deadb4a2914f",
+    "situation": "I am deciding whether to confront a teammate about missed work.",
+    "query_mode": "general",
+    "prediction": {
+      "predicted_outcome": {
+        "id": "cautious_compliance",
+        "label": "The actor proceeds cautiously while staying within norms.",
+        "confidence": 0.6146,
+        "rationale": [
+          "risk aversion",
+          "norm alignment",
+          "strategic:public_commitment"
+        ]
+      },
+      "explanation": "The actor proceeds cautiously while staying within norms. This outcome is most likely given the constraints and priors in the situation. Strategic recursion depth D=1 was used for opponent modeling.",
+      "horizon": "days",
+      "mode": "B",
+      "belief_shift_summary": "Average inferred intent shift across modeled agents: +0.319.",
+      "signal_evaluation_summary": "Selected commitment signal with cost=0.62, consistency=0.80, credibility_delta=0.242.",
+      "coalition_likelihood": 0.3522,
+      "recursion_depth_used": 1,
+      "factors": [
+        {
+          "name": "social norms",
+          "role": "This acts as a hard boundary that limits which actions are safe or institutionally acceptable.",
+          "category": "constraint"
+        },
+        {
+          "name": "individual discretion",
+          "role": "This creates a practical opening that makes the predicted behavior more available in the current environment.",
+          "category": "affordance"
+        },
+        {
+          "name": "self preservation",
+          "role": "This prior biases decision-making and increases the likelihood of the dominant response pattern.",
+          "category": "prior"
+        },
+        {
+          "name": "norm alignment",
+          "role": "This prior biases decision-making and increases the likelihood of the dominant response pattern.",
+          "category": "prior"
+        },
+        {
+          "name": "strategic action: public_commitment",
+          "role": "This strategic action maximized deterministic multi-agent payoff under bounded recursion.",
+          "category": "strategic"
+        },
+        {
+          "name": "institution response: public_framing",
+          "role": "Institutional response altered second-order incentives and final outcome confidence.",
+          "category": "strategic"
+        }
+      ],
+      "trace": "The actor proceeds cautiously while staying within norms. This outcome is most likely given the constraints and priors in the situation. Strategic recursion depth D=1 was used for opponent modeling.",
+      "source": "backend",
+      "timestamp": "2026-04-01T20:41:24.083298+00:00",
+      "resolved_situation": "I am deciding whether to confront a teammate about missed work. Forecast focus: timing checker.",
+      "sse_input_situation": "I am deciding whether to confront a teammate about missed work. Forecast focus: timing checker.",
+      "profiles_used": [],
+      "query_mode": "general",
+      "phenomenon_tag": "",
+      "pipeline": [
+        "SSM",
+        "ESS",
+        "MCM",
+        "SQC",
+        "Explainer"
+      ],
+      "guardrail": {
+        "status": "clear",
+        "mode": "enforce",
+        "category": "unknown",
+        "reason": "No operational harmful-use pattern detected.",
+        "safe_reframe": "Reframe toward safety, prevention, or non-operational policy analysis."
+      },
+      "daily_use": {
+        "feature_type": "timing_checker",
+        "situation_summary": "I am deciding whether to confront a teammate about missed work.",
+        "forecast_metrics": {
+          "situation_stability": {
+            "score": 60,
+            "label": "Medium"
+          },
+          "escalation_risk": {
+            "score": 69,
+            "label": "Moderate"
+          },
+          "receptiveness_score": {
+            "score": 31,
+            "label": "Closed"
+          },
+          "trust_fragility": {
+            "score": 67,
+            "label": "Medium"
+          },
+          "pressure_index": {
+            "score": 71,
+            "label": "Heavy"
+          },
+          "timing_quality": "Mixed"
+        },
+        "recommended_posture": [
+          "Wait",
+          "Clarify"
+        ],
+        "likely_outcome_direction": "Likely limited movement without better framing.",
+        "reasoning_summary": "The actor proceeds cautiously while staying within norms. This outcome is most likely given the constraints and priors in the situation. Strategic...",
+        "next_step_suggestion": "Delay the move briefly and gather one more signal before acting.",
+        "warning": {
+          "label": "Escalation warning",
+          "explanation": "Conditions suggest heightened resistance or trust damage if you push too hard now.",
+          "safer_alternative_posture": "Clarify"
+        },
+        "move_evaluator": {
+          "likely_reception": "Closed",
+          "posture_rating": "Needs revision",
+          "recommended_modifications": "Delay the move briefly and gather one more signal before acting."
+        },
+        "timing_checker": {
+          "timing_quality": "Mixed",
+          "time_sensitivity_note": "Conditions appear volatile, so timing matters more than usual.",
+          "recommended_timing_posture": "Wait"
+        },
+        "framing_optimizer": {
+          "suggested_framing_angle": "Use direct but calm language anchored in concrete next steps.",
+          "tone_recommendation": "Calm, specific, and non-accusatory.",
+          "posture_refinement": "Wait + Clarify",
+          "revised_language_guidance": "Lead with the situation, name the shared interest, then make one clear ask."
+        },
+        "confidence_note": "Confidence is calibrated and directional, not deterministic."
+      },
+      "input_context": {
+        "feature_type": "timing_checker",
+        "intended_move": "",
+        "intended_timing": "",
+        "desired_outcome": "",
+        "role_tags": [],
+        "urgency": "normal"
+      }
+    },
+    "reflection": {
+      "reflective_comparison": "Forecast: Likely limited movement without better framing. Actual: The teammate was more receptive once the pressure dropped..",
+      "trust_building_recap": "This builds trust if the forecast helped you slow down and choose a better posture.",
+      "learning_insight": "The forecast appears directionally correct. Keep using the `Wait` posture in similar conditions.",
+      "action_taken": "I delayed the conversation until after the deadline meeting.",
+      "forecast_accuracy": "accurate",
+      "outcome_summary": "The teammate was more receptive once the pressure dropped."
+    },
+    "created_at": "2026-04-01T20:41:24.083528+00:00",
+    "updated_at": "2026-04-01T20:41:24.122838+00:00"
+  },
+  {
+    "id": "70ee1a2d-aded-4334-8f66-ce8d8385f114",
+    "situation": "I am deciding whether to confront a teammate about missed work.",
+    "query_mode": "general",
+    "prediction": {
+      "predicted_outcome": {
+        "id": "cautious_compliance",
+        "label": "The actor proceeds cautiously while staying within norms.",
+        "confidence": 0.6146,
+        "rationale": [
+          "risk aversion",
+          "norm alignment",
+          "strategic:public_commitment"
+        ]
+      },
+      "explanation": "The actor proceeds cautiously while staying within norms. This outcome is most likely given the constraints and priors in the situation. Strategic recursion depth D=1 was used for opponent modeling.",
+      "horizon": "days",
+      "mode": "B",
+      "belief_shift_summary": "Average inferred intent shift across modeled agents: +0.319.",
+      "signal_evaluation_summary": "Selected commitment signal with cost=0.62, consistency=0.80, credibility_delta=0.242.",
+      "coalition_likelihood": 0.3522,
+      "recursion_depth_used": 1,
+      "factors": [
+        {
+          "name": "social norms",
+          "role": "This acts as a hard boundary that limits which actions are safe or institutionally acceptable.",
+          "category": "constraint"
+        },
+        {
+          "name": "individual discretion",
+          "role": "This creates a practical opening that makes the predicted behavior more available in the current environment.",
+          "category": "affordance"
+        },
+        {
+          "name": "self preservation",
+          "role": "This prior biases decision-making and increases the likelihood of the dominant response pattern.",
+          "category": "prior"
+        },
+        {
+          "name": "norm alignment",
+          "role": "This prior biases decision-making and increases the likelihood of the dominant response pattern.",
+          "category": "prior"
+        },
+        {
+          "name": "strategic action: public_commitment",
+          "role": "This strategic action maximized deterministic multi-agent payoff under bounded recursion.",
+          "category": "strategic"
+        },
+        {
+          "name": "institution response: public_framing",
+          "role": "Institutional response altered second-order incentives and final outcome confidence.",
+          "category": "strategic"
+        }
+      ],
+      "trace": "The actor proceeds cautiously while staying within norms. This outcome is most likely given the constraints and priors in the situation. Strategic recursion depth D=1 was used for opponent modeling.",
+      "source": "backend",
+      "timestamp": "2026-04-01T21:01:53.369097+00:00",
+      "resolved_situation": "I am deciding whether to confront a teammate about missed work. Forecast focus: timing checker.",
+      "sse_input_situation": "I am deciding whether to confront a teammate about missed work. Forecast focus: timing checker.",
+      "profiles_used": [],
+      "query_mode": "general",
+      "phenomenon_tag": "",
+      "pipeline": [
+        "SSM",
+        "ESS",
+        "MCM",
+        "SQC",
+        "Explainer"
+      ],
+      "guardrail": {
+        "status": "clear",
+        "mode": "enforce",
+        "category": "unknown",
+        "reason": "No operational harmful-use pattern detected.",
+        "safe_reframe": "Reframe toward safety, prevention, or non-operational policy analysis."
+      },
+      "daily_use": {
+        "feature_type": "timing_checker",
+        "situation_summary": "I am deciding whether to confront a teammate about missed work.",
+        "forecast_metrics": {
+          "situation_stability": {
+            "score": 60,
+            "label": "Medium"
+          },
+          "escalation_risk": {
+            "score": 69,
+            "label": "Moderate"
+          },
+          "receptiveness_score": {
+            "score": 31,
+            "label": "Closed"
+          },
+          "trust_fragility": {
+            "score": 67,
+            "label": "Medium"
+          },
+          "pressure_index": {
+            "score": 71,
+            "label": "Heavy"
+          },
+          "timing_quality": "Mixed"
+        },
+        "recommended_posture": [
+          "Wait",
+          "Clarify"
+        ],
+        "likely_outcome_direction": "Likely limited movement without better framing.",
+        "reasoning_summary": "The actor proceeds cautiously while staying within norms. This outcome is most likely given the constraints and priors in the situation. Strategic...",
+        "next_step_suggestion": "Delay the move briefly and gather one more signal before acting.",
+        "warning": {
+          "label": "Escalation warning",
+          "explanation": "Conditions suggest heightened resistance or trust damage if you push too hard now.",
+          "safer_alternative_posture": "Clarify"
+        },
+        "move_evaluator": {
+          "likely_reception": "Closed",
+          "posture_rating": "Needs revision",
+          "recommended_modifications": "Delay the move briefly and gather one more signal before acting."
+        },
+        "timing_checker": {
+          "timing_quality": "Mixed",
+          "time_sensitivity_note": "Conditions appear volatile, so timing matters more than usual.",
+          "recommended_timing_posture": "Wait"
+        },
+        "framing_optimizer": {
+          "suggested_framing_angle": "Use direct but calm language anchored in concrete next steps.",
+          "tone_recommendation": "Calm, specific, and non-accusatory.",
+          "posture_refinement": "Wait + Clarify",
+          "revised_language_guidance": "Lead with the situation, name the shared interest, then make one clear ask."
+        },
+        "confidence_note": "Confidence is calibrated and directional, not deterministic."
+      },
+      "input_context": {
+        "feature_type": "timing_checker",
+        "intended_move": "",
+        "intended_timing": "",
+        "desired_outcome": "",
+        "role_tags": [],
+        "urgency": "normal"
+      }
+    },
+    "reflection": {
+      "reflective_comparison": "Forecast: Likely limited movement without better framing. Actual: The teammate was more receptive once the pressure dropped..",
+      "trust_building_recap": "This builds trust if the forecast helped you slow down and choose a better posture.",
+      "learning_insight": "The forecast appears directionally correct. Keep using the `Wait` posture in similar conditions.",
+      "action_taken": "I delayed the conversation until after the deadline meeting.",
+      "forecast_accuracy": "accurate",
+      "outcome_summary": "The teammate was more receptive once the pressure dropped."
+    },
+    "created_at": "2026-04-01T21:01:53.369243+00:00",
+    "updated_at": "2026-04-01T21:01:53.403505+00:00"
+  },
+  {
+    "id": "aa204d9d-245d-4468-a497-b76a636511cb",
+    "situation": "I am deciding whether to confront a teammate about missed work.",
+    "query_mode": "general",
+    "prediction": {
+      "predicted_outcome": {
+        "id": "cautious_compliance",
+        "label": "The actor proceeds cautiously while staying within norms.",
+        "confidence": 0.6146,
+        "rationale": [
+          "risk aversion",
+          "norm alignment",
+          "strategic:public_commitment"
+        ]
+      },
+      "explanation": "The actor proceeds cautiously while staying within norms. This outcome is most likely given the constraints and priors in the situation. Strategic recursion depth D=1 was used for opponent modeling.",
+      "horizon": "days",
+      "mode": "B",
+      "belief_shift_summary": "Average inferred intent shift across modeled agents: +0.319.",
+      "signal_evaluation_summary": "Selected commitment signal with cost=0.62, consistency=0.80, credibility_delta=0.242.",
+      "coalition_likelihood": 0.3522,
+      "recursion_depth_used": 1,
+      "factors": [
+        {
+          "name": "social norms",
+          "role": "This acts as a hard boundary that limits which actions are safe or institutionally acceptable.",
+          "category": "constraint"
+        },
+        {
+          "name": "individual discretion",
+          "role": "This creates a practical opening that makes the predicted behavior more available in the current environment.",
+          "category": "affordance"
+        },
+        {
+          "name": "self preservation",
+          "role": "This prior biases decision-making and increases the likelihood of the dominant response pattern.",
+          "category": "prior"
+        },
+        {
+          "name": "norm alignment",
+          "role": "This prior biases decision-making and increases the likelihood of the dominant response pattern.",
+          "category": "prior"
+        },
+        {
+          "name": "strategic action: public_commitment",
+          "role": "This strategic action maximized deterministic multi-agent payoff under bounded recursion.",
+          "category": "strategic"
+        },
+        {
+          "name": "institution response: public_framing",
+          "role": "Institutional response altered second-order incentives and final outcome confidence.",
+          "category": "strategic"
+        }
+      ],
+      "trace": "The actor proceeds cautiously while staying within norms. This outcome is most likely given the constraints and priors in the situation. Strategic recursion depth D=1 was used for opponent modeling.",
+      "source": "backend",
+      "timestamp": "2026-04-01T21:10:32.867472+00:00",
+      "resolved_situation": "I am deciding whether to confront a teammate about missed work. Forecast focus: timing checker.",
+      "sse_input_situation": "I am deciding whether to confront a teammate about missed work. Forecast focus: timing checker.",
+      "profiles_used": [],
+      "query_mode": "general",
+      "phenomenon_tag": "",
+      "pipeline": [
+        "SSM",
+        "ESS",
+        "MCM",
+        "SQC",
+        "Explainer"
+      ],
+      "guardrail": {
+        "status": "clear",
+        "mode": "enforce",
+        "category": "unknown",
+        "reason": "No operational harmful-use pattern detected.",
+        "safe_reframe": "Reframe toward safety, prevention, or non-operational policy analysis."
+      },
+      "daily_use": {
+        "feature_type": "timing_checker",
+        "situation_summary": "I am deciding whether to confront a teammate about missed work.",
+        "forecast_metrics": {
+          "situation_stability": {
+            "score": 60,
+            "label": "Medium"
+          },
+          "escalation_risk": {
+            "score": 69,
+            "label": "Moderate"
+          },
+          "receptiveness_score": {
+            "score": 31,
+            "label": "Closed"
+          },
+          "trust_fragility": {
+            "score": 67,
+            "label": "Medium"
+          },
+          "pressure_index": {
+            "score": 71,
+            "label": "Heavy"
+          },
+          "timing_quality": "Mixed"
+        },
+        "recommended_posture": [
+          "Wait",
+          "Clarify"
+        ],
+        "likely_outcome_direction": "Likely limited movement without better framing.",
+        "reasoning_summary": "The actor proceeds cautiously while staying within norms. This outcome is most likely given the constraints and priors in the situation. Strategic...",
+        "next_step_suggestion": "Delay the move briefly and gather one more signal before acting.",
+        "warning": {
+          "label": "Escalation warning",
+          "explanation": "Conditions suggest heightened resistance or trust damage if you push too hard now.",
+          "safer_alternative_posture": "Clarify"
+        },
+        "move_evaluator": {
+          "likely_reception": "Closed",
+          "posture_rating": "Needs revision",
+          "recommended_modifications": "Delay the move briefly and gather one more signal before acting."
+        },
+        "timing_checker": {
+          "timing_quality": "Mixed",
+          "time_sensitivity_note": "Conditions appear volatile, so timing matters more than usual.",
+          "recommended_timing_posture": "Wait"
+        },
+        "framing_optimizer": {
+          "suggested_framing_angle": "Use direct but calm language anchored in concrete next steps.",
+          "tone_recommendation": "Calm, specific, and non-accusatory.",
+          "posture_refinement": "Wait + Clarify",
+          "revised_language_guidance": "Lead with the situation, name the shared interest, then make one clear ask."
+        },
+        "confidence_note": "Confidence is calibrated and directional, not deterministic."
+      },
+      "input_context": {
+        "feature_type": "timing_checker",
+        "intended_move": "",
+        "intended_timing": "",
+        "desired_outcome": "",
+        "role_tags": [],
+        "urgency": "normal"
+      }
+    },
+    "reflection": {
+      "reflective_comparison": "Forecast: Likely limited movement without better framing. Actual: The teammate was more receptive once the pressure dropped..",
+      "trust_building_recap": "This builds trust if the forecast helped you slow down and choose a better posture.",
+      "learning_insight": "The forecast appears directionally correct. Keep using the `Wait` posture in similar conditions.",
+      "action_taken": "I delayed the conversation until after the deadline meeting.",
+      "forecast_accuracy": "accurate",
+      "outcome_summary": "The teammate was more receptive once the pressure dropped."
+    },
+    "created_at": "2026-04-01T21:10:32.867669+00:00",
+    "updated_at": "2026-04-01T21:10:32.920955+00:00"
+  }
+]

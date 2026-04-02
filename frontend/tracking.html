@@ -4,15 +4,36 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Tracked Situations</title>
-    <link rel="stylesheet" href="/static/tracking.css?v=3" />
+    <link rel="stylesheet" href="/static/tracking.css?v=4" />
   </head>
   <body>
+    <div class="bg">
+      <div class="flare flare-a"></div>
+      <div class="flare flare-b"></div>
+      <div class="mesh"></div>
+    </div>
+
     <main class="wrap">
-      <header class="head">
-        <h1>Tracked Situations</h1>
-        <a href="/" class="home">Back to Simulator</a>
+      <header class="hero">
+        <div>
+          <p class="kicker">SSE Tracking</p>
+          <h1>Tracked situations</h1>
+          <p class="subhead">
+            Review forecasts you decided to monitor, then return after the real-world outcome lands.
+          </p>
+        </div>
+        <a href="/" class="home">Back to SSE</a>
       </header>
-      <section id="list" class="list"></section>
+
+      <section class="card">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Tracking Queue</p>
+            <h2>Open monitored situations</h2>
+          </div>
+        </div>
+        <section id="list" class="list"></section>
+      </section>
     </main>
     <script src="/static/tracking.js?v=3"></script>
   </body>
